@@ -19,8 +19,6 @@
  */
 #define CFG_FILENAME "accelerometer.config"
 
-//namespace Accelerometer {
-
 class Accelerometer {
 
 public:
@@ -54,7 +52,5 @@ private:
 	static void closeUpdateThread();
 	static void deviceConfigFromFile(std::string configPath);
 };
-
-//} /* namespace std */
 
 #endif /* ACCELEROMETER_H_ */

@@ -22,8 +22,8 @@ public:
 
 private:
 	GLuint texture = 0;
-	int width = 0;
-	int height = 0;
+	size_t width = 0;
+	size_t height = 0;
 };
 
 } /* namespace std */

@@ -1,6 +1,8 @@
 /******************************************************************
 *
-* Point.cpp
+* Mass.cpp
+*
+* This is a derived work from Point.cpp
 *
 * Description: Implementation of functions for handling mass points  
 *
@@ -12,11 +14,11 @@
 *
 *******************************************************************/
 
+#include <GL/freeglut.h>
 
-#include "Point.h"
-#include <GL/freeglut.h> 
+#include "Mass.h"
 
-void Point::render()
+void Mass::render()
 {
     /* Fixed vertices displayed in blue, free in red */
     if (fixed)
@@ -24,174 +26,174 @@ void Point::render()
     else
         glColor3f(1.0, 0.0, 0.0);
     
-    glTranslatef(pos.x(), pos.y(), pos.z());
+    glTranslatef((GLfloat)pos.x(), (GLfloat)pos.y(), (GLfloat)pos.z());
 
     /* Draw unshaded spheres; appear as filled circles */
     glutSolidSphere(0.1, 36, 36);
     glLoadIdentity();   
 }
 
-void Point::setPos(Vector3d p)
+void Mass::setPos(Eigen::Vector3d p)
 {
     pos = p;
 }
  
-Vector3d Point::getPos()
+Eigen::Vector3d Mass::getPos()
 {
     return pos;
 }
 
-void Point::setX(double x)
+void Mass::setX(double x)
 {
     pos.x() = x;
 }
 
-double Point::getX()
+double Mass::getX()
 {
     return pos.x() ;
 }
 
-void Point::setY(double y)
+void Mass::setY(double y)
 {
     pos.y() = y;
 }
 
-double Point::getY()
+double Mass::getY()
 {
     return pos.y();
 }
 
-void Point::setZ(double z)
+void Mass::setZ(double z)
 {
     pos.z() = z;
 }
 
-double Point::getZ()
+double Mass::getZ()
 {
     return pos.z();
 }
 
-void Point::setVel(Vector3d v)
+void Mass::setVel(Eigen::Vector3d v)
 {
     vel = v;
 }
  
-Vector3d Point::getVel()
+Eigen::Vector3d Mass::getVel()
 {
     return vel;
 }
 
-void Point::setVelX(double vx)
+void Mass::setVelX(double vx)
 {
     vel.x() = vx;
 }
 
-double Point::getVelX()
+double Mass::getVelX()
 {
     return vel.x() ;
 }
 
-void Point::setVelY(double vy)
+void Mass::setVelY(double vy)
 {
     vel.y() = vy;
 }
 
-double Point::getVelY()
+double Mass::getVelY()
 {
     return vel.y();
 }
 
-void Point::setVelZ(double vz)
+void Mass::setVelZ(double vz)
 {
     vel.z() = vz;
 }
 
-double Point::getVelZ()
+double Mass::getVelZ()
 {
     return vel.z();
 }
 
-void Point::setForce(Vector3d f)
+void Mass::setForce(Eigen::Vector3d f)
 {
     force = f;
 }
  
-Vector3d Point::getForce()
+Eigen::Vector3d Mass::getForce()
 {
     return force;
 }
 
-void Point::setForceX(double fx)
+void Mass::setForceX(double fx)
 {
     force.x() = fx;
 }
 
-double Point::getForceX()
+double Mass::getForceX()
 {
     return force.x() ;
 }
 
-void Point::setForceY(double fy)
+void Mass::setForceY(double fy)
 {
     force.y() = fy;
 }
 
-double Point::getForceY()
+double Mass::getForceY()
 {
     return force.y();
 }
 
-void Point::setForceZ(double fz)
+void Mass::setForceZ(double fz)
 {
     force.z() = fz;
 }
 
-double Point::getForceZ()
+double Mass::getForceZ()
 {
     return force.z();
 }
 
-void Point::addForce(Vector3d f)
+void Mass::addForce(Eigen::Vector3d f)
 {
     force = force + f;
 }
 
-void Point::setMass(double m)
+void Mass::setMass(double m)
 {
     mass = m;
 }
 
-double Point::getMass()
+double Mass::getMass()
 {
     return mass;
 }
 
-void Point::setDamping(double d)
+void Mass::setDamping(double d)
 {
     damping = d;
 }
 
-double Point::getDamping()
+double Mass::getDamping()
 {
     return damping;
 }
 
-void Point::setFixed(bool fix)
+void Mass::setFixed(bool fix)
 {
     fixed = fix;
 }
 
-bool Point::isFixed()
+bool Mass::isFixed()
 {
     return fixed;
 }
 
-void Point::setUserForce(Vector3d f)
+void Mass::setUserForce(Eigen::Vector3d f)
 {
     userForce = f;
 }
  
-Vector3d Point::getUserForce()
+Eigen::Vector3d Mass::getUserForce()
 {
     return userForce;
 }

@@ -17,7 +17,7 @@ namespace std {
 
 	// XXX end
 	void timeStep(double dt, Method method,
-	              vector<Point> &points, vector<Spring> &springs, bool interaction);
+	              vector<Mass> &points, vector<Spring> &springs, bool interaction);
 
 }
 

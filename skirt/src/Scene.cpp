@@ -19,13 +19,11 @@ extern "C" {
 #endif
 }
 #include "Scene.h"
-#include "Point.h"
+#include "Mass.h"
 #include "Spring.h"
 #include "Simulation.h"
 
 namespace std {
-
-
 
 #ifdef _DEBUG
 //FIXME correct size of 3D area - then remove this shift of X-axis
@@ -34,7 +32,7 @@ namespace std {
  */
 void iniPos() {
 	for (int i = 0; i < dice_RollingDieVertices ; ++i) {
-		dice_RollingDiePositions[3*i] -= 4.0;
+		dice_RollingDiePositions[3*i] -= 4.0f;
 	}
 }
 #endif
@@ -75,7 +73,7 @@ void Scene::initialize() {
 #endif
 	GLfloat mShininess[] = {128};
 	GLfloat whiteSpecularMaterial[] = {1.0, 1.0, 1.0};
-	GLfloat whiteDiffuseMaterial[] = {0.4, 0.4, 0.4};
+	GLfloat whiteDiffuseMaterial[] = {0.4f, 0.4f, 0.4f};
 //	GLfloat blankMaterial[] = {0.0, 0.0, 0.0};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, whiteSpecularMaterial);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, whiteDiffuseMaterial);
@@ -84,10 +82,10 @@ void Scene::initialize() {
 //	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, blankMaterial);
 
 	// set up points and springs //FIXME minimal example to test
-	Vector3d pt1(0.0, 1.0, 0.0);
-	Vector3d pt2;
-	points.push_back(Point(pt1, mass, damping));
-	points.push_back(Point(pt2, mass, damping));
+	Eigen::Vector3d pt1(0.0, 1.0, 0.0);
+	Eigen::Vector3d pt2;
+	points.push_back(Mass(pt1, mass, damping));
+	points.push_back(Mass(pt2, mass, damping));
 	springs.push_back(Spring(stiffness));
 	springs[0].init(&points[0], &points[1]);
 }

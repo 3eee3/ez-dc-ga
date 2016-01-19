@@ -10,8 +10,8 @@
 
 #include <vector>
 
+#include "Mass.h"
 #include "Spring.h"
-#include "Point.h"
 
 namespace std {
 
@@ -30,7 +30,7 @@ private:
     double mass = 0.15;      /* Identical mass for all points */
     double stiffness = 60.0; /* Identical spring stiffness for all springs */
     double damping = 0.08;   /* Identical damping for all points */
-    vector<Point> points;
+    vector<Mass> points;
     vector<Spring> springs;
 };
 

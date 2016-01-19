@@ -5,15 +5,15 @@
  *      Author: littlelion
  */
 
-#include <iostream>
-#include <fstream>
 #include <thread>
 #include <mutex>
+#include <iostream>
+#include <fstream>
 #include <cstring>
+
 #include "ResourcePath.h"
 #include "Accelerometer.h"
 
-//namespace Accelerometer {
 std::string Accelerometer::devicePath;
 std::thread Accelerometer::updaterThread;
 std::mutex Accelerometer::mtx;
@@ -173,4 +173,3 @@ void Accelerometer::deviceConfigFromFile(std::string configPath) {
 	}
 #undef _PRIV_LINE_LEN
 }
-//} /* namespace std */

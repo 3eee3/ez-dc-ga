@@ -118,7 +118,7 @@ void MipMap::loadPNG(const string filename) {
 	png_read_update_info(png_ptr, info_ptr);
 
 	// Row size in bytes.
-	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+	png_uint_32 rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
 	// glTexImage2d requires rows to be 4-byte aligned
 	rowbytes += 3 - ((rowbytes - 1) % 4);
@@ -142,7 +142,7 @@ void MipMap::loadPNG(const string filename) {
 		throw runtime_error("Texture::loadPNG: Could not allocate memory for PNG row pointers.");
 	}
 	// set the individual row_pointers to point at the correct offsets of image_data
-	for (int i = 0; i < height; ++i)
+	for (size_t i = 0; i < height; ++i)
 		row_pointers[height - 1 - i] = image_data + i * rowbytes;
 
 	//read the png into image_data through row_pointers
@@ -159,7 +159,7 @@ void MipMap::loadPNG(const string filename) {
 
 	GLenum gluerr;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,4);
-	if((gluerr=gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGB,
+	if((gluerr=gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, (GLsizei)width, (GLsizei)height, GL_RGB,
 				   GL_UNSIGNED_BYTE, (GLvoid *)image_data))) {
 		throw runtime_error("GLULib " + string((char*)gluErrorString(gluerr)));
 	}

@@ -23,7 +23,7 @@ using namespace std;
  * @param argv the arguments list provided by the @c main() function on first call, omit or set to @c nullptr on succeeding calls
  * @return the base path or an empty string if not initialized.
  */
-string getBasePath(int argc = 0, char* argv[] = nullptr) {
+string getBasePath(int /*argc = 0*/, char* argv[] = nullptr) {
 	// make this function system independent
 #ifdef _WIN32
 	const char PATH_SEP = '\\';
@@ -35,7 +35,7 @@ string getBasePath(int argc = 0, char* argv[] = nullptr) {
 
 	if(basePath.empty() && argv != nullptr) {
 		string path = argv[0];
-		int n = path.rfind(PATH_SEP);
+		size_t n = path.rfind(PATH_SEP);
 		path = path.substr(0, n+1);
 		if (!path.empty()) {
 			basePath = path;

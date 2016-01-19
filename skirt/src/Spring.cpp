@@ -17,7 +17,7 @@
 #include <GL/freeglut.h> 
 
 
-void Spring::init(Point *_p0, Point *_p1) 
+void Spring::init(Mass *_p0, Mass *_p1) 
 {
     /* Initialize spring with pointers to both mass points */
     p0=_p0; 
@@ -58,7 +58,7 @@ double Spring::getStiffness()
     return stiffness;
 }
 
-Point *Spring::getPoint(int i)
+Mass *Spring::getPoint(int i)
 {
     /* Return point 1 or 0 (assume i = 0,1) */
     if(i)

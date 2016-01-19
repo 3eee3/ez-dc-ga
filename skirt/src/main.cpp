@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cmath>
 
+#include "Accelerometer.h"
 #include "Scene.h"
 #include "MipMap.h"
 
@@ -37,7 +38,7 @@ ulong getTime() {
 void initialize() {
 	//TODO implementation incomplete
 
-	glClearColor(0.95, 0.95, 0.95, 0.0); // Background color
+	glClearColor(0.95f, 0.95f, 0.95f, 0.0f); // Background color
 
 	// size of 3D space and camera
 	glMatrixMode(GL_PROJECTION);
@@ -54,8 +55,8 @@ void initialize() {
 	glShadeModel(GL_SMOOTH);
 //	glEnable(GL_BLEND);
 //	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+//	glEnable(GL_CULL_FACE);
+//	glCullFace(GL_BACK);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -64,13 +65,13 @@ void initialize() {
 //	glEnable(GL_NORMALIZE);
 //	glEnable(GL_AUTO_NORMAL);
 
-    GLfloat lposition[] = {2.0, 2.0, 2.0, 0.0};
-//    GLfloat lposition[] = {9.0, 9.0, 9.0, 0.0};
+    GLfloat lposition[] = {2.0f, 2.0f, 2.0f, 0.0f};
+//    GLfloat lposition[] = {9.0f, 9.0f, 9.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_POSITION, lposition);
-    GLfloat lambient[] = {0.6, 0.6, 0.6, 0.0};
-//    GLfloat lambient[] = {9.0, 9.0, 9.0, 0.0};
+    GLfloat lambient[] = {0.6f, 0.6f, 0.6f, 0.0f};
+//    GLfloat lambient[] = {9.0f, 9.0f, 9.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_AMBIENT, lambient);
-    GLfloat lspecular[] = {1.0, 1.0, 1.0, 0.0};
+    GLfloat lspecular[] = {1.0f, 1.0f, 1.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_SPECULAR, lspecular);
 
     MipMap texture;
@@ -83,7 +84,7 @@ void initialize() {
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);//< solid
 }
 
-void motionCallback(int x, int y) {
+void motionCallback(int /*x*/, int /*y*/) {
 	//TODO implement
 }
 
@@ -104,14 +105,14 @@ void displayCallback() {
 	//TODO implement
 	ulong curTime = getTime();
 	static ulong prevTime = curTime;
-	static ulong remTime = 0;
-	double tPassed = (curTime - prevTime) / 1000.0;
+	double remTime = 0;
+	double tPassed = (double)(curTime - prevTime) / 1000.0;
 	if (tPassed > MAX_UPDATE_TIME) {
 		tPassed = MAX_UPDATE_TIME;
 	}
 	tPassed += remTime;
 
-	ulong steps = tPassed / scene->getStep();
+	ulong steps = (ulong)(tPassed / scene->getStep()); //round down
 
 	// update simulation, then render
 	for(ulong i=0; i<steps; ++i) {
@@ -126,7 +127,7 @@ void displayCallback() {
 	glutSwapBuffers();
 }
 
-void keyboardCallback(unsigned char key, int x, int y) {
+void keyboardCallback(unsigned char key, int /*x*/, int /*y*/) {
 	switch (key) {
 	//TODO add keys for unimplemented features
 	case 'q':
@@ -141,6 +142,10 @@ void keyboardCallback(unsigned char key, int x, int y) {
 }
 
 void mouseCallback(int button, int state, int x, int y) {
+	(void)button;
+	(void)state;
+	(void)x;
+	(void)y;
 	//TODO implement
 }
 
@@ -152,6 +157,7 @@ void idleCallback() {
 int main (int argc, char* argv[]) {
 
 	glutInit(&argc, argv);
+	Accelerometer::accelerometerInitDevice(argc, argv);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(50, 50);

@@ -1,6 +1,8 @@
 /******************************************************************
 *
-* Point.h
+* Mass.h
+*
+* This is a derived work from Point.h
 *
 * Description: Class definition for mass points  
 *
@@ -12,38 +14,37 @@
 *
 *******************************************************************/
 
-#ifndef __POINT_H__
-#define __POINT_H__
+#ifndef __MASS_H__
+#define __MASS_H__
 
 #include <Eigen/Dense>
-using namespace Eigen;
 
-class Point
+class Mass
 {
 private:
-    Vector3d pos;         /* Position of mass point */
-    Vector3d vel;         /* Velicity of mass point */
-    Vector3d force;       /* Sum of all forces on mass point */
-    Vector3d userForce;   /* Additional external force exerted by user */
+    Eigen::Vector3d pos;         /* Position of mass point */
+    Eigen::Vector3d vel;         /* Velicity of mass point */
+    Eigen::Vector3d force;       /* Sum of all forces on mass point */
+    Eigen::Vector3d userForce;   /* Additional external force exerted by user */
 
     double mass;      
     double damping;
     bool fixed;       /* True, if point is fixed in space */
 
 public:               /* Various constructors */
-    Point(void) 
+    Mass(void) 
     {
-        pos = Vector3d(0.0, 0.0, 0.0);
-        vel = Vector3d(0.0, 0.0, 0.0);
-        force = Vector3d(0.0, 0.0, 0.0);
-        userForce = Vector3d(0.0, 0.0, 0.0);
+        pos = Eigen::Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         mass = 0.0;
         damping = 0.0;
         fixed = false; 
     }
 
-    Point(const Point &rhs)
+    Mass(const Mass &rhs)
     {
         pos = rhs.pos;
         vel = rhs.vel;
@@ -55,49 +56,49 @@ public:               /* Various constructors */
         fixed = rhs.fixed;
     }
 
-    Point(Vector3d p)
+    Mass(Eigen::Vector3d p)
     {
         pos = p;
-        vel = Vector3d(0.0, 0.0, 0.0);
-        force = Vector3d(0.0, 0.0, 0.0);
-        userForce = Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         mass = 0.0;
         damping = 0.0;
         fixed = false; 
     }
 
-    Point(Vector3d p, double m, double d)
+    Mass(Eigen::Vector3d p, double m, double d)
     {
         pos = p;
-        vel = Vector3d(0.0, 0.0, 0.0);
-        force = Vector3d(0.0, 0.0, 0.0);
-        userForce = Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         mass = m;
         damping = d;
         fixed = false; 
     }
 
-    Point(double m, double d) 
+    Mass(double m, double d) 
     {
-        pos = Vector3d(0.0, 0.0, 0.0);
-        vel = Vector3d(0.0, 0.0, 0.0);
-        force = Vector3d(0.0, 0.0, 0.0);
-        userForce = Vector3d(0.0, 0.0, 0.0);
+        pos = Eigen::Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         mass = m;
         damping = d;
         fixed = false; 
     }
 
-    ~Point(void){}
+    ~Mass(void){}
 
     void render();
 
     /* Getting and setting private variables */
-    void setPos(Vector3d p);
-    Vector3d getPos();
+    void setPos(Eigen::Vector3d p);
+    Eigen::Vector3d getPos();
     void setX(double x);
     double getX();
     void setY(double y);
@@ -105,8 +106,8 @@ public:               /* Various constructors */
     void setZ(double z);
     double getZ();
 
-    void setVel(Vector3d v);
-    Vector3d getVel();
+    void setVel(Eigen::Vector3d v);
+    Eigen::Vector3d getVel();
     void setVelX(double vx);
     double getVelX();
     void setVelY(double vy);
@@ -114,8 +115,8 @@ public:               /* Various constructors */
     void setVelZ(double vz);
     double getVelZ();
 
-    void setForce(Vector3d f);
-    Vector3d getForce();
+    void setForce(Eigen::Vector3d f);
+    Eigen::Vector3d getForce();
     void setForceX(double fx);
     double getForceX();
     void setForceY(double fy);
@@ -123,7 +124,7 @@ public:               /* Various constructors */
     void setForceZ(double fz);
     double getForceZ();
 
-    void addForce(Vector3d f);
+    void addForce(Eigen::Vector3d f);
 
     void setMass(double m);
     double getMass();
@@ -134,11 +135,11 @@ public:               /* Various constructors */
     void setFixed(bool fix);
     bool isFixed();
 
-    void setUserForce(Vector3d f);
-    Vector3d getUserForce();
+    void setUserForce(Eigen::Vector3d f);
+    Eigen::Vector3d getUserForce();
   
     /* Copy data to new point */
-    Point copy();
+    Mass copy();
 };
 
-#endif
+#endif // _MASS_H_
