@@ -4,19 +4,25 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/MipMap.cpp \
+../src/Scene.cpp \
 ../src/main.cpp 
 
 C_SRCS += \
-../src/skirt.c 
+../src/SGIimage.c 
 
 OBJS += \
-./src/main.o \
-./src/skirt.o 
+./src/MipMap.o \
+./src/SGIimage.o \
+./src/Scene.o \
+./src/main.o 
 
 C_DEPS += \
-./src/skirt.d 
+./src/SGIimage.d 
 
 CPP_DEPS += \
+./src/MipMap.d \
+./src/Scene.d \
 ./src/main.d 
 
 
@@ -24,7 +30,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -std=c++0x -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

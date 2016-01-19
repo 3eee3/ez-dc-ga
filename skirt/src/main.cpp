@@ -13,6 +13,7 @@
 #include <cmath>
 
 #include "Scene.h"
+#include "MipMap.h"
 
 using namespace std;
 
@@ -25,7 +26,6 @@ Scene *scene=NULL;
  * slower than real time)
  */
 const static double MAX_UPDATE_TIME = 0.01;
-
 
 //FIXME doesn't work with windows OS
 ulong getTime() {
@@ -49,9 +49,11 @@ void initialize() {
 	glLoadIdentity();
 
 	// set up shader and blender
-	glShadeModel(GL_FLAT); //TODO. use GL_SMOOTH ?
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glFrontFace(GL_CCW);
+//	glShadeModel(GL_FLAT); //TODO. use GL_SMOOTH ?
+	glShadeModel(GL_SMOOTH);
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
@@ -59,12 +61,26 @@ void initialize() {
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
 
-    GLfloat lp[] = {2.0, 2.0, 2.0, 0.0};
-    glLightfv(GL_LIGHT0, GL_POSITION, lp);
-    GLfloat la[] = {1.0, 1.0, 1.0, 0.0};
-    glLightfv(GL_LIGHT0, GL_AMBIENT, la);
+//	glEnable(GL_NORMALIZE);
+//	glEnable(GL_AUTO_NORMAL);
+
+    GLfloat lposition[] = {2.0, 2.0, 2.0, 0.0};
+//    GLfloat lposition[] = {9.0, 9.0, 9.0, 0.0};
+    glLightfv(GL_LIGHT0, GL_POSITION, lposition);
+    GLfloat lambient[] = {0.6, 0.6, 0.6, 0.0};
+//    GLfloat lambient[] = {9.0, 9.0, 9.0, 0.0};
+    glLightfv(GL_LIGHT0, GL_AMBIENT, lambient);
+    GLfloat lspecular[] = {1.0, 1.0, 1.0, 0.0};
+    glLightfv(GL_LIGHT0, GL_SPECULAR, lspecular);
+
+    MipMap texture;
+//    texture.loadPNG("textures/cube.png");
+    texture.loadSGI("textures/wood.rgb");
 
 	scene->initialize();
+	glEnable(GL_TEXTURE_2D);
+//	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);//< wireframe
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);//< solid
 }
 
 void motionCallback(int x, int y) {
@@ -114,6 +130,7 @@ void keyboardCallback(unsigned char key, int x, int y) {
 	switch (key) {
 	//TODO add keys for unimplemented features
 	case 'q':
+	case 27: // ESC
 		// exit - assure to run cleanup code (not standard GLUT API)
 		glutLeaveMainLoop();
 		break;

@@ -47,7 +47,7 @@ all: skirt
 skirt: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -LGL -o "skirt" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "skirt" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
