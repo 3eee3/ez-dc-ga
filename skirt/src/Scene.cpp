@@ -9,15 +9,15 @@
 #include <cstring>
 #include <cstdlib>
 
-#define _DEBUG
+//#define _DEBUG
 
-extern "C" {
+//extern "C" {
 #ifdef _DEBUG
-#include "dice_RollingDie.h" //FIXME replace with skirt
+#include "dice.h" //FIXME replace with skirt
 #else
 #include "skirt.h"
 #endif
-}
+//}
 #include "Scene.h"
 #include "Mass.h"
 #include "Spring.h"
@@ -31,8 +31,8 @@ namespace std {
  * shift x axis of cube to approx. center
  */
 void iniPos() {
-	for (int i = 0; i < dice_RollingDieVertices ; ++i) {
-		dice_RollingDiePositions[3*i] -= 4.0f;
+	for (size_t i = 0; i < diceVertices ; ++i) {
+		dicePositions[3*i] -= 4.0f;
 	}
 }
 #endif
@@ -60,11 +60,11 @@ void Scene::initialize() {
 	glEnableClientState(GL_NORMAL_ARRAY);
 #ifdef _DEBUG
 	//FIXME correct size of 3D area - then remove this shift of X-axis
-	iniPos();
-	glVertexPointer(3, GL_FLOAT, 0, dice_RollingDiePositions);
+//	iniPos();
+	glVertexPointer(3, GL_FLOAT, 0, dicePositions);
 //	glColorPointer(3, GL_FLOAT, 0, dice_RollingDieColor);
-	glTexCoordPointer(2, GL_FLOAT, 0, dice_RollingDieTexels);
-	glNormalPointer(GL_FLOAT, 0, dice_RollingDieNormals);
+	glTexCoordPointer(2, GL_FLOAT, 0, diceTexels);
+	glNormalPointer(GL_FLOAT, 0, diceNormals);
 #else
 	glVertexPointer(3, GL_FLOAT, 0, skirtPositions);
 //	glColorPointer(3, GL_FLOAT, 0, skirtColor);
@@ -74,11 +74,11 @@ void Scene::initialize() {
 	GLfloat mShininess[] = {128};
 	GLfloat whiteSpecularMaterial[] = {1.0, 1.0, 1.0};
 	GLfloat whiteDiffuseMaterial[] = {0.4f, 0.4f, 0.4f};
-//	GLfloat blankMaterial[] = {0.0, 0.0, 0.0};
+	GLfloat blankMaterial[] = {0.0, 0.0, 0.0};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, whiteSpecularMaterial);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, whiteDiffuseMaterial);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mShininess);
-//	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, blankMaterial);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, blankMaterial);
 //	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, blankMaterial);
 
 	// set up points and springs //FIXME minimal example to test
@@ -97,9 +97,9 @@ void Scene::update() {
 void Scene::render() {
 	// TODO Auto-generated destructor stub
 	glLoadIdentity();
-	gluLookAt(5.0, 5.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 #ifdef _DEBUG
-	glDrawArrays(GL_TRIANGLES, 0, dice_RollingDieVertices);
+	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)diceVertices);
 //	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, dice_RollingDieVertexIdx);
 #else
 	glDrawArrays(GL_TRIANGLES, 0, skirtVertices);

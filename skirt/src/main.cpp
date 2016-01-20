@@ -55,7 +55,8 @@ void initialize() {
 	glShadeModel(GL_SMOOTH);
 //	glEnable(GL_BLEND);
 //	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//	glEnable(GL_CULL_FACE);
+
+//	glEnable(GL_CULL_FACE);//TODO. switch ON/OFF backside with these two lines
 //	glCullFace(GL_BACK);
 
     glEnable(GL_LIGHTING);
@@ -75,13 +76,14 @@ void initialize() {
     glLightfv(GL_LIGHT0, GL_SPECULAR, lspecular);
 
     MipMap texture;
-//    texture.loadPNG("textures/cube.png");
-    texture.loadSGI("textures/wood.rgb");
+//    texture.loadPNG("textures/cube.png");//TODO. select texture
+//    texture.loadSGI("textures/wood.rgb");
+    texture.loadSGI("textures/red_cloth_256.rgb");
 
 	scene->initialize();
 	glEnable(GL_TEXTURE_2D);
-//	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);//< wireframe
-	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);//< solid
+//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//TODO. select < wireframe
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//TODO. select < solid
 }
 
 void motionCallback(int /*x*/, int /*y*/) {
