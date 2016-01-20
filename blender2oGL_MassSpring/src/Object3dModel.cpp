@@ -76,15 +76,22 @@ void Object3dModel::writeHfile(string folderPath, ostream* logfp) {
 	    fp << "const size_t " << name << "Vertices;\n";
 	    fp << "GLfloat " << name << "Positions[" << nVertices*3 << "];\n";
 	    fp << "GLfloat " << name << "Texels[" << nVertices*2 << "];\n";
-	    fp << "GLfloat " << name << "Normals[" << nVertices*3 << "];\n\n";
+	    fp << "GLfloat " << name << "Normals[" << nVertices*3 << "];\n";
 
 	    if (massSpring) {
-		    fp << "GLfloat " << name << "Masses[" << nVertices << "];\n";
-		    fp << "GLfloat " << name << "Springs[" << nVertices*2 << "];\n\n";//FIXME size
+	    	fp << "\n/* all masses and springs */";
+		    fp << "const size_t " << name << "Masses[" << nPositions << "];\n";//FIXME needed?
+		    fp << "const size_t " << name << "Springs[" << nPositions*2 << "];\n\n";//FIXME size
+			fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */";
+			fp << "const size_t " << name << "FwdIndexI[" << nVertices << "];\n";
+			fp << "const size_t* " << name << "FwdIndex[" << nPositions << "];\n";
+			fp << "const size_t " << name << "FwdIndexLength[" << nPositions << "];\n";
+			if (revMapping) {
+				fp << "const size_t " << name << "RevIndex[" << nVertices << "];\n";
+			}
 		}
-
 	    // include guards
-	    fp << "#endif // __" << hdr << "_H__" << endl;
+	    fp << "\n#endif // __" << hdr << "_H__" << endl;
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -131,7 +138,14 @@ void Object3dModel::writeCfile(string folderPath, ostream* logfp) {
 			writeCmasses(&fp);
 			*logfp << "springs ... " << flush;
 			writeCsprings(&fp);
+			*logfp << "fwd indices ... " << flush;
+			writeForwardIdx(&fp);
+			if (revMapping) {
+				*logfp << "rev indices ... " << flush;
+				writeReverseIdx(&fp);
+			}
 		}
+
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
 
@@ -188,11 +202,17 @@ void Object3dModel::writeSingleHfile(string folderPath, ostream* logfp) {
 			*logfp << "springs ... " << flush;
 			writeCsprings(&fp);
 		}
+		*logfp << "fwd indices ... " << flush;
+		writeForwardIdx(&fp);
+		if (revMapping) {
+			*logfp << "rev indices ... " << flush;
+			writeReverseIdx(&fp);
+		}
+
 		fp << "#ifdef __cplusplus\n";
 		fp << "} // namespace std\n";
 		fp << "#endif\n\n";
 	    fp << "#endif // __" << hdr << "_H__" << endl;
-
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -215,8 +235,9 @@ bool Object3dModel::isMassSpring() {
 /**
  * Change object state to mass-spring model.
  */
-void Object3dModel::setMassSpring() {
+void Object3dModel::setMassSpring(bool reverseMapping) {
 	massSpring = true;
+	reverseMapping = revMapping;
 }
 
 /**
@@ -367,6 +388,22 @@ void Object3dModel::writeCmasses(ofstream* fp) {
  * @param fp target c-file
  */
 void Object3dModel::writeCsprings(ofstream* fp) {
+	// TODO stub
+}
+
+/**
+ * Generate index stuctures fo forward mapping position --> mass.
+ * @param fp target c-file
+ */
+void Object3dModel::writeForwardIdx(ofstream* fp) {
+	// TODO stub
+}
+
+/**
+ * Generate index stuctures fo reverse mapping mass --> position.
+ * @param fp target c-file
+ */
+void Object3dModel::writeReverseIdx(ofstream* fp) {
 	// TODO stub
 }
 

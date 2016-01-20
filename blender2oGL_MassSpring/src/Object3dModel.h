@@ -34,7 +34,7 @@ public:
 	void writeCfile(string folderPath, ostream* logfp = &cout);
 	void writeSingleHfile(string folderPath, ostream* logfp = &cout);
 	bool isMassSpring();
-	void setMassSpring();
+	void setMassSpring(bool reverseMapping = false);
 	void unsetMassSpring();
 	bool hasConvertedPolygons();
 	void writeStatistics(ostream* fp = &cout,  bool addOffsets = false, int connect = 0);
@@ -48,6 +48,8 @@ private:
 	void writeCnormals(ofstream* fp);
 	void writeCmasses(ofstream* fp);
 	void writeCsprings(ofstream* fp);
+	void writeForwardIdx(ofstream* fp);
+	void writeReverseIdx(ofstream* fp);
 	void writeVertexData(ofstream* fp, float* data, size_t offs, size_t k,
 			size_t n);
 
@@ -63,6 +65,7 @@ private:
 	size_t offsNor = 1;
 
 	bool massSpring;          ///< object with masses and springs
+	bool revMapping = false;  ///< activate reverse index array for position --> mass mapping
 	bool hasConvPoly = false; ///< this object contains from polygons converted triangles
 	float* positions;         ///< size: nPositions * 3
 	float* texels;            ///< size: nTexels * 2

@@ -8,13 +8,14 @@
 //               by blender.
 //============================================================================
 
+#include <sys/stat.h>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <exception>
 #include <iostream>
 #include <string>
-#include <sys/stat.h>
+#include <vector>
 
 #include "Object3dModel.h"
 #include "ObjectFileReader.h"
@@ -40,6 +41,12 @@ inline void printHelp(char* argv[], std::ostream* out = &std::cout) {
 	*out << "\t                     (in .c file)\n";
 	*out << "\t-c                   combine contents into .h file\n";
 	*out << "\t-m                   merge all objects to single arrays\n";
+	*out << "\t-a model             add mass and spring structures to this model.\n";
+	*out << "\t                     This option may be used multiple times to select\n";
+	*out << "\t                     more than one active object.\n";
+	*out << "\t-r                   include reverse mapping for positions array.\n";
+	*out << "\t                     This option takes only effect if the -a option\n";
+	*out << "\t                     is passed at least once.\n";
 	*out << "\t-v                   print statistics (verbose)\n";
 	*out << "\t-h or -?             show this help text\n";
 	*out << "Hint: Don't use shortcuts like ~ or %HOMEPATH% in paths." << std::endl;
@@ -85,6 +92,8 @@ int main(int argc, char* argv[]) {
 	bool combine = false;
 	bool merge = false;
 	bool verbose = false;
+	bool reverse = false;
+	std::vector<std::string> activeObj;
 	std::string srcPath;
 	std::string dstPath;
 
@@ -94,7 +103,7 @@ int main(int argc, char* argv[]) {
 			if (++arg < argc && argv[arg][0] != '-') {
 			dstPath = std::string(argv[arg]);
 			} else {
-				exitErr(argv, "Invalid parameter for option " + std::string(argv[arg-1]));
+				exitErr(argv, "Invalid parameter for option -o");
 			}
 		} else if (!strcmp(argv[arg], "-s")) {
 			separate = true;
@@ -102,6 +111,14 @@ int main(int argc, char* argv[]) {
 			combine = true;
 		} else if (!strcmp(argv[arg], "-m")) {
 			merge = true;
+		} else if (!strcmp(argv[arg], "-a")) {
+				if (++arg < argc && argv[arg][0] != '-') {
+					activeObj.push_back(std::string(argv[arg]));
+				} else {
+					exitErr(argv, "Invalid parameter for option -a");
+				}
+		} else if (!strcmp(argv[arg], "-r")) {
+			reverse = true;
 		} else if (!strcmp(argv[arg], "-v")) {
 			verbose = true;
 		} else if (!strcmp(argv[arg], "-h") || !strcmp(argv[arg], "-?")) {
@@ -140,7 +157,7 @@ int main(int argc, char* argv[]) {
     std::cout << "source file: " << srcPath << std::endl;
     std::cout << "target folder: " << dstPath <<std::endl;
 
-    std::ObjectFileReader reader = std::ObjectFileReader(srcPath);
+    std::ObjectFileReader reader = std::ObjectFileReader(srcPath, reverse);
 
     // read data
     try {

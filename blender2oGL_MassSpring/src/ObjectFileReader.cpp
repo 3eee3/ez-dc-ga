@@ -17,8 +17,9 @@
 
 namespace std {
 
-ObjectFileReader::ObjectFileReader(string path, bool inFileNameAsPrefix) :
-	path(path), prefix(inFileNameAsPrefix ? "_" : "") {}
+ObjectFileReader::ObjectFileReader(string path, bool reverseMass,
+		bool inFileNameAsPrefix) :
+	path(path), reverseMass(reverseMass), prefix(inFileNameAsPrefix ? "_" : "") {}
 
 ObjectFileReader::~ObjectFileReader() {}
 
@@ -290,21 +291,31 @@ void ObjectFileReader::writeHfile(string folderPath, ostream* logfp) {
 	    fp << "const size_t " << hdr << "Vertices;\n";
 	    fp << "GLfloat " << hdr << "Positions[" << totalVert*3 << "];\n";
 	    fp << "GLfloat " << hdr << "Texels[" << totalVert*2 << "];\n";
-	    fp << "GLfloat " << hdr << "Normals[" << totalVert*3 << "];\n\n";
+	    fp << "GLfloat " << hdr << "Normals[" << totalVert*3 << "];\n";
 
 	    int m = 0;
+	    int n = 0;
 	    for (Object3dModel o : models) {
 	    	if (o.massSpring) {
 	    		m += o.nPositions;
+	    		n += o.nVertices;
 	    	}
 	    }
 	    if (m > 0) {
-		    fp << "GLfloat " << hdr << "Masses[" << m << "];\n";
-		    fp << "GLfloat " << hdr << "Springs[" << m*2 << "];\n\n";//FIXME size
+	    	fp << "\n/* all masses and springs */";
+		    fp << "const size_t " << hdr << "Masses[" << m << "];\n";//FIXME needed?
+		    fp << "const size_t " << hdr << "Springs[" << m*2 << "];\n\n";//FIXME size
+			fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */";
+			fp << "const size_t " << hdr << "FwdIndexI[" << n << "];\n";
+			fp << "const size_t* " << hdr << "FwdIndex[" << m << "];\n";
+			fp << "const size_t " << hdr << "FwdIndexLength[" << m << "];\n";
+			if (reverseMass) {
+				fp << "const size_t " << hdr << "RevIndex[" << n << "];\n";
+			}
 		}
 
 	    // include guards
-	    fp << "#endif // __" << capHdr << "_H__" << endl;
+	    fp << "\n#endif // __" << capHdr << "_H__" << endl;
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -350,18 +361,25 @@ void ObjectFileReader::writeCfile(string folderPath, ostream* logfp) {//FIXME
 		*logfp << "normals ... " << flush;
 		writeCnormals(&fp);
 
-	    int m = 0;
+	    bool hasMass = false;
 	    for (Object3dModel o : models) {
 	    	if (o.massSpring) {
-	    		m += o.nPositions;
+	    		hasMass = true;
 	    	}
 	    }
-	    if (m > 0) {
+		if (hasMass) {
 			*logfp << "masses ... " << flush;
 			writeCmasses(&fp);
 			*logfp << "springs ... " << flush;
 			writeCsprings(&fp);
+			*logfp << "fwd indices ... " << flush;
+			writeForwardIdx(&fp);
+			if (reverseMass) {
+				*logfp << "rev indices ... " << flush;
+				writeReverseIdx(&fp);
+			}
 		}
+
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
 
@@ -416,18 +434,25 @@ void ObjectFileReader::writeSingleHfile(string folderPath, ostream* logfp) {//FI
 		*logfp << "normals ... " << flush;
 		writeCnormals(&fp);
 
-	    int m = 0;
+	    bool hasMass = false;
 	    for (Object3dModel o : models) {
 	    	if (o.massSpring) {
-	    		m += o.nPositions;
+	    		hasMass = true;
 	    	}
 	    }
-	    if (m > 0) {
+		if (hasMass) {
 			*logfp << "masses ... " << flush;
 			writeCmasses(&fp);
 			*logfp << "springs ... " << flush;
 			writeCsprings(&fp);
+			*logfp << "fwd indices ... " << flush;
+			writeForwardIdx(&fp);
+			if (reverseMass) {
+				*logfp << "rev indices ... " << flush;
+				writeReverseIdx(&fp);
+			}
 		}
+
 		fp << "#ifdef __cplusplus\n";
 		fp << "} // namespace std\n";
 		fp << "#endif\n\n";
@@ -546,6 +571,22 @@ void ObjectFileReader::writeCmasses(ofstream* fp) {
  * @param fp target c-file
  */
 void ObjectFileReader::writeCsprings(ofstream* fp) {
+	// TODO stub
+}
+
+/**
+ * Generate index stuctures fo forward mapping position --> mass.
+ * @param fp target c-file
+ */
+void ObjectFileReader::writeForwardIdx(ofstream* fp) {
+	// TODO stub
+}
+
+/**
+ * Generate index stuctures fo reverse mapping mass --> position.
+ * @param fp target c-file
+ */
+void ObjectFileReader::writeReverseIdx(ofstream* fp) {
 	// TODO stub
 }
 

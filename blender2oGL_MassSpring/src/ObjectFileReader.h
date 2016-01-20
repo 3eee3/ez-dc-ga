@@ -24,7 +24,8 @@ class ObjectFileReader {
 	friend class Object3dModel;
 
 public:
-	ObjectFileReader(string path, bool inFileNameAsPrefix = true);
+	ObjectFileReader(string path, bool reverseMass = false,
+			bool inFileNameAsPrefix = true);
 	~ObjectFileReader();
 
 	Object3dModel read();
@@ -48,8 +49,11 @@ private:
 	void writeCnormals(ofstream* fp);
 	void writeCmasses(ofstream* fp);
 	void writeCsprings(ofstream* fp);
+	void writeForwardIdx(ofstream* fp);
+	void writeReverseIdx(ofstream* fp);
 
 	string path;
+	bool reverseMass;     ///< enable generation of reverse index array for position --> mass mapping
 	string prefix;        ///< use input filename as prefix for object names
 	size_t offset = 0;    ///< offset to read from input file
 	size_t objNo = 0;     ///< the object to read
