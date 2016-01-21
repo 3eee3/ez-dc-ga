@@ -9,33 +9,13 @@
 #include <cstring>
 #include <cstdlib>
 
-//#define _DEBUG
-
-//extern "C" {
-#ifdef _DEBUG
-#include "dice.h" //FIXME replace with skirt
-#else
-#include "skirt.h"
-#endif
-//}
 #include "Scene.h"
 #include "Mass.h"
 #include "Spring.h"
 #include "Simulation.h"
+#include "model_mapping.h"
 
 namespace std {
-
-#ifdef _DEBUG
-//FIXME correct size of 3D area - then remove this shift of X-axis
-/*
- * shift x axis of cube to approx. center
- */
-void iniPos() {
-	for (size_t i = 0; i < diceVertices ; ++i) {
-		dicePositions[3*i] -= 4.0f;
-	}
-}
-#endif
 
 Scene::Scene() : step(0.003) {}
 
@@ -58,19 +38,12 @@ void Scene::initialize() {
 //	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-#ifdef _DEBUG
-	//FIXME correct size of 3D area - then remove this shift of X-axis
-//	iniPos();
-	glVertexPointer(3, GL_FLOAT, 0, dicePositions);
-//	glColorPointer(3, GL_FLOAT, 0, dice_RollingDieColor);
-	glTexCoordPointer(2, GL_FLOAT, 0, diceTexels);
-	glNormalPointer(GL_FLOAT, 0, diceNormals);
-#else
-	glVertexPointer(3, GL_FLOAT, 0, skirtPositions);
-//	glColorPointer(3, GL_FLOAT, 0, skirtColor);
-	glTexCoordPointer(2, GL_FLOAT, 0, skirtTexels);
-	glNormalPointer(GL_FLOAT, 0, skirtNormals);
-#endif
+
+	glVertexPointer(3, GL_FLOAT, 0, model3dPositions);
+//	glColorPointer(3, GL_FLOAT, 0, model3dColor);
+	glTexCoordPointer(2, GL_FLOAT, 0, model3dTexels);
+	glNormalPointer(GL_FLOAT, 0, model3dNormals);
+
 	GLfloat mShininess[] = {128};
 	GLfloat whiteSpecularMaterial[] = {1.0, 1.0, 1.0};
 	GLfloat whiteDiffuseMaterial[] = {0.4f, 0.4f, 0.4f};
@@ -98,12 +71,9 @@ void Scene::render() {
 	// TODO Auto-generated destructor stub
 	glLoadIdentity();
 	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-#ifdef _DEBUG
-	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)diceVertices);
+
+	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);
 //	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, dice_RollingDieVertexIdx);
-#else
-	glDrawArrays(GL_TRIANGLES, 0, skirtVertices);
-#endif
 	glFlush();
 }
 

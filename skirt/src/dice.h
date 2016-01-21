@@ -27,11 +27,11 @@
 #ifndef __DICE_H__
 #define __DICE_H__
 
+#include <GL/gl.h>
+
 #ifdef __cplusplus
 namespace std {
 #endif
-
-#include <GL/gl.h>
 
 const size_t diceVertices = 72;
 

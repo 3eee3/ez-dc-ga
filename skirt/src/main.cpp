@@ -15,6 +15,7 @@
 #include "Accelerometer.h"
 #include "Scene.h"
 #include "MipMap.h"
+#include "model_mapping.h"
 
 using namespace std;
 
@@ -78,7 +79,8 @@ void initialize() {
     MipMap texture;
 //    texture.loadPNG("textures/cube.png");//TODO. select texture
 //    texture.loadSGI("textures/wood.rgb");
-    texture.loadSGI("textures/red_cloth_256.rgb");
+//    texture.loadSGI("textures/red_cloth_256.rgb");
+    texture.loadSGI(model3dTextureFilePath);
 
 	scene->initialize();
 	glEnable(GL_TEXTURE_2D);
