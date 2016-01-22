@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <Eigen/Dense>
+#include <GL/gl.h>
 
 #include "Mass.h"
 
@@ -11,29 +12,29 @@ bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const 
 bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C);
 
 //for testing
-int main(int argc, char **argv)
-{
-	
-	float dist;
-	Eigen::Vector3d P = Eigen::Vector3d(0.25,0.25,-0.25);
-	Eigen::Vector3d N;
-
-	Eigen::Vector3d A = Eigen::Vector3d(0.0,0.0,0.0);
-	Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
-	Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
-	
-	bool in = vertexInTriangle(P,A,B,C,0.01,dist,N);
-	cout << "in Triangle (" << P.x() << ","<< P.y() <<"," << P.z() << ") :" << in;
-	cout << "\ndist: " << dist;
-	cout << "\nnormal: " << "(" << N.x() << ","<< N.y() <<"," << N.z() << ")\n";
-	return 0;
-}
+//int main(int argc, char **argv)
+//{
+//
+//	float dist;
+//	Eigen::Vector3d P = Eigen::Vector3d(0.25,0.25,-0.25);
+//	Eigen::Vector3d N;
+//
+//	Eigen::Vector3d A = Eigen::Vector3d(0.0,0.0,0.0);
+//	Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
+//	Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
+//
+//	bool in = vertexInTriangle(P,A,B,C,0.01,dist,N);
+//	cout << "in Triangle (" << P.x() << ","<< P.y() <<"," << P.z() << ") :" << in;
+//	cout << "\ndist: " << dist;
+//	cout << "\nnormal: " << "(" << N.x() << ","<< N.y() <<"," << N.z() << ")\n";
+//	return 0;
+//}
 
 /*
 	Checks if there is a collision with mass spring points and object mesh.
 	Adds penalty forces for collisions.
 */
-void collisionDetectionAndResponse(vector<Mass> &points, int object_mesh, float bounding_radius_squared, Eigen::Vector3d object_center){
+void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len){
 	const float repulsiveSpringConst=1.0;
 	const float epsilon=0.01;
 
@@ -42,11 +43,11 @@ void collisionDetectionAndResponse(vector<Mass> &points, int object_mesh, float 
 	//for each point of mass spring system
 	for (int i=0; i<(int)points.size(); i++){
 		//for each triangle of object mesh
-		for(int j=0; j<10;j++){
+		for(size_t j=offs/3; j<(offs+len)/3;j++){
 			//TO DO: generate triangles
-			Eigen::Vector3d A = Eigen::Vector3d(0.0,0.0,0.0);
-			Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
-			Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
+			Eigen::Vector3d A = Eigen::Vector3d(object_mesh[j*9], object_mesh[j*9+1], object_mesh[j*9+2]);
+			Eigen::Vector3d B = Eigen::Vector3d(object_mesh[j*9+3], object_mesh[j*9+4], object_mesh[j*9+5]);
+			Eigen::Vector3d C = Eigen::Vector3d(object_mesh[j*9+6], object_mesh[j*9+7], object_mesh[j*9+8]);
 			//detect collision
 			if(vertexInTriangle(points[i].getPos(),A,B,C,epsilon,dist,normal)){
 			//responde with penalty force
