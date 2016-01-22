@@ -52,7 +52,7 @@ void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], 
 			if(vertexInTriangle(points[i].getPos(),A,B,C,epsilon,dist,normal)){
 			//responde with penalty force
 				Eigen::Vector3d penaltyF = repulsiveSpringConst * (-1) * (dist - epsilon) * normal;
-				points[i].addForce(penaltyF);
+				points[i].setUserForce(penaltyF);
 				break; //collision with one triangle found (possible other collisions not considered)
 				//points[i].setForce(penaltyF);
 			}

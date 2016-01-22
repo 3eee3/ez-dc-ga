@@ -64,7 +64,7 @@ void Scene::initialize() {
 }
 
 void Scene::update() {
-	timeStep(step, SYMPLECTIC, points, springs, false);
+	timeStep(step, SYMPLECTIC, points, springs, true);
 }
 
 void Scene::render() {

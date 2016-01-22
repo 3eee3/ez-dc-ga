@@ -161,8 +161,7 @@ void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs, bool in
 	// calculate internal forces - do it in advance with unchanged position
 	// F_int + F_user + F_repulsive; gravity added as acceleration later
 	for(vector<Mass>::iterator it = points.begin(); it != points.end(); ++it) {
-		it->setForce(f_int(*it, springs) + (it->getUserForce() * (interaction ? 1. : 0.)) +
-				Eigen::Vector3d(0., it->getY() < floorLevel ? (it->getY() - floorLevel) * repulsiveSpringConst : 0., 0.));
+		it->setForce(f_int(*it, springs) + (it->getUserForce() * (interaction ? 1. : 0.)));
 	}
 	// update pos, vel of points using the old values
 	vector<Mass>::iterator old = oldPoints.begin();
@@ -217,9 +216,8 @@ void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		/*Compute force due to gravity (initialize force with (0,0) if no gravity)*/
 		points[i].setForce(gravity() * points[i].getMass());
 		/*Compute penalty force if mass hits the ground */
-		Eigen::Vector3d penaltyF = Eigen::Vector3d (0.0,(points[i].getY()<floorLevel) ? repulsiveSpringConst * (floorLevel+points[i].getY()):0.0, 0.0);
-		/*Add penalty force and user force*/
-		points[i].setForce(Eigen::Vector3d(points[i].getForce()+penaltyF+(interaction ? 1.0 : 0.0)*points[i].getUserForce()));
+		/*Add user force*/
+		points[i].setForce(Eigen::Vector3d(points[i].getForce()+(interaction ? 1.0 : 0.0)*points[i].getUserForce()));
 	}
 
 	for (int j=0;j<(int)springs.size(); j++){
@@ -256,13 +254,9 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 	for (int i = 0; i < (int) (points.size()); i++) {
 		/*Compute force due to gravity (initialize force with (0,0) if no gravity)*/
 		points[i].setForce(gravity() * points[i].getMass());
-		/*Compute penalty force if mass hits the ground */
-		Eigen::Vector3d penaltyF = Eigen::Vector3d(0.0,
-				(points[i].getY() < floorLevel) ?
-						repulsiveSpringConst * (floorLevel + points[i].getY()) : 0.0, 0.0);
 		/*Add penalty force and user force*/
 		points[i].setForce(
-				Eigen::Vector3d(points[i].getForce() + penaltyF
+				Eigen::Vector3d(points[i].getForce()
 						+ (interaction ? 1.0 : 0.0) * points[i].getUserForce()));
 	}
 	for (int j = 0; j < (int) (springs.size()); j++) {
@@ -305,14 +299,9 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
 	for (int i = 0; i < (int) ((points.size())); i++) {
 		points[i].setForce(gravity() * points[i].getMass());
-		//penalty force
-		Eigen::Vector3d f = Eigen::Vector3d(0.0,
-				(points[i].getY() < floorLevel) ?
-						repulsiveSpringConst * (points[i].getY() - floorLevel) :
-						0.0, 0.0);
 		// Add penalty force and user force
 		points[i].setForce(
-				Eigen::Vector3d(points[i].getForce() + f
+				Eigen::Vector3d(points[i].getForce()
 						+ (interaction ? 1.0 : 0.0) * points[i].getUserForce()));
 	}
 	for (int i = 0; i < (int) ((springs.size())); i++) {
