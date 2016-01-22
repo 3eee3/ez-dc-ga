@@ -30,6 +30,9 @@
  * # faces total     =  6872
  */
 
+#include <stddef.h>
+#include <GL/gl.h>
+
 #include "skirt_sphere.h"
 
 const size_t skirt_sphereVertices = 20616;

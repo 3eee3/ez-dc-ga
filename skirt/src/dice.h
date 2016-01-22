@@ -30,7 +30,10 @@
 #include <GL/gl.h>
 
 #ifdef __cplusplus
+#include <cstddef>
 namespace std {
+#else
+#include <stddef.h>
 #endif
 
 const size_t diceVertices = 72;

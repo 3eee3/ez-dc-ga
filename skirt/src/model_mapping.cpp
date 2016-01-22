@@ -5,6 +5,7 @@
  *      Author: littlelion
  */
 
+
 /*
  * This file includes the vertex, texture and normals coordinates
  * and some 3D object topology informations.
@@ -19,9 +20,10 @@
  */
 
 /* activate the small model with two dice by uncommenting this line */
-#define _DEBUG_OGL_MODEL
+//#define _DEBUG_OGL_MODEL
 
 #include <GL/gl.h>
+#include <cstddef>
 #include "model_mapping.h"
 
 #ifdef _DEBUG_OGL_MODEL
@@ -60,7 +62,10 @@ GLfloat* model3dNormals = skirt_sphereNormals;
 //FIXME not finished yet
 /*
  * Index Mapping Arrays:
+ *
  */
+const size_t model3dMassesLength = 0;
+const size_t model3dSpringsLength = 0;
 const size_t* model3dMasses = nullptr;
 const size_t* model3dSprings = nullptr;
 /* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */
@@ -71,6 +76,7 @@ const size_t* model3dRevIndex = nullptr;
 
 /*
  * Object Topology Informations:
+ * model3dObjects is the number of objects and the size of the following arrays.
  * model3dObjectOffset contains the offset in terms of vertices to the first entry in the
  * vertex array of each individual 3D-object.
  *
@@ -86,7 +92,8 @@ const size_t skirt_sphereObjectOffset[] = {0, 1944, 2184};
 const size_t skirt_sphereObjectLength[] = {1944, 240, 18432};
 const char skirt_sphereObjectNames[3][10] = {"Grid", "Icosphere", "Cone"};
 //XXX end
-const size_t* model3dObjectOffset = skirt_sphereObjectOffset;//FIXME hardcoded data
+const size_t model3dObjects = 3;//FIXME hardcoded data
+const size_t* model3dObjectOffset = skirt_sphereObjectOffset;
 const size_t* model3dObjectLength = skirt_sphereObjectLength;
 const char** model3dObjectNames = (const char**) skirt_sphereObjectNames;
 const char* model3dTextureFilePath = "textures/textures_all.rgb";
@@ -97,6 +104,8 @@ const size_t model3dVertices = diceVertices;
 GLfloat* model3dPositions = dicePositions;
 GLfloat* model3dTexels = diceTexels;
 GLfloat* model3dNormals = diceNormals;
+const size_t model3dMassesLength = 0;
+const size_t model3dSpringsLength = 0;
 const size_t* model3dMasses;
 const size_t* model3dSprings;
 const size_t* model3dFwdIndexI; //FIXME needed?
@@ -108,10 +117,12 @@ const size_t diceObjectOffset[] = { 0, 36 };
 const size_t diceObjectLength[] = { 36, 36 };
 const char diceObjectNames[2][11] = { "RollingDie", "Die" };
 //XXX end
-const size_t* model3dObjectOffset = diceObjectOffset; //FIXME hardcoded data
+const size_t model3dObjects = 2; //FIXME hardcoded data
+const size_t* model3dObjectOffset = diceObjectOffset;
 const size_t* model3dObjectLength = diceObjectLength;
 const char** model3dObjectNames = (const char**) diceObjectNames;
 const char* model3dTextureFilePath = "textures/wood.rgb";
 #endif /* _DEBUG_OGL_MODEL */
 
-} // namespace std
+}
+// namespace std

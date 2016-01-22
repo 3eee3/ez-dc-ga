@@ -35,9 +35,22 @@
 
 #include <GL/gl.h>
 
+#ifdef __cplusplus
+#include <cstddef>
+namespace std {
+extern "C" {
+#else
+#include <stddef.h>
+#endif
+
 extern const size_t skirt_sphereVertices;
 extern GLfloat skirt_spherePositions[61848];
 extern GLfloat skirt_sphereTexels[41232];
 extern GLfloat skirt_sphereNormals[61848];
+
+#ifdef __cplusplus
+} // extern "C"
+} // namespace std
+#endif
 
 #endif // __SKIRT_SPHERE_H__
