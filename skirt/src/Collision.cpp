@@ -3,9 +3,11 @@
 #include <cmath>
 #include <Eigen/Dense>
 
+#include "Mass.h"
+
 using namespace std;
 
-bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, float &dist, Eigen::Vector3d &N);
+bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, const float epsilon, float &dist, Eigen::Vector3d &N);
 bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C);
 
 //for testing
@@ -20,11 +22,41 @@ int main(int argc, char **argv)
 	Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
 	Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
 	
-	bool in = vertexInTriangle(P,A,B,C,dist,N);
+	bool in = vertexInTriangle(P,A,B,C,0.01,dist,N);
 	cout << "in Triangle (" << P.x() << ","<< P.y() <<"," << P.z() << ") :" << in;
 	cout << "\ndist: " << dist;
 	cout << "\nnormal: " << "(" << N.x() << ","<< N.y() <<"," << N.z() << ")\n";
 	return 0;
+}
+
+/*
+	Checks if there is a collision with mass spring points and object mesh.
+	Adds penalty forces for collisions.
+*/
+void collisionDetectionAndResponse(vector<Mass> &points, int object_mesh, float bounding_radius_squared, Eigen::Vector3d object_center){
+	const float repulsiveSpringConst=1.0;
+	const float epsilon=0.01;
+
+	float dist;
+	Eigen::Vector3d normal;
+	//for each point of mass spring system
+	for (int i=0; i<(int)points.size(); i++){
+		//for each triangle of object mesh
+		for(int j=0; j<10;j++){
+			//TO DO: generate triangles
+			Eigen::Vector3d A = Eigen::Vector3d(0.0,0.0,0.0);
+			Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
+			Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
+			//detect collision
+			if(vertexInTriangle(points[i].getPos(),A,B,C,epsilon,dist,normal)){
+			//responde with penalty force
+				Eigen::Vector3d penaltyF = repulsiveSpringConst * (-1) * (dist - epsilon) * normal;
+				points[i].addForce(penaltyF);
+				break; //collision with one triangle found (possible other collisions not considered)
+				//points[i].setForce(penaltyF);
+			}
+		}
+	}
 }
 
 /*
@@ -56,13 +88,12 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
 	returns true if vertex lies on surface of triangle mesh 
 	returns penalty depth (dist), and surface normal (N)
 */
-bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, float &dist, Eigen::Vector3d &N){
+bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, const float epsilon, float &dist, Eigen::Vector3d &N){
 		//signed distance of point from plane
 		N = (B-A).cross(C-A); //N not normalized
 		dist = N.dot(P) - N.dot(A); //distance not normalized (length of N constant for triangles with same area)
 	
 		//check if point is near plane
-		float epsilon = 0.01f;
 		if(dist > epsilon || dist < -epsilon){
 			return false;
 		}
