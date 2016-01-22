@@ -26,6 +26,7 @@ public:
 			      size_t nTexels,
 				  size_t nNormals,
 				  size_t nFaces,
+				  bool revMapping = false,
 				  bool isMassSpring = false);
 
 	virtual ~Object3dModel();
@@ -52,6 +53,11 @@ private:
 	void writeReverseIdx(ofstream* fp);
 	void writeVertexData(ofstream* fp, float* data, size_t offs, size_t k,
 			size_t n);
+	void writeObjectSummary(ofstream* fp);
+	static void genHdrHeader(const string hdr, ofstream* fp);
+	static void genHdrFooter(const string hdr, ofstream* fp);
+	void genDeclarations(ofstream* fp);
+	void genCsrcBody(ofstream* fp, ostream* logfp);
 
 	/* size informations */
 	size_t nPositions;
@@ -64,8 +70,8 @@ private:
 	size_t offsTex = 1;
 	size_t offsNor = 1;
 
+	bool revMapping;          ///< activate reverse index array for position --> mass mapping
 	bool massSpring;          ///< object with masses and springs
-	bool revMapping = false;  ///< activate reverse index array for position --> mass mapping
 	bool hasConvPoly = false; ///< this object contains from polygons converted triangles
 	float* positions;         ///< size: nPositions * 3
 	float* texels;            ///< size: nTexels * 2

@@ -30,12 +30,14 @@ Object3dModel::Object3dModel(size_t nPositions,
 		      size_t nTexels,
 			  size_t nNormals,
 			  size_t nFaces,
+			  bool revMapping,
 			  bool isMassSpring) :
 	nPositions(nPositions),
 	nTexels(nTexels),
 	nNormals(nNormals),
 	nFaces(nFaces),
 	nVertices(nFaces * 3),
+	revMapping(revMapping),
 	massSpring(isMassSpring),
 	positions(new float[nPositions * 3]),
 	texels(new float[nTexels * 2]),
@@ -46,6 +48,109 @@ Object3dModel::Object3dModel(size_t nPositions,
  * Default destructor.
  */
 Object3dModel::~Object3dModel() {}
+
+/**
+ * Generate the introducing part of a header file.
+ * @param hdr name of header file
+ * @param fp output stream to target file
+ */
+void Object3dModel::genHdrHeader(const string hdr, ofstream* fp) {
+	// include guards, includes and namespace open
+	string capHdr = hdr;
+	transform(capHdr.begin(), capHdr.end(), capHdr.begin(), ::toupper);
+	*fp << "#ifndef __" << capHdr << "_H__\n";
+	*fp << "#define __" << capHdr << "_H__\n\n";
+	*fp << "#include <GL/gl.h>\n\n";
+	*fp << "#ifdef __cplusplus\n";
+	*fp << "#include <cstddef>\n";
+	*fp << "namespace std {\n";
+	*fp << "extern \"C\" {\n";
+	*fp << "#else\n";
+	*fp << "#include <stddef.h>\n";
+	*fp << "#endif\n" << endl;
+}
+
+/**
+ * Generate the closing part of a header file.
+ * @param hdr name of header file
+ * @param fp output stream to target file
+ */
+void Object3dModel::genHdrFooter(const string hdr, ofstream* fp) {
+	// include guards and namespace close
+	string capHdr = hdr;
+	transform(capHdr.begin(), capHdr.end(), capHdr.begin(), ::toupper);
+	*fp << "\n#ifdef __cplusplus\n";
+	*fp << "} // extern \"C\"\n";
+	*fp << "} // namespace std\n";
+	*fp << "#endif\n\n";
+	*fp << "#endif // __" << capHdr << "_H__" << endl;
+}
+
+/**
+ * Generate declarations for the header file
+ * @param fp output stream to target file
+ */
+void Object3dModel::genDeclarations(ofstream* fp) {
+	// declarations
+	*fp << "extern const size_t " << name << "Vertices;\n";
+	*fp << "extern GLfloat " << name << "Positions[" << nVertices * 3 << "];\n";
+	*fp << "extern GLfloat " << name << "Texels[" << nVertices * 2 << "];\n";
+	*fp << "extern GLfloat " << name << "Normals[" << nVertices * 3 << "];\n";
+	if (massSpring) {
+		*fp << "\n/* all masses and springs */\n";
+		*fp << "extern const size_t " << name << "MassesLength;\n";
+		*fp << "extern const size_t " << name << "SpringsLength;\n";
+		*fp << "extern const size_t " << name << "Masses[" << nPositions
+				<< "];\n"; //FIXME needed?
+		*fp << "extern const size_t " << name << "Springs[" << nPositions * 2
+				<< "];\n\n"; //FIXME size
+		*fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */\n";
+		*fp << "extern const size_t " << name << "FwdIndexI[" << nVertices
+				<< "];\n";
+		*fp << "extern const size_t* " << name << "FwdIndex[" << nPositions
+				<< "];\n";
+		*fp << "extern const size_t " << name << "FwdIndexLength[" << nPositions
+				<< "];\n";
+		if (revMapping) {
+			*fp << "extern const size_t " << name << "RevIndex[" << nVertices
+					<< "];\n";
+		}
+	}
+	//TODO include declarations for object name and texture file path
+}
+
+/**
+ * Generate the body of a source file with all definitions.
+ * @param fp output stream to target file
+ * @param logfp logging stream
+ */
+void Object3dModel::genCsrcBody(ofstream* fp, ostream* logfp) {
+	// vertices
+	*fp << "const size_t " << name << "Vertices = " << nVertices << ";\n"
+			<< endl;
+	*logfp << "positions ... " << flush;
+	writeCpositions(fp);
+	*logfp << "texels ... " << flush;
+	writeCtexels(fp);
+	*logfp << "normals ... " << flush;
+	writeCnormals(fp);
+	if (massSpring) {
+		*logfp << "masses ... " << flush;
+		writeCmasses(fp);
+		*logfp << "springs ... " << flush;
+		writeCsprings(fp);
+		*logfp << "fwd indices ... " << flush;
+		writeForwardIdx(fp);
+		if (revMapping) {
+			*logfp << "rev indices ... " << flush;
+			writeReverseIdx(fp);
+		}
+	}
+//	if (objectData) { //TODO implement this
+//		*logfp << "metadata ... " << flush;
+//		writeObjectSummary(fp);
+//	}
+}
 
 /**
  * Generate a header file for the 3D-model.
@@ -65,33 +170,14 @@ void Object3dModel::writeHfile(string folderPath, ostream* logfp) {
 		// headlines and statistics
 		writeHeader(&fp, true);
 
-		// include guards
-		string hdr = name;
-		transform(hdr.begin(), hdr.end(), hdr.begin(), ::toupper);
-		fp << "#ifndef __" << hdr << "_H__\n";
-		fp << "#define __" << hdr << "_H__\n\n";
-		fp << "#include <GL/gl.h>\n\n";
+		// include guards, includes and namespace open
+		Object3dModel::genHdrHeader(name, &fp);
 
 	    // declarations
-	    fp << "const size_t " << name << "Vertices;\n";
-	    fp << "GLfloat " << name << "Positions[" << nVertices*3 << "];\n";
-	    fp << "GLfloat " << name << "Texels[" << nVertices*2 << "];\n";
-	    fp << "GLfloat " << name << "Normals[" << nVertices*3 << "];\n";
+		genDeclarations(&fp);
 
-	    if (massSpring) {
-	    	fp << "\n/* all masses and springs */";
-		    fp << "const size_t " << name << "Masses[" << nPositions << "];\n";//FIXME needed?
-		    fp << "const size_t " << name << "Springs[" << nPositions*2 << "];\n\n";//FIXME size
-			fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */";
-			fp << "const size_t " << name << "FwdIndexI[" << nVertices << "];\n";
-			fp << "const size_t* " << name << "FwdIndex[" << nPositions << "];\n";
-			fp << "const size_t " << name << "FwdIndexLength[" << nPositions << "];\n";
-			if (revMapping) {
-				fp << "const size_t " << name << "RevIndex[" << nVertices << "];\n";
-			}
-		}
-	    // include guards
-	    fp << "\n#endif // __" << hdr << "_H__" << endl;
+	    // include guards and namespace close
+	    Object3dModel::genHdrFooter(name, &fp);
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -119,37 +205,18 @@ void Object3dModel::writeCfile(string folderPath, ostream* logfp) {
 		// headlines and statistics
 		writeHeader(&fp);
 
-		// header
+		// include files
+		fp << "#include <stddef.h>\n";
+		fp << "#include <GL/gl.h>\n\n";
 	    fp << "#include " << "\"" << name << ".h" << "\"\n\n";
 
 	    // vertices
-	    fp << "const size_t " << name << "Vertices = " << nVertices << ";\n";
-	    fp << endl;
-
-	    *logfp << "positions ... " << flush;
-		writeCpositions(&fp);
-		*logfp << "texels ... " << flush;
-		writeCtexels(&fp);
-		*logfp << "normals ... " << flush;
-		writeCnormals(&fp);
-
-		if (massSpring) {
-			*logfp << "masses ... " << flush;
-			writeCmasses(&fp);
-			*logfp << "springs ... " << flush;
-			writeCsprings(&fp);
-			*logfp << "fwd indices ... " << flush;
-			writeForwardIdx(&fp);
-			if (revMapping) {
-				*logfp << "rev indices ... " << flush;
-				writeReverseIdx(&fp);
-			}
-		}
+		genCsrcBody(&fp, logfp);
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
 
-	    fp.close();
+		fp.close();
 	} else {
 		throw runtime_error("Error writing source file:" + path);
 	}
@@ -173,46 +240,14 @@ void Object3dModel::writeSingleHfile(string folderPath, ostream* logfp) {
 		// headlines and statistics
 		writeHeader(&fp, true);
 
-		// include guards
-		string hdr = name;
-		transform(hdr.begin(), hdr.end(), hdr.begin(), ::toupper);
-		fp << "#ifndef __" << hdr << "_H__\n";
-		fp << "#define __" << hdr << "_H__\n\n";
-
-		fp << "#ifdef __cplusplus\n";
-		fp << "namespace std {\n";
-		fp << "#endif\n\n";
-
-		fp << "#include <GL/gl.h>\n\n";
+		// include guards, includes and namespace open
+		Object3dModel::genHdrHeader(name, &fp);
 
 	    // vertices
-	    fp << "const size_t " << name << "Vertices = " << nVertices << ";\n";
-	    fp << endl;
+		genCsrcBody(&fp, logfp);
 
-	    *logfp << "positions ... " << flush;
-		writeCpositions(&fp);
-		*logfp << "texels ... " << flush;
-		writeCtexels(&fp);
-		*logfp << "normals ... " << flush;
-		writeCnormals(&fp);
-
-		if (massSpring) {
-			*logfp << "masses ... " << flush;
-			writeCmasses(&fp);
-			*logfp << "springs ... " << flush;
-			writeCsprings(&fp);
-		}
-		*logfp << "fwd indices ... " << flush;
-		writeForwardIdx(&fp);
-		if (revMapping) {
-			*logfp << "rev indices ... " << flush;
-			writeReverseIdx(&fp);
-		}
-
-		fp << "#ifdef __cplusplus\n";
-		fp << "} // namespace std\n";
-		fp << "#endif\n\n";
-	    fp << "#endif // __" << hdr << "_H__" << endl;
+	    // include guards and namespace close
+		Object3dModel::genHdrFooter(name, &fp);
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -384,7 +419,7 @@ void Object3dModel::writeCmasses(ofstream* fp) {
 }
 
 /**
- * Generate sprngs array
+ * Generate springs array
  * @param fp target c-file
  */
 void Object3dModel::writeCsprings(ofstream* fp) {
@@ -392,7 +427,7 @@ void Object3dModel::writeCsprings(ofstream* fp) {
 }
 
 /**
- * Generate index stuctures fo forward mapping position --> mass.
+ * Generate index structures for forward mapping position --> mass.
  * @param fp target c-file
  */
 void Object3dModel::writeForwardIdx(ofstream* fp) {
@@ -400,10 +435,18 @@ void Object3dModel::writeForwardIdx(ofstream* fp) {
 }
 
 /**
- * Generate index stuctures fo reverse mapping mass --> position.
+ * Generate index structures for reverse mapping mass --> position.
  * @param fp target c-file
  */
 void Object3dModel::writeReverseIdx(ofstream* fp) {
+	// TODO stub
+}
+
+/**
+ * Generate some structures with metadata about the 3D-objects in the model
+ * @param fp target c-file
+ */
+void Object3dModel::writeObjectSummary(ofstream* fp) {
 	// TODO stub
 }
 

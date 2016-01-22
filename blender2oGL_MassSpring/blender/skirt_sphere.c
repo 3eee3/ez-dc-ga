@@ -30,6 +30,9 @@
  * # faces total     =  6872
  */
 
+#include <stddef.h>
+#include <GL/gl.h>
+
 #include "skirt_sphere.h"
 
 const size_t skirt_sphereVertices = 20616;
@@ -61891,3 +61894,30 @@ GLfloat skirt_sphereNormals[61848] = {
 	0.0878000f, 0.445500f, 0.891000f,
 };
 
+const size_t skirt_sphereObjects = 3;
+
+const size_t skirt_sphereObjectOffset[3] = {
+	0,
+	1944,
+	2184,
+};
+
+const size_t skirt_sphereObjectLength[3] = {
+	1944,
+	240,
+	18432,
+};
+
+const char skirt_sphereObjectNamesString[59] = {
+	"skirt_sphere_Grid\0"
+	"skirt_sphere_Icosphere\0"
+	"skirt_sphere_Cone\0"
+};
+
+const char* skirt_sphereObjectNames[3] = {
+	&skirt_sphereObjectNamesString[0],
+	&skirt_sphereObjectNamesString[18],
+	&skirt_sphereObjectNamesString[41],
+};
+
+const char skirt_sphereTextureFilePath[34] = "/not_implemented_yet/edit/by.hand";

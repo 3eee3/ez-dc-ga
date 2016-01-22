@@ -25,6 +25,7 @@ class ObjectFileReader {
 
 public:
 	ObjectFileReader(string path, bool reverseMass = false,
+			bool objStatistics = false,
 			bool inFileNameAsPrefix = true);
 	~ObjectFileReader();
 
@@ -38,6 +39,8 @@ public:
 
 	vector<string> objects;       ///< names of the models
 	vector<Object3dModel> models; ///< all parsed models
+	string textureFilePath;       ///< the path to texture image file
+	//TODO read texture file path
 
 private:
 	void init();
@@ -51,9 +54,13 @@ private:
 	void writeCsprings(ofstream* fp);
 	void writeForwardIdx(ofstream* fp);
 	void writeReverseIdx(ofstream* fp);
+	void writeObjectSummary(ofstream* fp);
+	void genDeclarations(const string hdr, ofstream* fp);
+	void genSrcBody(string hdr, ofstream* fp, ostream* logfp = &cout);
 
 	string path;
 	bool reverseMass;     ///< enable generation of reverse index array for position --> mass mapping
+	bool objStatistics;   ///< enable generation of object statistic structures
 	string prefix;        ///< use input filename as prefix for object names
 	size_t offset = 0;    ///< offset to read from input file
 	size_t objNo = 0;     ///< the object to read

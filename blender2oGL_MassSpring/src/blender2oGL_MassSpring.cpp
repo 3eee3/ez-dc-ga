@@ -35,7 +35,7 @@ inline void printHelp(char* argv[], std::ostream* out = &std::cout) {
 	}
 	*out << "USAGE: " << prog.substr(start) << " -options source-file.obj\n";
 	*out << "Options are:\n";
-	*out << "\t-o target-folder     the destination folder (default: same as folder\n";
+	*out << "\t-t target-folder     the destination folder (default: same as folder\n";
 	*out << "\t                     with source file)\n";
 	*out << "\t-s (default)         separate declarations (in .h file) and instances\n";
 	*out << "\t                     (in .c file)\n";
@@ -47,6 +47,7 @@ inline void printHelp(char* argv[], std::ostream* out = &std::cout) {
 	*out << "\t-r                   include reverse mapping for positions array.\n";
 	*out << "\t                     This option takes only effect if the -a option\n";
 	*out << "\t                     is passed at least once.\n";
+	*out << "\t-o                   add object metadata\n";
 	*out << "\t-v                   print statistics (verbose)\n";
 	*out << "\t-h or -?             show this help text\n";
 	*out << "Hint: Don't use shortcuts like ~ or %HOMEPATH% in paths." << std::endl;
@@ -93,13 +94,14 @@ int main(int argc, char* argv[]) {
 	bool merge = false;
 	bool verbose = false;
 	bool reverse = false;
+	bool objectData = false;
 	std::vector<std::string> activeObj;
 	std::string srcPath;
 	std::string dstPath;
 
 	int arg = 1;
 	while (arg < argc) {
-		if (!strcmp(argv[arg], "-o")) {
+		if (!strcmp(argv[arg], "-t")) {
 			if (++arg < argc && argv[arg][0] != '-') {
 			dstPath = std::string(argv[arg]);
 			} else {
@@ -119,6 +121,8 @@ int main(int argc, char* argv[]) {
 				}
 		} else if (!strcmp(argv[arg], "-r")) {
 			reverse = true;
+		} else if (!strcmp(argv[arg], "-o")) {
+			objectData = true;
 		} else if (!strcmp(argv[arg], "-v")) {
 			verbose = true;
 		} else if (!strcmp(argv[arg], "-h") || !strcmp(argv[arg], "-?")) {
@@ -157,7 +161,7 @@ int main(int argc, char* argv[]) {
     std::cout << "source file: " << srcPath << std::endl;
     std::cout << "target folder: " << dstPath <<std::endl;
 
-    std::ObjectFileReader reader = std::ObjectFileReader(srcPath, reverse);
+    std::ObjectFileReader reader = std::ObjectFileReader(srcPath, reverse, objectData);
 
     // read data
     try {
@@ -165,6 +169,15 @@ int main(int argc, char* argv[]) {
     	std::cout << "\nImported " << reader.models.size() << " 3D-models." << std::endl;
     } catch (std::exception &e) {
     	exitErr(argv, e.what());
+    }
+    for(size_t i = 0; i<reader.models.size(); ++i) {
+//    	std::Object3dModel m = reader.models[i];
+    	for (std::string s : activeObj) {
+    		if(!reader.models[i].name.compare(s)) {
+    			reader.models[i].setMassSpring(reverse);//FIXME reverse here needed?
+    			break;
+    		}
+    	}
     }
 
     // generate output

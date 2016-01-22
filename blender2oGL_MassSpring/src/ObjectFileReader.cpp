@@ -18,8 +18,11 @@
 namespace std {
 
 ObjectFileReader::ObjectFileReader(string path, bool reverseMass,
+		bool objStatistics,
 		bool inFileNameAsPrefix) :
-	path(path), reverseMass(reverseMass), prefix(inFileNameAsPrefix ? "_" : "") {}
+	path(path), reverseMass(reverseMass),
+	objStatistics(objStatistics),
+	prefix(inFileNameAsPrefix ? "_" : "") {}
 
 ObjectFileReader::~ObjectFileReader() {}
 
@@ -93,7 +96,7 @@ Object3dModel ObjectFileReader::read() {
 			totalVert += (3*f);
 
 			// read data
-			Object3dModel model = Object3dModel(p, t, n, f);
+			Object3dModel model = Object3dModel(p, t, n, f, reverseMass);
 			model.name = string(objects[objNo]);
 			model.hasConvPoly = warnConverted;
 			done = false;
@@ -254,8 +257,89 @@ void ObjectFileReader::init() {
 		} else {
 			throw runtime_error("Error reading file.");
 		}
+		textureFilePath = "/not_implemented_yet/edit/by.hand"; //TODO implement parser for .mat file
+
 		isInit = true;
 	}
+}
+
+void ObjectFileReader::genDeclarations(string hdr, ofstream* fp) {
+	// declarations
+	*fp << "extern const size_t " << hdr << "Vertices;\n";
+	*fp << "extern GLfloat " << hdr << "Positions[" << totalVert * 3 << "];\n";
+	*fp << "extern GLfloat " << hdr << "Texels[" << totalVert * 2 << "];\n";
+	*fp << "extern GLfloat " << hdr << "Normals[" << totalVert * 3 << "];\n";
+	int m = 0;
+	int n = 0;
+	for (Object3dModel o : models) {
+		if (o.isMassSpring()) {
+			m += o.nPositions;
+			n += o.nVertices;
+		}
+	}
+	if (m > 0) {
+		*fp << "\n/* all masses and springs */\n";
+		*fp << "extern const size_t " << hdr << "MassesLength;\n";
+		*fp << "extern const size_t " << hdr << "SpringsLength;\n";
+		*fp << "extern const size_t " << hdr << "Masses[" << m << "];\n"; //FIXME needed?
+		*fp << "extern const size_t " << hdr << "Springs[" << m * 2 << "];\n\n"; //FIXME size
+		*fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */\n";
+		*fp << "extern const size_t " << hdr << "FwdIndexI[" << n << "];\n";
+		*fp << "extern const size_t* " << hdr << "FwdIndex[" << m << "];\n";
+		*fp << "extern const size_t " << hdr << "FwdIndexLength[" << m << "];\n";
+		if (reverseMass) {
+			*fp << "extern const size_t " << hdr << "RevIndex[" << n << "];\n";
+		}
+	}
+	if (objStatistics) {
+		*fp << "\n/* object metadata */\n";
+		*fp << "extern const size_t " << hdr << "Objects;\n";
+		*fp << "extern const size_t " << hdr << "ObjectOffset[" << objects.size() << "];\n";
+		*fp << "extern const size_t " << hdr << "ObjectLength[" << objects.size() << "];\n";
+		size_t len = 0;
+		for (string o : objects) {
+			len += o.length()+1;
+		}
+		*fp << "extern const char " << hdr << "ObjectNamesString[" << len << "];\n";
+		*fp << "extern const char* " << hdr << "ObjectNames[" << objects.size() << "];\n";
+		*fp << "extern const char " << hdr << "TextureFilePath[" << textureFilePath.length()+1 << "];\n";
+	}
+}
+
+/**
+ * Generate the body of a source file with all definitions.
+ * @param fp output stream to target file
+ * @param logfp logging stream
+ */
+void ObjectFileReader::genSrcBody(string hdr, ofstream* fp, ostream* logfp) {
+    // vertices
+    *fp << "const size_t " << hdr << "Vertices = " << totalVert << ";\n" << endl;
+	*logfp << "positions ... " << flush;
+	writeCpositions(fp);
+	*logfp << "texels ... " << flush;
+	writeCtexels(fp);
+	*logfp << "normals ... " << flush;
+	writeCnormals(fp);
+	bool hasMass = false;
+	for (Object3dModel o : models) {
+		if (o.isMassSpring()) {
+			hasMass = true;
+		}
+	}
+	if (hasMass) {
+		*logfp << "masses ... " << flush;
+		writeCmasses(fp);
+		*logfp << "springs ... " << flush;
+		writeCsprings(fp);
+		*logfp << "fwd indices ... " << flush;
+		writeForwardIdx(fp);
+		if (reverseMass) {
+			*logfp << "rev indices ... " << flush;
+			writeReverseIdx(fp);
+		}
+	}
+	*logfp << "metadata ... " << flush;
+	writeObjectSummary(fp);
 }
 
 /**
@@ -280,42 +364,14 @@ void ObjectFileReader::writeHfile(string folderPath, ostream* logfp) {
 		// headlines and statistics
 		writeHeader(&fp, true);
 
-		// include guards
-		string capHdr = hdr;
-		transform(capHdr.begin(), capHdr.end(), capHdr.begin(), ::toupper);
-		fp << "#ifndef __" << capHdr << "_H__\n";
-		fp << "#define __" << capHdr << "_H__\n\n";
-		fp << "#include <GL/gl.h>\n\n";
+		// include guards, includes and namespace open
+		Object3dModel::genHdrHeader(hdr, &fp);
 
 	    // declarations
-	    fp << "const size_t " << hdr << "Vertices;\n";
-	    fp << "GLfloat " << hdr << "Positions[" << totalVert*3 << "];\n";
-	    fp << "GLfloat " << hdr << "Texels[" << totalVert*2 << "];\n";
-	    fp << "GLfloat " << hdr << "Normals[" << totalVert*3 << "];\n";
+		genDeclarations(hdr, &fp);
 
-	    int m = 0;
-	    int n = 0;
-	    for (Object3dModel o : models) {
-	    	if (o.massSpring) {
-	    		m += o.nPositions;
-	    		n += o.nVertices;
-	    	}
-	    }
-	    if (m > 0) {
-	    	fp << "\n/* all masses and springs */";
-		    fp << "const size_t " << hdr << "Masses[" << m << "];\n";//FIXME needed?
-		    fp << "const size_t " << hdr << "Springs[" << m*2 << "];\n\n";//FIXME size
-			fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */";
-			fp << "const size_t " << hdr << "FwdIndexI[" << n << "];\n";
-			fp << "const size_t* " << hdr << "FwdIndex[" << m << "];\n";
-			fp << "const size_t " << hdr << "FwdIndexLength[" << m << "];\n";
-			if (reverseMass) {
-				fp << "const size_t " << hdr << "RevIndex[" << n << "];\n";
-			}
-		}
-
-	    // include guards
-	    fp << "\n#endif // __" << capHdr << "_H__" << endl;
+	    // include guards and namespace close
+	    Object3dModel::genHdrFooter(hdr, &fp);
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -331,7 +387,7 @@ void ObjectFileReader::writeHfile(string folderPath, ostream* logfp) {
  * @param folderPath the target folder
  * @param logfp output to log file (nullptr to suppress output)
  */
-void ObjectFileReader::writeCfile(string folderPath, ostream* logfp) {//FIXME
+void ObjectFileReader::writeCfile(string folderPath, ostream* logfp) {
 	if (hasNext()) {
 		throw runtime_error("ObjectFileReader::writeHfile: Read task incomplete.");
 	}
@@ -347,40 +403,15 @@ void ObjectFileReader::writeCfile(string folderPath, ostream* logfp) {//FIXME
 		// headlines and statistics
 		writeHeader(&fp);
 
-		// header
+		// include files
+		fp << "#include <stddef.h>\n";
+		fp << "#include <GL/gl.h>\n\n";
 	    fp << "#include " << "\"" << hdr << ".h" << "\"\n\n";
 
 	    // vertices
-	    fp << "const size_t " << hdr << "Vertices = " << totalVert << ";\n";
-	    fp << endl;
+		genSrcBody(hdr, &fp, logfp);
 
-	    *logfp << "positions ... " << flush;
-		writeCpositions(&fp);
-		*logfp << "texels ... " << flush;
-		writeCtexels(&fp);
-		*logfp << "normals ... " << flush;
-		writeCnormals(&fp);
-
-	    bool hasMass = false;
-	    for (Object3dModel o : models) {
-	    	if (o.massSpring) {
-	    		hasMass = true;
-	    	}
-	    }
-		if (hasMass) {
-			*logfp << "masses ... " << flush;
-			writeCmasses(&fp);
-			*logfp << "springs ... " << flush;
-			writeCsprings(&fp);
-			*logfp << "fwd indices ... " << flush;
-			writeForwardIdx(&fp);
-			if (reverseMass) {
-				*logfp << "rev indices ... " << flush;
-				writeReverseIdx(&fp);
-			}
-		}
-
-		*logfp << "done." << endl;
+	    *logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
 
 	    fp.close();
@@ -394,7 +425,7 @@ void ObjectFileReader::writeCfile(string folderPath, ostream* logfp) {//FIXME
  * @param folderPath the target folder
  * @param logfp output to log file (nullptr to suppress output)
  */
-void ObjectFileReader::writeSingleHfile(string folderPath, ostream* logfp) {//FIXME
+void ObjectFileReader::writeSingleHfile(string folderPath, ostream* logfp) {
 	if (hasNext()) {
 		throw runtime_error("ObjectFileReader::writeHfile: Read task incomplete.");
 	}
@@ -411,53 +442,14 @@ void ObjectFileReader::writeSingleHfile(string folderPath, ostream* logfp) {//FI
 		// headlines and statistics
 		writeHeader(&fp, true);
 
-		// include guards
-		string capHdr = hdr;
-		transform(capHdr.begin(), capHdr.end(), capHdr.begin(), ::toupper);
-		fp << "#ifndef __" << capHdr << "_H__\n";
-		fp << "#define __" << capHdr << "_H__\n\n";
-
-		fp << "#ifdef __cplusplus\n";
-		fp << "namespace std {\n";
-		fp << "#endif\n\n";
-
-		fp << "#include <GL/gl.h>\n\n";
+		// include guards, includes and namespace open
+		Object3dModel::genHdrHeader(hdr, &fp);
 
 	    // vertices
-	    fp << "const size_t " << hdr << "Vertices = " << totalVert << ";\n";
-	    fp << endl;
+		genSrcBody(hdr, &fp, logfp);
 
-	    *logfp << "positions ... " << flush;
-		writeCpositions(&fp);
-		*logfp << "texels ... " << flush;
-		writeCtexels(&fp);
-		*logfp << "normals ... " << flush;
-		writeCnormals(&fp);
-
-	    bool hasMass = false;
-	    for (Object3dModel o : models) {
-	    	if (o.massSpring) {
-	    		hasMass = true;
-	    	}
-	    }
-		if (hasMass) {
-			*logfp << "masses ... " << flush;
-			writeCmasses(&fp);
-			*logfp << "springs ... " << flush;
-			writeCsprings(&fp);
-			*logfp << "fwd indices ... " << flush;
-			writeForwardIdx(&fp);
-			if (reverseMass) {
-				*logfp << "rev indices ... " << flush;
-				writeReverseIdx(&fp);
-			}
-		}
-
-		fp << "#ifdef __cplusplus\n";
-		fp << "} // namespace std\n";
-		fp << "#endif\n\n";
-	    fp << "#endif // __" << capHdr << "_H__" << endl;
-
+	    // include guards and namespace close
+		Object3dModel::genHdrFooter(hdr, &fp);
 
 		*logfp << "done." << endl;
 		*logfp << "written to \"" << path << "\"" << endl;
@@ -504,7 +496,7 @@ void ObjectFileReader::writeHeader(ofstream* fp, bool isHfile) {
 	*fp <<   "\n * # faces total     = " << setw(WWW) << totalVert / 3 << "\n";
 	int m = 0;
 	for (Object3dModel o : models) {
-		if (o.massSpring) {
+		if (o.isMassSpring()) {
 			m += o.nPositions;
 		}
 	}
@@ -567,7 +559,7 @@ void ObjectFileReader::writeCmasses(ofstream* fp) {
 }
 
 /**
- * Generate sprngs array
+ * Generate springs array
  * @param fp target c-file
  */
 void ObjectFileReader::writeCsprings(ofstream* fp) {
@@ -575,7 +567,7 @@ void ObjectFileReader::writeCsprings(ofstream* fp) {
 }
 
 /**
- * Generate index stuctures fo forward mapping position --> mass.
+ * Generate index structures for forward mapping position --> mass.
  * @param fp target c-file
  */
 void ObjectFileReader::writeForwardIdx(ofstream* fp) {
@@ -583,11 +575,54 @@ void ObjectFileReader::writeForwardIdx(ofstream* fp) {
 }
 
 /**
- * Generate index stuctures fo reverse mapping mass --> position.
+ * Generate index structures for reverse mapping mass --> position.
  * @param fp target c-file
  */
 void ObjectFileReader::writeReverseIdx(ofstream* fp) {
 	// TODO stub
+}
+
+/**
+ * Generate some structures with metadata about the 3D-objects in the model
+ * @param fp target c-file
+ */
+void ObjectFileReader::writeObjectSummary(ofstream* fp) {
+	string hdr = prefix.substr(0, prefix.size()-1);
+    *fp << "const size_t " << hdr << "Objects = " << models.size() << ";\n\n";
+
+	*fp << "const size_t " << hdr << "ObjectOffset[" << models.size() << "] = {\n";
+	int ofs = 0;
+	for (Object3dModel m : models) {
+		*fp << "\t" << ofs << ",\n";
+		ofs += m.nVertices;
+	}
+	*fp << "};\n" << endl;
+
+	*fp << "const size_t " << hdr << "ObjectLength[" << models.size() << "] = {\n";
+	for (Object3dModel m : models) {
+		*fp << "\t" << m.nVertices << ",\n";
+	}
+	*fp << "};\n" << endl;
+
+	size_t len = 0;
+	for (string o : objects) {
+		len += o.length()+1;
+	}
+	*fp << "const char " << hdr << "ObjectNamesString[" << len << "] = {\n";
+	for (string o : objects) {
+		*fp << "\t\"" << o << "\\0\"\n";
+	}
+	*fp << "};\n" << endl;
+	*fp << "const char* " << hdr << "ObjectNames[" << objects.size() << "] = {\n";
+	len = 0;
+	for (string o : objects) {
+		*fp << "\t&" << hdr << "ObjectNamesString[" << len << "],\n";
+		len += o.size()+1;
+	}
+	*fp << "};\n" << endl;
+
+	*fp << "const char " << hdr << "TextureFilePath[" << textureFilePath.length()+1 << "] = \"";
+	*fp << textureFilePath << "\";" << endl;
 }
 
 } /* namespace std */
