@@ -29,7 +29,9 @@
 /* Local includes */
 #include "Mass.h"
 #include "Scene.h"
+#ifndef _WIN32
 #include "Accelerometer.h"
+#endif
 #include "Simulation.h"
 
 namespace std {
@@ -407,8 +409,12 @@ void analytical_spring(double dt, vector<Mass>& points,
 }
 
 Eigen::Vector3d gravity() {
+#ifndef _WIN32
 	static Accelerometer acc = Accelerometer();
 	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), acc.getX());
+#else
+	return Eigen::Vector3d(0.0, 0.0, 9.81);
+#endif
 }
 
 #ifdef _WRITE_FILE

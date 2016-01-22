@@ -7,12 +7,18 @@
 #include <GL/freeglut.h>
 #include <cstdlib>
 #include <ctime>
+#ifndef _WIN32
 #include <sys/time.h>
 #include <sys/times.h>
+#else
+//FIXME include time??? for windows
+#endif
 #include <iostream>
 #include <cmath>
 
+#ifndef _WIN32
 #include "Accelerometer.h"
+#endif
 #include "Scene.h"
 #include "MipMap.h"
 #include "model_mapping.h"
@@ -31,9 +37,13 @@ const static double MAX_UPDATE_TIME = 0.01;
 
 //FIXME doesn't work with windows OS
 ulong getTime() {
+#ifndef _WIN32
 	struct timeval t;
 	gettimeofday(&t, nullptr);
 	return (ulong) (t.tv_sec*1000 + t.tv_usec);
+#else
+	return 0ul;//FIXME win os
+#endif
 }
 
 void initialize() {
@@ -161,7 +171,9 @@ void idleCallback() {
 int main (int argc, char* argv[]) {
 
 	glutInit(&argc, argv);
+#ifndef _WIN32
 	Accelerometer::accelerometerInitDevice(argc, argv);
+#endif
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(50, 50);
