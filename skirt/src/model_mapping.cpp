@@ -20,7 +20,7 @@
  */
 
 /* activate the small model with two dice by uncommenting this line */
-//#define _DEBUG_OGL_MODEL
+#define _DEBUG_OGL_MODEL
 
 #include <GL/gl.h>
 #include <cstddef>
@@ -31,6 +31,8 @@
 #else
 /* edit this #include instruction to import the generated header file */
 #include "skirt_sphere.h"
+/* define the prefix of the structures for mapping the variable names */
+#define MODEL(X) skirt_sphere##X
 #endif
 
 namespace std {
@@ -54,10 +56,10 @@ namespace std {
  * size of model3dPositions and mode3dNormals is 3*model3dVertices
  * size of model3dTexels is 2*model3dVertices
  */
-const size_t model3dVertices = skirt_sphereVertices;
-GLfloat* model3dPositions = skirt_spherePositions;
-GLfloat* model3dTexels = skirt_sphereTexels;
-GLfloat* model3dNormals = skirt_sphereNormals;
+const size_t model3dVertices = MODEL(Vertices);
+GLfloat* model3dPositions = MODEL(Positions);
+GLfloat* model3dTexels = MODEL(Texels);
+GLfloat* model3dNormals = MODEL(Normals);
 
 //FIXME not finished yet
 /*
@@ -87,16 +89,11 @@ const size_t* model3dRevIndex = nullptr;
  * model3dObjectNames contains identification strings for each 3d-object.
  * model3dTextureFilePath identifies the image file for texturing.
  */
-//XXX begin
-const size_t skirt_sphereObjectOffset[] = {0, 1944, 2184};
-const size_t skirt_sphereObjectLength[] = {1944, 240, 18432};
-const char skirt_sphereObjectNames[3][10] = {"Grid", "Icosphere", "Cone"};
-//XXX end
-const size_t model3dObjects = 3;//FIXME hardcoded data
-const size_t* model3dObjectOffset = skirt_sphereObjectOffset;
-const size_t* model3dObjectLength = skirt_sphereObjectLength;
-const char** model3dObjectNames = (const char**) skirt_sphereObjectNames;
-const char* model3dTextureFilePath = "textures/textures_all.rgb";
+const size_t model3dObjects = MODEL(Objects);
+const size_t* model3dObjectOffset = MODEL(ObjectOffset);
+const size_t* model3dObjectLength = MODEL(ObjectLength);
+const char** model3dObjectNames = (const char**) MODEL(ObjectNames);
+const char* model3dTextureFilePath = "textures/textures_all.rgb";//MODEL(TextureFilePath);//FIXME not implemented in blender2oGL tool
 
 #else /* defined _DEBUG_OGL_MODEL */
 /* provide a small model for debugging issues */
@@ -112,16 +109,11 @@ const size_t* model3dFwdIndexI; //FIXME needed?
 const size_t** model3dFwdIndex;
 const size_t* model3dFwdIndexLength;
 const size_t* model3dRevIndex;
-//XXX begin
-const size_t diceObjectOffset[] = { 0, 36 };
-const size_t diceObjectLength[] = { 36, 36 };
-const char diceObjectNames[2][11] = { "RollingDie", "Die" };
-//XXX end
-const size_t model3dObjects = 2; //FIXME hardcoded data
+const size_t model3dObjects = diceObjects; //FIXME hardcoded data
 const size_t* model3dObjectOffset = diceObjectOffset;
 const size_t* model3dObjectLength = diceObjectLength;
 const char** model3dObjectNames = (const char**) diceObjectNames;
-const char* model3dTextureFilePath = "textures/wood.rgb";
+const char* model3dTextureFilePath = "textures/wood.rgb";//diceTextureFilePath;//FIXME not implemented in blender2oGL tool
 #endif /* _DEBUG_OGL_MODEL */
 
 }

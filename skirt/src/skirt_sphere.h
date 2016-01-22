@@ -48,6 +48,14 @@ extern GLfloat skirt_spherePositions[61848];
 extern GLfloat skirt_sphereTexels[41232];
 extern GLfloat skirt_sphereNormals[61848];
 
+/* object metadata */
+extern const size_t skirt_sphereObjects;
+extern const size_t skirt_sphereObjectOffset[3];
+extern const size_t skirt_sphereObjectLength[3];
+extern const char skirt_sphereObjectNamesString[59];
+extern const char* skirt_sphereObjectNames[3];
+extern const char skirt_sphereTextureFilePath[34];
+
 #ifdef __cplusplus
 } // extern "C"
 } // namespace std
