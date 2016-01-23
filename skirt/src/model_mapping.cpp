@@ -31,8 +31,10 @@
 #else
 /* edit this #include instruction to import the generated header file */
 #include "skirt_sphere.h"
+//#include "woman.h"
 /* define the prefix of the structures for mapping the variable names */
 #define MODEL(X) skirt_sphere##X
+//#define MODEL(X) woman##X
 #endif
 
 namespace std {

@@ -8,12 +8,18 @@
 #include <GL/freeglut.h>
 #include <cstring>
 #include <cstdlib>
+#include <iostream>//XXX
 
 #include "Scene.h"
 #include "Mass.h"
 #include "Spring.h"
 #include "Simulation.h"
 #include "model_mapping.h"
+
+// define here the object(s) for the physical simulation and their number
+#define N_SIM_OBJECTS 1
+#define SIM_MODEL_OBJ {0}
+//#define SIM_MODEL_OBJ {0, 1}
 
 namespace std {
 
@@ -54,17 +60,23 @@ void Scene::initialize() {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, blankMaterial);
 //	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, blankMaterial);
 
-	// set up points and springs //FIXME minimal example to test
-	Eigen::Vector3d pt1(0.0, 1.0, 0.0);
-	Eigen::Vector3d pt2;
-	points.push_back(Mass(pt1, mass, damping));
-	points.push_back(Mass(pt2, mass, damping));
-	springs.push_back(Spring(stiffness));
-	springs[0].init(&points[0], &points[1]);
+	size_t sim_obj[] = SIM_MODEL_OBJ;
+	for (size_t i = 0; i < N_SIM_OBJECTS; ++i) {
+		for (size_t j = 0; j < model3dMasses[sim_obj[i]]; ++j) {
+			points.push_back(Mass(mass, damping));
+			for (size_t k = 0; k < model3dFwdIndexLength[j]; ++k) {
+				points.back().registerVertex(&model3dPositions[model3dFwdIndex[j+model3dMassFwdOffs[sim_obj[i]]][k]*3]);
+			}
+		}
+	}
+
+	//FIXME springs are missing
+//	springs.push_back(Spring(stiffness));
+//	springs[0].init(&points[0], &points[1]);
 }
 
 void Scene::update() {
-	timeStep(step, SYMPLECTIC, points, springs, true);
+	Simulation::step(step, Simulation::SYMPLECTIC, points, springs);
 }
 
 void Scene::render() {

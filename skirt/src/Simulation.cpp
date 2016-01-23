@@ -1,25 +1,24 @@
 /******************************************************************
-*
-* Exercise.cpp  
-*
-* Description: In this file - in the function TimeStep() - the various 
-* numerical solvers of the first programming assignment have to be
-* implemented. Feel free to add new local functions into this file. 
-* Changes to other source files of the framework should not be 
-* required. It is acceptable to assume knowledge about the scene
-* topology (i.e. how springs and points are connected).
-*
-* Physically-Based Simulation Proseminar WS 2015
-* 
-* Interactive Graphics and Simulation Group
-* Institute of Computer Science
-* University of Innsbruck
-*
-*******************************************************************/
+ *
+ * Exercise.cpp
+ *
+ * Description: In this file - in the function TimeStep() - the various
+ * numerical solvers of the first programming assignment have to be
+ * implemented. Feel free to add new local functions into this file.
+ * Changes to other source files of the framework should not be
+ * required. It is acceptable to assume knowledge about the scene
+ * topology (i.e. how springs and points are connected).
+ *
+ * Physically-Based Simulation Proseminar WS 2015
+ *
+ * Interactive Graphics and Simulation Group
+ * Institute of Computer Science
+ * University of Innsbruck
+ *
+ *******************************************************************/
 /* uncomment following defines for additional output */
 //#define _DEBUG
 //#define _WRITE_FILE "results.csv"
-
 /* Standard includes */
 #include <iostream>
 #include <vector>
@@ -37,7 +36,8 @@
 namespace std {
 
 /* function declarations (aigner, including body) */
-void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs, bool interaction);
+void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs,
+		bool interaction);
 Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs);
 Eigen::Vector3d gravity();       // gravity acceleration downwards
 
@@ -45,15 +45,18 @@ Eigen::Vector3d gravity();       // gravity acceleration downwards
 #ifdef _WRITE_FILE
 void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points, vector<Spring>& springs);
 #endif
-void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs, bool interaction);
-void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs, bool interaction);
-bool leapFrogInitialized=false;
-double t=0;
-void analytical_spring(double dt, vector<Mass>& points, vector<Spring>& springs);
-
+void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
+		bool interaction);
+void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
+		bool interaction);
+bool leapFrogInitialized = false;
+double t = 0;
+void analytical_spring(double dt, vector<Mass>& points,
+		vector<Spring>& springs);
 
 /* function declarations (chea, including body, with help of aigner) */
-void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs, bool interaction);
+void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
+		bool interaction);
 
 /* universal applied constants (aigner) */
 double floorLevel = -1.;            // ground level
@@ -71,76 +74,69 @@ void printData(vector<Mass>& points, vector<Spring>& springs) {
 		cout << "), F=(" << it->getForceX() << ", " << it->getForceY() << ", " << it->getForceZ();
 		cout << "), f_u=(" << it->getUserForce().x() << ", " << it->getUserForce().y() << ", " << it->getUserForce().z();
 		cout << "), V=(" << it->getVelX() << ", " << it->getVelY() << ", " << it->getVelZ();
-		cout << "), m=" << it->getMass() << ", d=" << it->getDamping();
-		cout << ", g=(" << gravity().x() << ", " << gravity().y()  << ", " << gravity().z() << ")";
+		cout << "), m=" << it->mass << ", d=" << it->damping;
+		cout << ", g=(" << gravity().x() << ", " << gravity().y() << ", " << gravity().z() << ")";
 		cout << endl;
 	}
 	for (vector<Spring>::iterator it = springs.begin(); it != springs.end();
 			++it) {
-		cout << "Spring: k=" << it->getStiffness() << ", l="
-				<< it->getRestLength() << endl;
+		cout << "Spring: k=" << it->stiffness << ", l="
+		<< it->restLength << endl;
 	}
 }
 #endif
 
 /* *****************************************************************
-*
-* TimeStep
-*
-* This function is called every time step of the dynamic simulation.
-* Positions, velocities, etc. should be updated to simulate motion
-* of the mass points of the 2D scene. The selected solver is passed
-* to the function as well as the time step, the spings, and the 
-* mass points. 
-*
-*******************************************************************/
-void timeStep(double dt, Method method,
-              vector<Mass> &points, vector<Spring> &springs, bool interaction)
-{ 
+ *
+ * TimeStep
+ *
+ * This function is called every time step of the dynamic simulation.
+ * Positions, velocities, etc. should be updated to simulate motion
+ * of the mass points of the 2D scene. The selected solver is passed
+ * to the function as well as the time step, the spings, and the
+ * mass points.
+ *
+ *******************************************************************/
+void Simulation::step(double dt, Method method, std::vector<Mass> &points,
+		std::vector<Spring> &springs) {
+	bool interaction = true; //XXX remove this
 
+	switch (method) {
+	case ANALYTICAL: {
+		/*Analytic solution of single hanging mass*/
+		analytical_spring(dt, points, springs);
+		break;
+	}
 
-	switch (method)
-    {
-    case ANALYTICAL:
-		{
-			/*Analytic solution of single hanging mass*/
-			analytical_spring(dt, points, springs);
-			break;
-		}
+	case EULER: {
+		fwd_euler(dt, points, springs, interaction);
+		break;
+	}
 
-        case EULER:
-        {
-			fwd_euler(dt, points, springs, interaction);
-        	break;
-        }
-        
-        case SYMPLECTIC:
-        {
-        	symplectic(dt, points, springs, interaction);
-        	break;
-        }
+	case SYMPLECTIC: {
+		symplectic(dt, points, springs, interaction);
+		break;
+	}
 
-        case LEAPFROG:
-        {
-        	leapfrog(dt, points, springs, interaction);
-            break;
-        }
+	case LEAPFROG: {
+		leapfrog(dt, points, springs, interaction);
+		break;
+	}
 
-        case MIDPOINT:
-        {
-        	midpoint(dt, points, springs, interaction);
-            break;  
-        }            
-    }
+	case MIDPOINT: {
+		midpoint(dt, points, springs, interaction);
+		break;
+	}
+	}
 
 #ifdef _WRITE_FILE
 	writeToFile(points[1].getY(),points[1].getVelY(),method,dt,points,springs);
 #endif
 
 #ifdef _DEBUG
-    printData(points, springs);
+	printData(points, springs);
 #endif
-}       
+}
 
 /**
  * Euler Method - Implementation
@@ -155,24 +151,29 @@ void timeStep(double dt, Method method,
  * @param springs       vector of springs
  * @param interaction   switch user-force on or off
  */
-void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs, bool interaction)
-{
+void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs,
+		bool interaction) {
 	// preserve old values
 	vector<Mass> oldPoints(points.begin(), points.end());
 
 	// calculate internal forces - do it in advance with unchanged position
 	// F_int + F_user + F_repulsive; gravity added as acceleration later
-	for(vector<Mass>::iterator it = points.begin(); it != points.end(); ++it) {
-		it->setForce(f_int(*it, springs) + (it->getUserForce() * (interaction ? 1. : 0.)));
+	for (vector<Mass>::iterator it = points.begin(); it != points.end(); ++it) {
+		it->setForce(
+				f_int(*it, springs)
+						+ (it->getUserForce() * (interaction ? 1. : 0.)));
 	}
 	// update pos, vel of points using the old values
 	vector<Mass>::iterator old = oldPoints.begin();
-	for(vector<Mass>::iterator it = points.begin(); it != points.end() && old != oldPoints.end(); ++it,++old) {
-		if (!it->isFixed()) {
-			it->setPos(Eigen::Vector3d(old->getPos() + dt* old->getVel()));
+	for (vector<Mass>::iterator it = points.begin();
+			it != points.end() && old != oldPoints.end(); ++it, ++old) {
+		if (!it->fixed) {
+			it->setPos(Eigen::Vector3d(old->getPos() + dt * old->getVel()));
 		}
-		Eigen::Vector3d acc = (1 / old->getMass()) * (old->getForce() - old->getDamping()*old->getVel()) + gravity();
-	    it->setVel(Eigen::Vector3d(old->getVel() + (dt * acc)));
+		Eigen::Vector3d acc = (1 / old->mass)
+				* (old->getForce() - old->damping * old->getVel())
+				+ gravity();
+		it->setVel(Eigen::Vector3d(old->getVel() + (dt * acc)));
 	}
 }
 
@@ -185,12 +186,14 @@ void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs, bool in
 Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs) {
 	Eigen::Vector3d f = Eigen::Vector3d();
 	bool pt0;
-	for(vector<Spring>::iterator it = springs.begin(); it != springs.end(); ++it) {
-		if((pt0 = (it->getPoint(0) == &pt)) || it->getPoint(1) == &pt) {
-			Eigen::Vector3d diff = it->getPoint(1)->getPos() - it->getPoint(0)->getPos();
-			f += diff.normalized() *
-					((it->getRestLength() - diff.norm()) *
-							it->getStiffness() * (pt0 ? -1 : 1));
+	for (vector<Spring>::iterator it = springs.begin(); it != springs.end();
+			++it) {
+		if ((pt0 = (it->getMass(0) == &pt)) || it->getMass(1) == &pt) {
+			Eigen::Vector3d diff = it->getMass(1)->getPos()
+					- it->getMass(0)->getPos();
+			f += diff.normalized()
+					* ((it->restLength - diff.norm()) * it->stiffness
+							* (pt0 ? -1 : 1));
 		}
 	}
 	return f;
@@ -210,36 +213,43 @@ Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs) {
 void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
 	/* Reuses new position for velocity computation */
-	for (int i=0; i<(int)points.size(); i++){
-		if(!points[i].isFixed()){
+	for (int i = 0; i < (int) points.size(); i++) {
+		if (!points[i].fixed) {
 			/*Update position*/
-			points[i].setPos(points[i].getPos()+points[i].getVel()*dt);
+			points[i].setPos(points[i].getPos() + points[i].getVel() * dt);
 		}
 		/*Compute force due to gravity (initialize force with (0,0) if no gravity)*/
-		points[i].setForce(gravity() * points[i].getMass());
+		points[i].setForce(gravity() * points[i].mass);
 		/*Compute penalty force if mass hits the ground */
 		/*Add user force*/
-		points[i].setForce(Eigen::Vector3d(points[i].getForce()+(interaction ? 1.0 : 0.0)*points[i].getUserForce()));
+		points[i].setForce(
+				Eigen::Vector3d(
+						points[i].getForce()
+								+ (interaction ? 1.0 : 0.0)
+										* points[i].getUserForce()));
 	}
 
-	for (int j=0;j<(int)springs.size(); j++){
+	for (int j = 0; j < (int) springs.size(); j++) {
 		/*Add internal forces to point force*/
-		Mass* p1 = springs[j].getPoint(0);
-		Mass* p2 = springs[j].getPoint(1);
-		double k = springs[j].getStiffness();
-		double L = springs[j].getRestLength();
-		Eigen::Vector3d direction = p1->getPos()-p2->getPos();
-		Eigen::Vector3d internalF = direction.normalized()*k*(L-direction.norm());
-		p1->setForce(p1->getForce()+internalF);
-		p2->setForce(p2->getForce()-internalF);
+		Mass* p1 = springs[j].getMass(0);
+		Mass* p2 = springs[j].getMass(1);
+		double k = springs[j].stiffness;
+		double L = springs[j].restLength;
+		Eigen::Vector3d direction = p1->getPos() - p2->getPos();
+		Eigen::Vector3d internalF = direction.normalized() * k
+				* (L - direction.norm());
+		p1->setForce(p1->getForce() + internalF);
+		p2->setForce(p2->getForce() - internalF);
 	}
 
-	for (int i=0; i<(int)points.size(); i++){
-		if(!points[i].isFixed()){
+	for (int i = 0; i < (int) points.size(); i++) {
+		if (!points[i].fixed) {
 			/*Compute acceleration*/
-			Eigen::Vector3d acceleration = (points[i].getForce()-points[i].getVel()*points[i].getDamping())/points[i].getMass();
+			Eigen::Vector3d acceleration = (points[i].getForce()
+					- points[i].getVel() * points[i].damping)
+					/ points[i].mass;
 			/*Update velocity*/
-			points[i].setVel(points[i].getVel()+acceleration*dt);
+			points[i].setVel(points[i].getVel() + acceleration * dt);
 		}
 	}
 }
@@ -255,29 +265,32 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
 	for (int i = 0; i < (int) (points.size()); i++) {
 		/*Compute force due to gravity (initialize force with (0,0) if no gravity)*/
-		points[i].setForce(gravity() * points[i].getMass());
+		points[i].setForce(gravity() * points[i].mass);
 		/*Add penalty force and user force*/
 		points[i].setForce(
-				Eigen::Vector3d(points[i].getForce()
-						+ (interaction ? 1.0 : 0.0) * points[i].getUserForce()));
+				Eigen::Vector3d(
+						points[i].getForce()
+								+ (interaction ? 1.0 : 0.0)
+										* points[i].getUserForce()));
 	}
 	for (int j = 0; j < (int) (springs.size()); j++) {
 		/*Add internal forces*/
-		Mass* p1 = springs[j].getPoint(0);
-		Mass* p2 = springs[j].getPoint(1);
-		double k = springs[j].getStiffness();
-		double L = springs[j].getRestLength();
+		Mass* p1 = springs[j].getMass(0);
+		Mass* p2 = springs[j].getMass(1);
+		double k = springs[j].stiffness;
+		double L = springs[j].restLength;
 		Eigen::Vector3d direction = p1->getPos() - p2->getPos();
-		Eigen::Vector3d internalF = direction.normalized() * k * (L - direction.norm());
+		Eigen::Vector3d internalF = direction.normalized() * k
+				* (L - direction.norm());
 		p1->setForce(p1->getForce() + internalF);
 		p2->setForce(p2->getForce() - internalF);
 	}
 	for (int i = 0; i < (int) (points.size()); i++) {
-		if (!points[i].isFixed()) {
+		if (!points[i].fixed) {
 			/*Compute acceleration*/
 			Eigen::Vector3d acceleration = (points[i].getForce()
-					- points[i].getVel() * points[i].getDamping())
-					/ points[i].getMass();
+					- points[i].getVel() * points[i].damping)
+					/ points[i].mass;
 			/*Update velocity v(t+dt/2)*/
 			if (leapFrogInitialized) {
 				points[i].setVel(points[i].getVel() + acceleration * dt);
@@ -300,23 +313,23 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
  */
 void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
 	for (int i = 0; i < (int) ((points.size())); i++) {
-		points[i].setForce(gravity() * points[i].getMass());
+		points[i].setForce(gravity() * points[i].mass);
 		// Add penalty force and user force
 		points[i].setForce(
-				Eigen::Vector3d(points[i].getForce()
-						+ (interaction ? 1.0 : 0.0) * points[i].getUserForce()));
+				Eigen::Vector3d(
+						points[i].getForce()
+								+ (interaction ? 1.0 : 0.0)
+										* points[i].getUserForce()));
 	}
 	for (int i = 0; i < (int) ((springs.size())); i++) {
-		Eigen::Vector3d direction = springs[i].getPoint(0)->getPos()
-				- springs[i].getPoint(1)->getPos();
+		Eigen::Vector3d direction = springs[i].getMass(0)->getPos()
+				- springs[i].getMass(1)->getPos();
 		// internal force
-		Eigen::Vector3d f = direction.normalized() * springs[i].getStiffness()
-				* (springs[i].getRestLength() - direction.norm());
+		Eigen::Vector3d f = direction.normalized() * springs[i].stiffness
+				* (springs[i].restLength - direction.norm());
 		//Add internal forces
-		springs[i].getPoint(0)->setForce(
-				springs[i].getPoint(0)->getForce() + f);
-		springs[i].getPoint(1)->setForce(
-				springs[i].getPoint(1)->getForce() - f);
+		springs[i].getMass(0)->setForce(springs[i].getMass(0)->getForce() + f);
+		springs[i].getMass(1)->setForce(springs[i].getMass(1)->getForce() - f);
 	}
 }
 
@@ -339,24 +352,28 @@ void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 
 	// preserve old values
 	vector<Mass> oldPoints(points.begin(), points.end());
-	double h = dt/2.;
+	double h = dt / 2.;
 
 	for (int j = 0; j < 2; ++j) { // two half time-steps
 		// update f(t), f(t+h/2)
 		force(points, springs, interaction);
 
 		for (int i = 0; i < (int) (points.size()); i++) {
-			if (!points[i].isFixed()) {
+			if (!points[i].fixed) {
 				Eigen::Vector3d acc = (points[i].getForce()
-						- points[i].getDamping() * points[i].getVel())
-						/ points[i].getMass();
+						- points[i].damping * points[i].getVel())
+						/ points[i].mass;
 
 				// Compute position x(t+h/2), x(t+h)
 				// this must be updated before v(...)
-				points[i].setPos(Eigen::Vector3d(oldPoints[i].getPos() + h * points[i].getVel()));
+				points[i].setPos(
+						Eigen::Vector3d(
+								oldPoints[i].getPos()
+										+ h * points[i].getVel()));
 
 				// Compute position v(t+h/2), v(t+h)
-				points[i].setVel(Eigen::Vector3d(oldPoints[i].getVel() + h * acc));
+				points[i].setVel(
+						Eigen::Vector3d(oldPoints[i].getVel() + h * acc));
 			}
 		}
 		h = dt;
@@ -383,29 +400,29 @@ void analytical_spring(double dt, vector<Mass>& points,
 	/*Analytic solution of single hanging mass*/
 	double xt, vt;
 	t += dt;
-	double m = points[1].getMass();
+	double m = points[1].mass;
 	double g = -gravity().y();
-	double k = springs[0].getStiffness();
-	double damp_crit = 2* sqrt(m*k);
-	double w_r = points[1].getDamping() / (2 * m);
+	double k = springs[0].stiffness;
+	double damp_crit = 2 * sqrt(m * k);
+	double w_r = points[1].damping / (2 * m);
 	double w_ = sqrt(abs(k / m - w_r * w_r));
 	double A = m * g / k;
 	double B = w_r * m * g / (k * w_);
 	double ee = exp(-w_r * t);
-	if (points[1].getDamping() < damp_crit) { // weak damped case
+	if (points[1].damping < damp_crit) { // weak damped case
 		xt = ee * (A * cos(w_ * t) + B * sin(w_ * t)) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
 		vt = ee * (-A * w_ * sin(w_ * t) + B * w_ * cos(w_ * t))
-						- w_r * ee * (A * cos(w_ * t) + B * sin(w_ * t));
-	} else if (points[1].getDamping() > damp_crit) { // strong damped case
+				- w_r * ee * (A * cos(w_ * t) + B * sin(w_ * t));
+	} else if (points[1].damping > damp_crit) { // strong damped case
 		xt = ee * (A * exp(w_ * t) + B * exp(-w_ * t)) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
 		vt = ee * (A * w_ * exp(w_ * t) + B * -w_ * exp(-w_ * t))
-						- w_r * ee * (A * exp(w_ * t) + B * exp(w_ * t));
-	} else { // (points[1].getDamping() == damp_crit) // aperiodic case
+				- w_r * ee * (A * exp(w_ * t) + B * exp(w_ * t));
+	} else { // (points[1].damping == damp_crit) // aperiodic case
 		xt = ee * (A + B * t) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
-		vt = ee * B	- w_r * ee * (A + B * t);
+		vt = ee * B - w_r * ee * (A + B * t);
 	}
-	points[1].setPos(Eigen::Vector3d(0.,xt,0.));
-	points[1].setVel(Eigen::Vector3d(0.,vt,0.));
+	points[1].setPos(Eigen::Vector3d(0., xt, 0.));
+	points[1].setVel(Eigen::Vector3d(0., vt, 0.));
 }
 
 Eigen::Vector3d gravity() {
@@ -418,19 +435,19 @@ Eigen::Vector3d gravity() {
 }
 
 #ifdef _WRITE_FILE
-void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points,vector<Spring>& springs){
+void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points,vector<Spring>& springs) {
 	static int compstep=0;
 	static bool compfinished=false;
-	static const int numberofsteps=10000;//10 second when dt=0.001
+	static const int numberofsteps=10000; //10 second when dt=0.001
 	static double xt[numberofsteps], vt[numberofsteps];
 	static int compi=0;
 	if(compi<=0) {
 		fprintf (stdout, "collecting data ...\n");
 	}
 	compstep+=1;
-	if(compfinished){
+	if(compfinished) {
 		return;
-	}else if(compstep>numberofsteps){
+	} else if(compstep>numberofsteps) {
 		compfinished=true;
 		//write to csv file
 		int i;
@@ -463,16 +480,16 @@ void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mas
 				break;
 			}
 		}
-		fprintf(pFile,"step,%f\ndamping,%f\nmass,%f\nk spring,%f\n",dt,points[1].getDamping(),points[1].getMass(),springs[0].getStiffness());
+		fprintf(pFile,"step,%f\ndamping,%f\nmass,%f\nk spring,%f\n",dt,points[1].damping,points[1].mass,springs[0].stiffness);
 		fprintf(pFile,"y(t),v_y(t)\n");
-		for(i=0;i<compi;i++){
+		for(i=0;i<compi;i++) {
 			fprintf(pFile,"%f,",xt[i]);
 			fprintf(pFile,"%f,",vt[i]);
 			fprintf(pFile,"\n");
 		}
 		fclose (pFile);
 		fprintf(stdout,"Results written to file %s.\n", _WRITE_FILE);
-	}else{
+	} else {
 		xt[compi]=xt_;
 		vt[compi]=vt_;
 		compi++;
@@ -480,4 +497,5 @@ void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mas
 }
 #endif
 
-} // namespace std
+}
+ // namespace std

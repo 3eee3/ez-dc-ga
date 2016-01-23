@@ -9,18 +9,20 @@
 #define SRC_SIMULATION_H_
 
 namespace std {
-	//XXX remove this
-	/* Numerical solver */
-	//    enum Method{EULER, SYMPLECTIC, LEAPFROG, MIDPOINT};
-	enum Method{EULER, SYMPLECTIC, LEAPFROG, MIDPOINT, ANALYTICAL}; // modified version
-	/* Test scene */
 
-	// XXX end
-	void timeStep(double dt, Method method,
-	              vector<Mass> &points, vector<Spring> &springs, bool interaction);
+/* mass spring - numerical solver */
+class Simulation {
+public:
+//XXX remove this
+	enum Method {
+		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT, ANALYTICAL
+	};
+// XXX end
 
-}
+	static void step(double dt, Method method, vector<Mass> &points,
+			vector<Spring> &springs);
+};
 
-
+} // namespace std
 
 #endif /* SRC_SIMULATION_H_ */

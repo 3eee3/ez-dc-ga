@@ -1,68 +1,46 @@
-/******************************************************************
-*
-* Spring.cpp
-*
-* Description: Implementation of functions for handling springs
-*
-* Physically-Based Simulation Proseminar WS 2015
-* 
-* Interactive Graphics and Simulation Group
-* Institute of Computer Science
-* University of Innsbruck
-*
-*******************************************************************/
-
+/*
+ * Spring.cpp
+ *
+ * 	Created on: Jan 23, 2016
+ *  Based on the Spring class used during the winter term 2015/16
+ *  in the physically based simulations course.
+ */
 
 #include "Spring.h"
 #include <GL/freeglut.h> 
 
-
-void Spring::init(Mass *_p0, Mass *_p1) 
-{
-    /* Initialize spring with pointers to both mass points */
-    p0=_p0; 
-    p1=_p1; 
-
-    /* Assume rest length is given by initial configuration */
-    restLength = (p0->getPos() - p1->getPos()).norm();
+Spring::Spring(double stiff, double restLen) :
+		stiffness(stiff), restLength(restLen), m0(new Mass), m1(new Mass) {
 }
 
-void Spring::render()
-{
-    /* Render spring as gray line */
-    glColor3f(0.5, 0.5, 0.5);
-    glLineWidth(5);
-    glBegin(GL_LINES);
-        glVertex3d(p0->getX(), p0->getY(), p0->getZ());
-        glVertex3d(p1->getX(), p1->getY(), p1->getZ());
-    glEnd();
+Spring::Spring(Mass* mass0, Mass* mass1, double stiff, double restLen) :
+		stiffness(stiff), restLength(restLen), m0(mass0), m1(mass1) {
 }
 
-void Spring::setRestLength(double L)
-{
-    restLength = L;
+Spring::~Spring() {
 }
 
-double Spring::getRestLength()
-{
-    return restLength;
+/**
+ * Initialize spring with two given masses and set the rest length
+ * to the distance of the two points.
+ * @param mass0 mass at end point
+ * @param mass1 mass at end point
+ */
+void Spring::init(Mass* mass0, Mass* mass1) {
+	m0 = mass0;
+	m1 = mass1;
+	restLength = (m0->getPos() - m1->getPos()).norm();
 }
 
-void Spring::setStiffness(double k)
-{
-    stiffness = k;
-}
-
-double Spring::getStiffness()
-{
-    return stiffness;
-}
-
-Mass *Spring::getPoint(int i)
-{
-    /* Return point 1 or 0 (assume i = 0,1) */
-    if(i)
-        return p1;
-    else
-        return p0;
+/**
+ * Get a mass.
+ * @param i 0 or 1 to select the mass
+ * @return the selected mass
+ */
+Mass* Spring::getMass(int i) {
+	if (i != 0) {
+		return m1;
+	} else {
+		return m0;
+	}
 }
