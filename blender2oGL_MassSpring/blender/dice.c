@@ -9,7 +9,6 @@
  * # normals   =     6 - start index =     0
  * # faces     =    12
  * contains converted polygons of triangle fan shape
- * includes masses and springs structures
  *
  * model statistics:
  * name: "dice_Die"
@@ -18,6 +17,7 @@
  * # normals   =     6 - start index =     6
  * # faces     =    12
  * contains converted polygons of triangle fan shape
+ * includes masses and springs structures
  *
  * # positions total =    16
  * # texels total    =    28
@@ -272,23 +272,19 @@ const size_t diceMassVertices[1] = {
 	36,
 };
 
-const size_t diceMassRevOffsSrc[1] = {
-	0,
-};
-
-const size_t diceMassRevOffsTgt[1] = {
+const size_t diceMassRevOffs[1] = {
 	0,
 };
 
 const size_t diceFwdIndexI[36] = {
-	0, 3, 12, 15, 31,
-	1, 17, 18, 21,
-	2, 4, 23, 24, 27,
-	5, 29, 32, 34,
-	6, 9, 13, 30, 33,
-	11, 14, 16, 19,
-	8, 10, 20, 22, 25,
-	7, 26, 28, 35,
+	36, 39, 48, 51, 67,
+	37, 53, 54, 57,
+	38, 40, 59, 60, 63,
+	41, 65, 68, 70,
+	42, 45, 49, 66, 69,
+	47, 50, 52, 55,
+	44, 46, 56, 58, 61,
+	43, 62, 64, 71,
 };
 
 const size_t* diceFwdIndex[8] = {

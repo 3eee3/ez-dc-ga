@@ -290,8 +290,7 @@ void ObjectFileReader::genDeclarations(string hdr, ofstream* fp) {
 		*fp << "extern const size_t " << hdr << "MassFwdOffs[" << o << "];\n";
 		if (reverseMass) {
 			*fp << "extern const size_t " << hdr << "MassVertices[" << o << "];\n";
-			*fp << "extern const size_t " << hdr << "MassRevOffsSrc[" << o << "];\n";
-			*fp << "extern const size_t " << hdr << "MassRevOffsTgt[" << o << "];\n";
+			*fp << "extern const size_t " << hdr << "MassRevOffs[" << o << "];\n";
 		}
 		*fp << "\nextern const size_t " << hdr << "FwdIndexI[" << n << "];\n";
 		*fp << "extern const size_t* " << hdr << "FwdIndex[" << p << "];\n";
@@ -602,23 +601,13 @@ void ObjectFileReader::writeCmasses(ofstream* fp) {
 			}
 			*fp << "};\n" << endl;
 
-			*fp << "const size_t " << hdr << "MassRevOffsSrc[" << o << "] = {\n";
+			*fp << "const size_t " << hdr << "MassRevOffs[" << o << "] = {\n";
 			ofs = 0;
 			for (Object3dModel m : models) {
 				if (m.massSpring) {
 					*fp << "\t" << ofs << ",\n";
 					ofs += m.nVertices;
 				}
-			}
-			*fp << "};\n" << endl;
-
-			*fp << "const size_t " << hdr << "MassRevOffsTgt[" << o << "] = {\n";
-			ofs = 0;
-			for (Object3dModel m : models) {
-				if (m.massSpring) {
-					*fp << "\t" << ofs << ",\n";
-				}
-				ofs += m.nVertices;
 			}
 			*fp << "};\n" << endl;
 		}

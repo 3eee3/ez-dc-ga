@@ -106,8 +106,7 @@ void Object3dModel::genDeclarations(ofstream* fp) {
 		*fp << "extern const size_t " << name << "MassFwdOffs[1];\n";
 		if (revMapping) {
 			*fp << "extern const size_t " << name << "MassVertices[1];\n";
-			*fp << "extern const size_t " << name << "MassRevOffsSrc[1];\n";
-			*fp << "extern const size_t " << name << "MassRevOffsTgt[1];\n";
+			*fp << "extern const size_t " << name << "MassRevOffs[1];\n";
 		}
 		*fp << endl;
 
@@ -430,8 +429,7 @@ void Object3dModel::writeCmasses(ofstream* fp) {
 	*fp << "const size_t " << name << "MassFwdOffs[1] = {0};\n";
 	if (revMapping) {
 		*fp << "const size_t " << name << "MassVertices[1] = {" << nVertices << "};\n";
-		*fp << "const size_t " << name << "MassRevOffsSrc[1] = {0};\n";
-		*fp << "const size_t " << name << "MassRevOffsTgt[1] = {0};\n";
+		*fp << "const size_t " << name << "MassRevOffs[1] = {0};\n";
 	}
 	*fp << endl;
 }
