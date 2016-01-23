@@ -20,7 +20,7 @@
  */
 
 /* activate the small model with two dice by uncommenting this line */
-#define _DEBUG_OGL_MODEL
+//#define _DEBUG_OGL_MODEL
 
 #include <GL/gl.h>
 #include <cstddef>
@@ -63,18 +63,39 @@ GLfloat* model3dNormals = MODEL(Normals);
 
 //FIXME not finished yet
 /*
- * Index Mapping Arrays:
- *
+ * Index Mapping Arrays: masses and springs mapping
+ * The dots of ...Name indicate a variable-name with prefix which is mapped to variable 'model3dName'.
  */
-const size_t model3dMassesLength = 0;
-const size_t model3dSpringsLength = 0;
-const size_t* model3dMasses = nullptr;
-const size_t* model3dSprings = nullptr;
 /* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */
-const size_t* model3dFwdIndexI = nullptr; //FIXME needed?
-const size_t** model3dFwdIndex = nullptr;
-const size_t* model3dFwdIndexLength = nullptr;
-const size_t* model3dRevIndex = nullptr;
+
+/* number of objects with mass - the following arrays are of this size */
+const size_t model3dObjectsWithMass = MODEL(ObjectsWithMass);
+
+/* for each model ... */
+/* number of masses = length of portions in arrays ...MassFwdIndex and ...MassFwdLength */
+const size_t* model3dMasses = MODEL(Masses);
+
+/* index offset for arrays ...MassFwdIndex and ...MassFwdLength */
+const size_t* model3dMassFwdOffs = MODEL(MassFwdOffs);
+
+/* total number of vertices of an object with masses */
+const size_t* model3dMassVertices = MODEL(MassVertices);
+
+/* index offset for array ...RevIndex */
+const size_t* model3dMassRevOffsSrc = MODEL(MassRevOffsSrc);
+
+/* vertex offset to first position, texel and normal */
+const size_t* model3dMassRevOffsTgt = MODEL(MassRevOffsTgt);
+
+/* for each mass ... */
+/* mapping of mass to all owning vertices, e.g.: ...FwdIndex[i_mass][i_vertex] = index of vertex */
+const size_t** model3dFwdIndex = MODEL(FwdIndex);
+
+/* each mass is composed of a different number of vertices - number of vertices per mass */
+const size_t* model3dFwdIndexLength = MODEL(FwdIndexLength);
+
+/* mapping of vertex to mass, e.g.: ...RevIndex[i_vertex - ...MassRevOffsTgt[i_object]] = index of mass */
+const size_t* model3dRevIndex = MODEL(RevIndex);
 
 /*
  * Object Topology Informations:
@@ -101,14 +122,15 @@ const size_t model3dVertices = diceVertices;
 GLfloat* model3dPositions = dicePositions;
 GLfloat* model3dTexels = diceTexels;
 GLfloat* model3dNormals = diceNormals;
-const size_t model3dMassesLength = 0;
-const size_t model3dSpringsLength = 0;
-const size_t* model3dMasses;
-const size_t* model3dSprings;
-const size_t* model3dFwdIndexI; //FIXME needed?
-const size_t** model3dFwdIndex;
-const size_t* model3dFwdIndexLength;
-const size_t* model3dRevIndex;
+const size_t model3dObjectsWithMass = diceObjectsWithMass;
+const size_t* model3dMasses = diceMasses;
+const size_t* model3dMassFwdOffs = diceMassFwdOffs;
+const size_t* model3dMassVertices = diceMassVertices;
+const size_t* model3dMassRevOffsSrc = diceMassRevOffsSrc;
+const size_t* model3dMassRevOffsTgt = diceMassRevOffsTgt;
+const size_t** model3dFwdIndex = (const size_t**) diceFwdIndex;
+const size_t* model3dFwdIndexLength = diceFwdIndexLength;
+const size_t* model3dRevIndex = diceRevIndex;
 const size_t model3dObjects = diceObjects; //FIXME hardcoded data
 const size_t* model3dObjectOffset = diceObjectOffset;
 const size_t* model3dObjectLength = diceObjectLength;

@@ -23,11 +23,13 @@
  * # texels    =  3723 - start index =     7
  * # normals   =    35 - start index =    81
  * # faces     =  6144
+ * includes masses and springs structures
  *
  * # positions total =  3859
  * # texels total    =  3730
  * # normals total   =   116
  * # faces total     =  6872
+ * includes masses and springs structures
  */
 
 #ifndef __SKIRT_SPHERE_H__
@@ -47,6 +49,20 @@ extern const size_t skirt_sphereVertices;
 extern GLfloat skirt_spherePositions[61848];
 extern GLfloat skirt_sphereTexels[41232];
 extern GLfloat skirt_sphereNormals[61848];
+
+/* all masses and springs */
+/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */
+extern const size_t skirt_sphereObjectsWithMass;
+extern const size_t skirt_sphereMasses[1];
+extern const size_t skirt_sphereMassFwdOffs[1];
+extern const size_t skirt_sphereMassVertices[1];
+extern const size_t skirt_sphereMassRevOffsSrc[1];
+extern const size_t skirt_sphereMassRevOffsTgt[1];
+
+extern const size_t skirt_sphereFwdIndexI[18432];
+extern const size_t* skirt_sphereFwdIndex[3456];
+extern const size_t skirt_sphereFwdIndexLength[3456];
+extern const size_t skirt_sphereRevIndex[18432];
 
 /* object metadata */
 extern const size_t skirt_sphereObjects;

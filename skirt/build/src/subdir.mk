@@ -16,6 +16,7 @@ CPP_SRCS += \
 
 C_SRCS += \
 ../src/SGIimage.c \
+../src/dice.c \
 ../src/skirt_sphere.c 
 
 OBJS += \
@@ -27,12 +28,14 @@ OBJS += \
 ./src/Scene.o \
 ./src/Simulation.o \
 ./src/Spring.o \
+./src/dice.o \
 ./src/main.o \
 ./src/model_mapping.o \
 ./src/skirt_sphere.o 
 
 C_DEPS += \
 ./src/SGIimage.d \
+./src/dice.d \
 ./src/skirt_sphere.d 
 
 CPP_DEPS += \

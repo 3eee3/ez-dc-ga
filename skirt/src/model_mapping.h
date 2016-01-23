@@ -33,13 +33,14 @@ extern GLfloat* model3dPositions;
 extern GLfloat* model3dTexels;
 extern GLfloat* model3dNormals;
 
-//FIXME not finished yet
 // Index Mapping Arrays
-extern const size_t model3dMassesLength;
-extern const size_t model3dSpringsLength;
+extern const size_t model3dObjectsWithMass;
 extern const size_t* model3dMasses;
-extern const size_t* model3dSprings;
-extern const size_t* model3dFwdIndexI; //FIXME needed?
+extern const size_t* model3dMassFwdOffs;
+extern const size_t* model3dMassVertices;
+extern const size_t* model3dMassRevOffsSrc;
+extern const size_t* model3dMassRevOffsTgt;
+
 extern const size_t** model3dFwdIndex;
 extern const size_t* model3dFwdIndexLength;
 extern const size_t* model3dRevIndex;

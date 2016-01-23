@@ -9,6 +9,7 @@
  * # normals   =     6 - start index =     0
  * # faces     =    12
  * contains converted polygons of triangle fan shape
+ * includes masses and springs structures
  *
  * model statistics:
  * name: "dice_Die"
@@ -22,6 +23,7 @@
  * # texels total    =    28
  * # normals total   =    12
  * # faces total     =    24
+ * includes masses and springs structures
  */
 
 #include <stddef.h>
@@ -254,6 +256,76 @@ GLfloat diceNormals[216] = {
 	0.00000f, 0.00000f, -1.00000f,
 	0.00000f, 0.00000f, -1.00000f,
 	0.00000f, 0.00000f, -1.00000f,
+};
+
+const size_t diceObjectsWithMass = 1;
+
+const size_t diceMasses[1] = {
+	8,
+};
+
+const size_t diceMassFwdOffs[1] = {
+	0,
+};
+
+const size_t diceMassVertices[1] = {
+	36,
+};
+
+const size_t diceMassRevOffsSrc[1] = {
+	0,
+};
+
+const size_t diceMassRevOffsTgt[1] = {
+	0,
+};
+
+const size_t diceFwdIndexI[36] = {
+	0, 3, 12, 15, 31,
+	1, 17, 18, 21,
+	2, 4, 23, 24, 27,
+	5, 29, 32, 34,
+	6, 9, 13, 30, 33,
+	11, 14, 16, 19,
+	8, 10, 20, 22, 25,
+	7, 26, 28, 35,
+};
+
+const size_t* diceFwdIndex[8] = {
+	&diceFwdIndexI[0],
+	&diceFwdIndexI[5],
+	&diceFwdIndexI[9],
+	&diceFwdIndexI[14],
+	&diceFwdIndexI[18],
+	&diceFwdIndexI[23],
+	&diceFwdIndexI[27],
+	&diceFwdIndexI[32],
+};
+
+const size_t diceFwdIndexLength[8] = {
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
+};
+
+const size_t diceRevIndex[36] = {
+	0, 1, 2,
+	0, 2, 3,
+	4, 7, 6,
+	4, 6, 5,
+	0, 4, 5,
+	0, 5, 1,
+	1, 5, 6,
+	1, 6, 2,
+	2, 6, 7,
+	2, 7, 3,
+	4, 0, 3,
+	4, 3, 7,
 };
 
 const size_t diceObjects = 2;
