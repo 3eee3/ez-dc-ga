@@ -38,8 +38,7 @@ extern const size_t model3dObjectsWithMass;
 extern const size_t* model3dMasses;
 extern const size_t* model3dMassFwdOffs;
 extern const size_t* model3dMassVertices;
-extern const size_t* model3dMassRevOffsSrc;
-extern const size_t* model3dMassRevOffsTgt;
+extern const size_t* model3dMassRevOffs;
 
 extern const size_t** model3dFwdIndex;
 extern const size_t* model3dFwdIndexLength;

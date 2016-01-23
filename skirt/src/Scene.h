@@ -20,16 +20,19 @@ public:
 	Scene();
 	Scene(int argc, char* argv[]);
 	virtual ~Scene();
+
 	void initialize();
 	void update();
 	void render();
 	double getStep() const;
+	void updateNormals();
 
 private:
 	double step;
-    double mass = 0.15;      /* Identical mass for all points */
-    double stiffness = 60.0; /* Identical spring stiffness for all springs */
-    double damping = 0.08;   /* Identical damping for all points */
+    double mass;
+    double stiffness;
+    double weak_stiff;
+    double damping;
     vector<Mass> points;
     vector<Spring> springs;
 };

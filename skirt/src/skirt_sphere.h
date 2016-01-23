@@ -56,8 +56,7 @@ extern const size_t skirt_sphereObjectsWithMass;
 extern const size_t skirt_sphereMasses[1];
 extern const size_t skirt_sphereMassFwdOffs[1];
 extern const size_t skirt_sphereMassVertices[1];
-extern const size_t skirt_sphereMassRevOffsSrc[1];
-extern const size_t skirt_sphereMassRevOffsTgt[1];
+extern const size_t skirt_sphereMassRevOffs[1];
 
 extern const size_t skirt_sphereFwdIndexI[18432];
 extern const size_t* skirt_sphereFwdIndex[3456];

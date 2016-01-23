@@ -84,10 +84,7 @@ const size_t* model3dMassFwdOffs = MODEL(MassFwdOffs);
 const size_t* model3dMassVertices = MODEL(MassVertices);
 
 /* index offset for array ...RevIndex */
-const size_t* model3dMassRevOffsSrc = MODEL(MassRevOffsSrc);
-
-/* vertex offset to first position, texel and normal */
-const size_t* model3dMassRevOffsTgt = MODEL(MassRevOffsTgt);
+const size_t* model3dMassRevOffs = MODEL(MassRevOffs);
 
 /* for each mass ... */
 /* mapping of mass to all owning vertices, e.g.: ...FwdIndex[i_mass][i_vertex] = index of vertex */
@@ -128,8 +125,7 @@ const size_t model3dObjectsWithMass = diceObjectsWithMass;
 const size_t* model3dMasses = diceMasses;
 const size_t* model3dMassFwdOffs = diceMassFwdOffs;
 const size_t* model3dMassVertices = diceMassVertices;
-const size_t* model3dMassRevOffsSrc = diceMassRevOffsSrc;
-const size_t* model3dMassRevOffsTgt = diceMassRevOffsTgt;
+const size_t* model3dMassRevOffs = diceMassRevOffs;
 const size_t** model3dFwdIndex = (const size_t**) diceFwdIndex;
 const size_t* model3dFwdIndexLength = diceFwdIndexLength;
 const size_t* model3dRevIndex = diceRevIndex;

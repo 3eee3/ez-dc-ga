@@ -74,8 +74,8 @@ void initialize() {
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
 
-//	glEnable(GL_NORMALIZE);
 //	glEnable(GL_AUTO_NORMAL);
+//	glEnable(GL_NORMALIZE);
 
     GLfloat lposition[] = {2.0f, 2.0f, 2.0f, 0.0f};
 //    GLfloat lposition[] = {9.0f, 9.0f, 9.0f, 0.0f};
@@ -115,7 +115,6 @@ void reshapeCallback(int w, int h) {
 
 void displayCallback() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//TODO implement
 	ulong curTime = getTime();
 	static ulong prevTime = curTime;
@@ -174,15 +173,14 @@ int main (int argc, char* argv[]) {
 #ifndef _WIN32
 	Accelerometer::accelerometerInitDevice(argc, argv);
 #endif
+	scene = new Scene(argc, argv);
+
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(50, 50);
 	glutInitWindowSize(600, 600);
 	glutCreateWindow("Cloth simulation");
 
-	//TODO implement 3D model and physics engine
-
-	scene = new Scene();
 	initialize();
 
 	glutMotionFunc(motionCallback);

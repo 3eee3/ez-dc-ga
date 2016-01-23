@@ -61910,12 +61910,8 @@ const size_t skirt_sphereMassVertices[1] = {
 	18432,
 };
 
-const size_t skirt_sphereMassRevOffsSrc[1] = {
+const size_t skirt_sphereMassRevOffs[1] = {
 	0,
-};
-
-const size_t skirt_sphereMassRevOffsTgt[1] = {
-	2184,
 };
 
 const size_t skirt_sphereFwdIndexI[18432] = {
