@@ -35,21 +35,24 @@ inline void printHelp(char* argv[], std::ostream* out = &std::cout) {
 	}
 	*out << "USAGE: " << prog.substr(start) << " -options source-file.obj\n";
 	*out << "Options are:\n";
-	*out << "\t-t target-folder     the destination folder (default: same as folder\n";
-	*out << "\t                     with source file)\n";
-	*out << "\t-s (default)         separate declarations (in .h file) and instances\n";
+	*out << "\t-t target-folder   - the destination folder (default: same as the folder\n";
+	*out << "\t                     containing the source file)\n";
+	*out << "\t-s (default)       - separate declarations (in .h file) and instances\n";
 	*out << "\t                     (in .c file)\n";
-	*out << "\t-c                   combine contents into .h file\n";
-	*out << "\t-m                   merge all objects to single arrays\n";
-	*out << "\t-a model             add mass and spring structures to this model.\n";
+	*out << "\t-c                 - combine contents into .h file\n";
+	*out << "\t-m                 - merge all objects to single arrays\n";
+	*out << "\t-a model           - add mass and spring structures to this model.\n";
 	*out << "\t                     This option may be used multiple times to select\n";
-	*out << "\t                     more than one active object.\n";
-	*out << "\t-r                   include reverse mapping for positions array.\n";
+	*out << "\t                     more than one active object. The name of the model\n";
+	*out << "\t                     is composed of the input file-name without \".obj\"\n";
+	*out << "\t                     suffix and the \"o\" entry in the file in the shape\n";
+	*out << "\t                     of <source-file>_<o-entry>, e.g. \"myFile_myObject\".\n";
+	*out << "\t-r                 - include reverse mapping for positions array.\n";
 	*out << "\t                     This option takes only effect if the -a option\n";
 	*out << "\t                     is passed at least once.\n";
-	*out << "\t-o                   add object metadata\n";
-	*out << "\t-v                   print statistics (verbose)\n";
-	*out << "\t-h or -?             show this help text\n";
+	*out << "\t-o                 - add object metadata\n";
+	*out << "\t-v                 - print statistics (verbose)\n";
+	*out << "\t-h or -?           - show this help text\n";
 	*out << "Hint: Don't use shortcuts like ~ or %HOMEPATH% in paths." << std::endl;
 }
 
@@ -98,9 +101,14 @@ int main(int argc, char* argv[]) {
 	std::vector<std::string> activeObj;
 	std::string srcPath;
 	std::string dstPath;
+	enum parse_state{UNPARSED, STARTED, DONE}
+		srcParsed = UNPARSED;
 
 	int arg = 1;
 	while (arg < argc) {
+		if (argv[arg][0] == '-' && srcParsed == STARTED) {
+			srcParsed = DONE;
+		}
 		if (!strcmp(argv[arg], "-t")) {
 			if (++arg < argc && argv[arg][0] != '-') {
 			dstPath = std::string(argv[arg]);
@@ -129,7 +137,19 @@ int main(int argc, char* argv[]) {
 			printHelp(argv);
 			exit(EXIT_SUCCESS);
 		} else {
-			srcPath = argv[arg];
+			switch (srcParsed) {
+			case UNPARSED:
+				srcPath = argv[arg];
+				srcParsed = STARTED;
+				break;
+			case STARTED:
+				srcPath += " " + std::string(argv[arg]);
+				break;
+			case DONE:
+				exitErr(argv, "Invalid argument" + std::string(argv[arg]));
+				break;
+			}
+
 		}
 		++arg;
 	}
@@ -154,7 +174,7 @@ int main(int argc, char* argv[]) {
 		struct stat buf;
 		stat(srcPath.c_str(), &buf);
 		if (!S_ISREG(buf.st_mode)) {
-			exitErr(argv, "Source: " + srcPath + " is no file.");
+			exitErr(argv, "Source: " + srcPath + " not found or is no valid file.");
 		}
 	}
 
@@ -167,14 +187,19 @@ int main(int argc, char* argv[]) {
     try {
     	reader.readAll();
     	std::cout << "\nImported " << reader.models.size() << " 3D-models." << std::endl;
+        for(std::Object3dModel m : reader.models) {
+        	std::cout << "\t" << m.name << std::endl;
+        }
+        std::cout << std::endl;
     } catch (std::exception &e) {
     	exitErr(argv, e.what());
     }
     for(size_t i = 0; i<reader.models.size(); ++i) {
-//    	std::Object3dModel m = reader.models[i];
     	for (std::string s : activeObj) {
     		if(!reader.models[i].name.compare(s)) {
-    			reader.models[i].setMassSpring(reverse);//FIXME reverse here needed?
+    			reader.models[i].setMassSpring(reverse);
+    			std::cout << "Selected for mass-spring processing: "
+    					<< reader.models[i].name << std::endl;
     			break;
     		}
     	}

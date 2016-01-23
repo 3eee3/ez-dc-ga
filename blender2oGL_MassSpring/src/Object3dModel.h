@@ -49,8 +49,8 @@ private:
 	void writeCnormals(ofstream* fp);
 	void writeCmasses(ofstream* fp);
 	void writeCsprings(ofstream* fp);
-	void writeForwardIdx(ofstream* fp);
-	void writeReverseIdx(ofstream* fp);
+	void writeForwardIdx(ofstream* fp, size_t offs = 0, int mode = 0, string prefix = "");
+	void writeReverseIdx(ofstream* fp, size_t offs, bool closed = true);
 	void writeVertexData(ofstream* fp, float* data, size_t offs, size_t k,
 			size_t n);
 	void writeObjectSummary(ofstream* fp);

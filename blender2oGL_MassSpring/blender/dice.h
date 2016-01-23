@@ -9,6 +9,7 @@
  * # normals   =     6 - start index =     0
  * # faces     =    12
  * contains converted polygons of triangle fan shape
+ * includes masses and springs structures
  *
  * model statistics:
  * name: "dice_Die"
@@ -22,6 +23,7 @@
  * # texels total    =    28
  * # normals total   =    12
  * # faces total     =    24
+ * includes masses and springs structures
  */
 
 #ifndef __DICE_H__
@@ -41,6 +43,20 @@ extern const size_t diceVertices;
 extern GLfloat dicePositions[216];
 extern GLfloat diceTexels[144];
 extern GLfloat diceNormals[216];
+
+/* all masses and springs */
+/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */
+extern const size_t diceObjectsWithMass;
+extern const size_t diceMasses[1];
+extern const size_t diceMassFwdOffs[1];
+extern const size_t diceMassVertices[1];
+extern const size_t diceMassRevOffsSrc[1];
+extern const size_t diceMassRevOffsTgt[1];
+
+extern const size_t diceFwdIndexI[36];
+extern const size_t* diceFwdIndex[8];
+extern const size_t diceFwdIndexLength[8];
+extern const size_t diceRevIndex[36];
 
 /* object metadata */
 extern const size_t diceObjects;

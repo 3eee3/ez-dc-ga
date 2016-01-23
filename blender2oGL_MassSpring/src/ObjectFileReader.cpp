@@ -96,7 +96,7 @@ Object3dModel ObjectFileReader::read() {
 			totalVert += (3*f);
 
 			// read data
-			Object3dModel model = Object3dModel(p, t, n, f, reverseMass);
+			Object3dModel model = Object3dModel(p, t, n, f);
 			model.name = string(objects[objNo]);
 			model.hasConvPoly = warnConverted;
 			done = false;
@@ -269,24 +269,33 @@ void ObjectFileReader::genDeclarations(string hdr, ofstream* fp) {
 	*fp << "extern GLfloat " << hdr << "Positions[" << totalVert * 3 << "];\n";
 	*fp << "extern GLfloat " << hdr << "Texels[" << totalVert * 2 << "];\n";
 	*fp << "extern GLfloat " << hdr << "Normals[" << totalVert * 3 << "];\n";
-	int m = 0;
-	int n = 0;
-	for (Object3dModel o : models) {
-		if (o.isMassSpring()) {
-			m += o.nPositions;
-			n += o.nVertices;
+	size_t o = 0;
+	size_t n = 0;
+	size_t p = 0;
+	for (Object3dModel m : models) {
+		if (m.isMassSpring()) {
+			++o;
+			n += m.nVertices;
+			p += m.nPositions;
 		}
 	}
-	if (m > 0) {
+	if (o > 0) {
 		*fp << "\n/* all masses and springs */\n";
-		*fp << "extern const size_t " << hdr << "MassesLength;\n";
-		*fp << "extern const size_t " << hdr << "SpringsLength;\n";
-		*fp << "extern const size_t " << hdr << "Masses[" << m << "];\n"; //FIXME needed?
-		*fp << "extern const size_t " << hdr << "Springs[" << m * 2 << "];\n\n"; //FIXME size
 		*fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */\n";
-		*fp << "extern const size_t " << hdr << "FwdIndexI[" << n << "];\n";
-		*fp << "extern const size_t* " << hdr << "FwdIndex[" << m << "];\n";
-		*fp << "extern const size_t " << hdr << "FwdIndexLength[" << m << "];\n";
+
+		string hdr = prefix.substr(0, prefix.size()-1);
+		*fp << "extern const size_t " << hdr << "ObjectsWithMass;\n";
+
+		*fp << "extern const size_t " << hdr << "Masses[" << o << "];\n";
+		*fp << "extern const size_t " << hdr << "MassFwdOffs[" << o << "];\n";
+		if (reverseMass) {
+			*fp << "extern const size_t " << hdr << "MassVertices[" << o << "];\n";
+			*fp << "extern const size_t " << hdr << "MassRevOffsSrc[" << o << "];\n";
+			*fp << "extern const size_t " << hdr << "MassRevOffsTgt[" << o << "];\n";
+		}
+		*fp << "\nextern const size_t " << hdr << "FwdIndexI[" << n << "];\n";
+		*fp << "extern const size_t* " << hdr << "FwdIndex[" << p << "];\n";
+		*fp << "extern const size_t " << hdr << "FwdIndexLength[" << p << "];\n";
 		if (reverseMass) {
 			*fp << "extern const size_t " << hdr << "RevIndex[" << n << "];\n";
 		}
@@ -304,6 +313,7 @@ void ObjectFileReader::genDeclarations(string hdr, ofstream* fp) {
 		*fp << "extern const char* " << hdr << "ObjectNames[" << objects.size() << "];\n";
 		*fp << "extern const char " << hdr << "TextureFilePath[" << textureFilePath.length()+1 << "];\n";
 	}
+	*fp << flush;
 }
 
 /**
@@ -486,7 +496,7 @@ void ObjectFileReader::writeHeader(ofstream* fp, bool isHfile) {
     	}
     }
     *fp << "\n// Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.\n\n";
-    for (size_t i = 0; i < models.size() && i < MAX_N; ++i) {
+    for (size_t i = 0; i < models.size(); ++i) {
     	models[i].writeStatistics(fp, true, i==0 ? 1 : 2);
     }
     // summary
@@ -551,11 +561,68 @@ void ObjectFileReader::writeCnormals(ofstream* fp) {
 }
 
 /**
- * Generate masses array
+ * Generate masses array size informations
  * @param fp target c-file
  */
 void ObjectFileReader::writeCmasses(ofstream* fp) {
-	// TODO stub
+	size_t o = 0;
+	for (Object3dModel m : models) {
+		if (m.massSpring) {
+			++o;
+		}
+	}
+	if (o > 0) {
+		string hdr = prefix.substr(0, prefix.size()-1);
+		*fp << "const size_t " << hdr << "ObjectsWithMass = " << o << ";\n\n";
+
+		*fp << "const size_t " << hdr << "Masses[" << o << "] = {\n";
+		for (Object3dModel m : models) {
+			if (m.massSpring) {
+				*fp << "\t" << m.nPositions << ",\n";
+			}
+		}
+		*fp << "};\n" << endl;
+
+		*fp << "const size_t " << hdr << "MassFwdOffs[" << o << "] = {\n";
+		int ofs = 0;
+		for (Object3dModel m : models) {
+			if (m.massSpring) {
+				*fp << "\t" << ofs << ",\n";
+				ofs += m.nPositions;
+			}
+		}
+		*fp << "};\n" << endl;
+
+		if (reverseMass) {
+			*fp << "const size_t " << hdr << "MassVertices[" << o << "] = {\n";
+			for (Object3dModel m : models) {
+				if (m.massSpring) {
+					*fp << "\t" << m.nVertices << ",\n";
+				}
+			}
+			*fp << "};\n" << endl;
+
+			*fp << "const size_t " << hdr << "MassRevOffsSrc[" << o << "] = {\n";
+			ofs = 0;
+			for (Object3dModel m : models) {
+				if (m.massSpring) {
+					*fp << "\t" << ofs << ",\n";
+					ofs += m.nVertices;
+				}
+			}
+			*fp << "};\n" << endl;
+
+			*fp << "const size_t " << hdr << "MassRevOffsTgt[" << o << "] = {\n";
+			ofs = 0;
+			for (Object3dModel m : models) {
+				if (m.massSpring) {
+					*fp << "\t" << ofs << ",\n";
+				}
+				ofs += m.nVertices;
+			}
+			*fp << "};\n" << endl;
+		}
+	}
 }
 
 /**
@@ -563,6 +630,7 @@ void ObjectFileReader::writeCmasses(ofstream* fp) {
  * @param fp target c-file
  */
 void ObjectFileReader::writeCsprings(ofstream* fp) {
+	string hdr = prefix.substr(0, prefix.size()-1);
 	// TODO stub
 }
 
@@ -571,7 +639,47 @@ void ObjectFileReader::writeCsprings(ofstream* fp) {
  * @param fp target c-file
  */
 void ObjectFileReader::writeForwardIdx(ofstream* fp) {
-	// TODO stub
+	size_t n = 0;
+	size_t p = 0;
+	for (Object3dModel m : models) {
+		if (m.massSpring) {
+			n += m.nVertices;
+			p += m.nPositions;
+		}
+	}
+	if (n > 0) {
+		string hdr = prefix.substr(0, prefix.size()-1);
+		// --> index data
+		*fp << "const size_t " << hdr << "FwdIndexI[" << n << "] = {\n";
+		size_t ofs = 0;
+		for (Object3dModel m : models) {
+			if (m.massSpring) {
+				m.writeForwardIdx(fp, ofs, 1);
+			}
+			ofs += m.nVertices;
+		}
+		*fp << "};\n" << endl;
+
+		// --> pointers
+		*fp << "const size_t* " << hdr << "FwdIndex[" << p << "] = {\n";
+		ofs = 0;
+		for (Object3dModel m : models) {
+			if (m.massSpring) {
+				m.writeForwardIdx(fp, ofs, 2, hdr);
+				ofs += m.nVertices;
+			}
+		}
+		*fp << "};\n" << endl;
+
+		// --> lengths
+		*fp << "const size_t " << hdr << "FwdIndexLength[" << p << "] = {\n";
+		for (Object3dModel m : models) {
+			if (m.massSpring) {
+				m.writeForwardIdx(fp, 0, 3);
+			}
+		}
+		*fp << "};\n" << endl;
+	}
 }
 
 /**
@@ -579,7 +687,25 @@ void ObjectFileReader::writeForwardIdx(ofstream* fp) {
  * @param fp target c-file
  */
 void ObjectFileReader::writeReverseIdx(ofstream* fp) {
-	// TODO stub
+	size_t n = 0;
+	for (Object3dModel m : models) {
+		if (m.revMapping) {
+			n += m.nVertices;
+		}
+	}
+	if (n > 0) {
+		string hdr = prefix.substr(0, prefix.size()-1);
+		*fp << "const size_t " << hdr << "RevIndex[" << n << "] = {\n";
+		size_t ofs = 1;
+		for (Object3dModel m : models) {
+			if (m.revMapping) {
+				m.writeReverseIdx(fp, ofs, false);
+			} else {
+				ofs += m.nPositions;
+			}
+		}
+		*fp << "};\n" << endl;
+	}
 }
 
 /**

@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iomanip>
 #include <stdexcept>
+#include <vector>
 
 
 namespace std {
@@ -98,13 +99,18 @@ void Object3dModel::genDeclarations(ofstream* fp) {
 	*fp << "extern GLfloat " << name << "Normals[" << nVertices * 3 << "];\n";
 	if (massSpring) {
 		*fp << "\n/* all masses and springs */\n";
-		*fp << "extern const size_t " << name << "MassesLength;\n";
-		*fp << "extern const size_t " << name << "SpringsLength;\n";
-		*fp << "extern const size_t " << name << "Masses[" << nPositions
-				<< "];\n"; //FIXME needed?
-		*fp << "extern const size_t " << name << "Springs[" << nPositions * 2
-				<< "];\n\n"; //FIXME size
 		*fp << "/* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */\n";
+
+		*fp << "extern const size_t " << name << "ObjectsWithMass;\n";
+		*fp << "extern const size_t " << name << "Masses[1];\n";
+		*fp << "extern const size_t " << name << "MassFwdOffs[1];\n";
+		if (revMapping) {
+			*fp << "extern const size_t " << name << "MassVertices[1];\n";
+			*fp << "extern const size_t " << name << "MassRevOffsSrc[1];\n";
+			*fp << "extern const size_t " << name << "MassRevOffsTgt[1];\n";
+		}
+		*fp << endl;
+
 		*fp << "extern const size_t " << name << "FwdIndexI[" << nVertices
 				<< "];\n";
 		*fp << "extern const size_t* " << name << "FwdIndex[" << nPositions
@@ -116,6 +122,7 @@ void Object3dModel::genDeclarations(ofstream* fp) {
 					<< "];\n";
 		}
 	}
+	*fp << flush;
 	//TODO include declarations for object name and texture file path
 }
 
@@ -143,7 +150,7 @@ void Object3dModel::genCsrcBody(ofstream* fp, ostream* logfp) {
 		writeForwardIdx(fp);
 		if (revMapping) {
 			*logfp << "rev indices ... " << flush;
-			writeReverseIdx(fp);
+			writeReverseIdx(fp, offsPos);
 		}
 	}
 //	if (objectData) { //TODO implement this
@@ -272,7 +279,7 @@ bool Object3dModel::isMassSpring() {
  */
 void Object3dModel::setMassSpring(bool reverseMapping) {
 	massSpring = true;
-	reverseMapping = revMapping;
+	revMapping = reverseMapping;
 }
 
 /**
@@ -411,11 +418,22 @@ void Object3dModel::writeCnormals(ofstream* fp) {
 }
 
 /**
- * Generate masses array
+ * Generate masses array size informations
+ *
+ * This function exists to provide a compatible interface to the header file
+ * for multiple objects and single objects.
  * @param fp target c-file
  */
 void Object3dModel::writeCmasses(ofstream* fp) {
-	// TODO stub
+	*fp << "const size_t " << name << "ObjectsWithMass = 1;\n";
+	*fp << "const size_t " << name << "Masses[1] = {" << nVertices << "};\n";
+	*fp << "const size_t " << name << "MassFwdOffs[1] = {0};\n";
+	if (revMapping) {
+		*fp << "const size_t " << name << "MassVertices[1] = {" << nVertices << "};\n";
+		*fp << "const size_t " << name << "MassRevOffsSrc[1] = {0};\n";
+		*fp << "const size_t " << name << "MassRevOffsTgt[1] = {0};\n";
+	}
+	*fp << endl;
 }
 
 /**
@@ -429,25 +447,138 @@ void Object3dModel::writeCsprings(ofstream* fp) {
 /**
  * Generate index structures for forward mapping position --> mass.
  * @param fp target c-file
+ * @param offs offset to first entry (not in mode 0 then the array starts always at 0)
+ * @param mode (0..3); If 0 the function definitions are all written with declaration,
+ *        otherwise the declaration is omitted to write in multiple portions
+ *        over different objects. 1..3 selects the portion to write in headless mode:
+ *        1 = write index data, 2 = write index pointers, 3 = write lengths
+ * @param prefix the prefix for the pointer array (mode 0 or 2); default is @c this.name
  */
-void Object3dModel::writeForwardIdx(ofstream* fp) {
-	// TODO stub
+void Object3dModel::writeForwardIdx(ofstream* fp, size_t offs, int mode, string prefix) {
+	int ioffs = mode > 0 ? offs : 0;
+	size_t fwd[nVertices]; // indices of the vertices
+	size_t fwd_offs[nPositions]; // offsets to the first index of each group of points per mass
+	size_t len[nPositions] = {}; // number of points of each mass
+	size_t temp[nPositions] = {}; // temporary index to the vertex next to processed
+
+	// count number of vertices per mass
+	for (size_t i = 0; i < nVertices; ++i) {
+		++len[faces[3 * i] - offsPos];
+	}
+
+	// set pointers to the first mass in the mapping array
+	if (mode < 3) {
+		size_t ind = 0;
+		for (size_t i = 0; i < nPositions; ++i) {
+			fwd_offs[i] = ind;
+			ind += len[i];
+			temp[i] = fwd_offs[i];
+		}
+
+		// fill vertices array - mapping of vertices to masses
+		if (mode < 2) {
+			for (size_t i = 0; i < nVertices; ++i) {
+				fwd[temp[faces[3 * i] - offsPos]++] = i + ioffs;
+			}
+
+			// write output
+			// --> index data
+			if (mode < 1) {
+				*fp << "const size_t " << name << "FwdIndexI[" << nVertices
+						<< "] = {\n";
+			}
+			ind = 0;
+			*fp << "\t";
+			for (size_t i = 0; i < nVertices; ++i) {
+				*fp << fwd[i];
+				if (i < temp[ind]-1) {
+					*fp << ", ";
+				} else if (i < nVertices-1) {
+					++ind;
+					*fp << ",\n\t" << flush;
+				}
+			}
+			*fp << "," << endl;
+			if (mode < 1) {
+				*fp << "};\n" << endl;
+			}
+		}
+
+		// --> pointers
+		if (mode < 1 || mode == 2) {
+			if (mode < 1) {
+				*fp << "const size_t* " << name << "FwdIndex[" << nPositions
+						<< "] = {\n";
+			}
+			for (size_t i = 0; i < nPositions; ++i) {
+				*fp << "\t&" << (prefix.empty() ? name : prefix)
+						<< "FwdIndexI[" << fwd_offs[i] + ioffs << "]," << endl;
+			}
+			if (mode < 1) {
+				*fp << "};\n" << endl;
+			}
+		}
+	}
+
+	// --> lengths
+	if (mode < 1 || mode == 3) {
+		if (mode < 1) {
+			*fp << "const size_t " << name << "FwdIndexLength[" << nPositions
+					<< "] = {\n";
+		}
+		for (size_t i = 0; i < nPositions; ++i) {
+			*fp << "\t" << len[i] << "," << endl;
+		}
+		if (mode < 1) {
+			*fp << "};\n" << endl;
+		}
+
+	}
 }
 
 /**
  * Generate index structures for reverse mapping mass --> position.
  * @param fp target c-file
+ * @param offs offset to first entry
+ * @param closed if true the function definition is enclosed and with declaration,
+ *        otherwise the declaration part is omitted to write in multiple portions
+ *        over different objects
  */
-void Object3dModel::writeReverseIdx(ofstream* fp) {
-	// TODO stub
+void Object3dModel::writeReverseIdx(ofstream* fp, size_t offs, bool closed) {
+	// FIXME implement offsets and lengths
+	if (closed) {
+		*fp << "const size_t " << name << "RevIndex[" << nVertices << "] = {\n";
+	}
+	for (size_t i = 0; i < nFaces; ++i) {
+		*fp << "\t";
+		for (int j = 0; j < 9; j += 3) {
+			*fp << faces[9 * i + j] - offs << (j<6 ? ", " : ",\n");
+		}
+		*fp << flush;
+	}
+	if (closed) {
+		*fp << "};\n" << endl;
+	}
 }
 
 /**
  * Generate some structures with metadata about the 3D-objects in the model
+ *
+ * This function exists to provide a compatible interface to the header file
+ * for multiple objects and single objects.
  * @param fp target c-file
  */
 void Object3dModel::writeObjectSummary(ofstream* fp) {
-	// TODO stub
+    *fp << "const size_t " << name << "Objects = 1;\n\n";
+	*fp << "const size_t " << name << "ObjectOffset[1] = {0};\n" << endl;
+	*fp << "const size_t " << name << "ObjectLength[1] = {" << nVertices << "};\n" << endl;
+	*fp << "const char " << name << "ObjectNamesString[" << name.length()+1 << "] = {"
+			<< name << "};\n" << endl;
+	*fp << "const char* " << name << "ObjectNames[1] = {&" << name << "ObjectNamesString[0]};\n" << endl;
+
+	string textureFilePath = "/not_implemented_yet/edit/by.hand"; // TODO not implemented yet
+	*fp << "const char " << name << "TextureFilePath[" << textureFilePath.length()+1 << "] = \"";
+	*fp << textureFilePath << "\";" << endl;
 }
 
 } /* namespace std */
