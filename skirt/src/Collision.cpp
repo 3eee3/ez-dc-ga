@@ -35,8 +35,8 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
 	Adds penalty forces for collisions.
 */
 void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len){
-	const float repulsiveSpringConst=1.0;
-	const float epsilon=0.01;
+	const float repulsiveSpringConst=10.0;
+	const float epsilon=0.1;
 
 	float dist;
 	Eigen::Vector3d normal;
