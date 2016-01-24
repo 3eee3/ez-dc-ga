@@ -1,28 +1,37 @@
-// This is a C-source file (.c) for the models "dice_RollingDie", "dice_Die"
+// This is a C-source file (.c) for the models "dice_Plane", "dice_RollingDie", "dice_Die"
 // Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
 
 /*
  * model statistics:
- * name: "dice_RollingDie"
- * # positions =     8 - start index =     0
- * # texels    =    14 - start index =     0
- * # normals   =     6 - start index =     0
- * # faces     =    12
+ * name: "dice_Plane"
+ * # positions =     4 - start index =     0
+ * # texels    =     4 - start index =     0
+ * # normals   =     1 - start index =     0
+ * # faces     =     2
  * contains converted polygons of triangle fan shape
  *
  * model statistics:
- * name: "dice_Die"
- * # positions =     8 - start index =     8
- * # texels    =    14 - start index =    14
- * # normals   =     6 - start index =     6
+ * name: "dice_RollingDie"
+ * # positions =     8 - start index =     4
+ * # texels    =    14 - start index =     4
+ * # normals   =     6 - start index =     1
  * # faces     =    12
  * contains converted polygons of triangle fan shape
  * includes masses and springs structures
  *
- * # positions total =    16
- * # texels total    =    28
- * # normals total   =    12
- * # faces total     =    24
+ * model statistics:
+ * name: "dice_Die"
+ * # positions =     8 - start index =    12
+ * # texels    =    14 - start index =    18
+ * # normals   =     6 - start index =     7
+ * # faces     =    12
+ * contains converted polygons of triangle fan shape
+ * includes masses and springs structures
+ *
+ * # positions total =    20
+ * # texels total    =    32
+ * # normals total   =    13
+ * # faces total     =    26
  * includes masses and springs structures
  */
 
@@ -31,9 +40,15 @@
 
 #include "dice.h"
 
-const size_t diceVertices = 72;
+const size_t diceVertices = 78;
 
-GLfloat dicePositions[216] = {
+GLfloat dicePositions[234] = {
+	-6.23346f, -1.72503f, 6.59808f,
+	5.49498f, -1.72503f, 6.59808f,
+	5.49498f, -1.72503f, -5.13037f,
+	-6.23346f, -1.72503f, 6.59808f,
+	5.49498f, -1.72503f, -5.13037f,
+	-6.23346f, -1.72503f, -5.13037f,
 	2.22527f, 1.47905f, -0.887001f,
 	1.82323f, -0.309374f, -1.68694f,
 	0.479414f, -0.651878f, -0.245808f,
@@ -108,7 +123,13 @@ GLfloat dicePositions[216] = {
 	-2.29540f, 1.00000f, -1.00000f,
 };
 
-GLfloat diceTexels[144] = {
+GLfloat diceTexels[156] = {
+	0.930218f, 0.936418f,
+	0.999900f, 0.936418f,
+	0.999900f, 0.999900f,
+	0.930218f, 0.936418f,
+	0.999900f, 0.999900f,
+	0.930218f, 0.999900f,
 	0.375624f, 0.500625f,
 	0.624375f, 0.500624f,
 	0.624375f, 0.749375f,
@@ -183,7 +204,13 @@ GLfloat diceTexels[144] = {
 	0.375625f, 0.998126f,
 };
 
-GLfloat diceNormals[216] = {
+GLfloat diceNormals[234] = {
+	0.00000f, 1.00000f, 0.00000f,
+	0.00000f, 1.00000f, 0.00000f,
+	0.00000f, 1.00000f, 0.00000f,
+	0.00000f, 1.00000f, 0.00000f,
+	0.00000f, 1.00000f, 0.00000f,
+	0.00000f, 1.00000f, 0.00000f,
 	-0.712800f, 0.413600f, -0.566400f,
 	-0.712800f, 0.413600f, -0.566400f,
 	-0.712800f, 0.413600f, -0.566400f,
@@ -258,36 +285,53 @@ GLfloat diceNormals[216] = {
 	0.00000f, 0.00000f, -1.00000f,
 };
 
-const size_t diceObjectsWithMass = 1;
+const size_t diceObjectsWithMass = 2;
 
-const size_t diceMasses[1] = {
+const size_t diceMasses[2] = {
+	8,
 	8,
 };
 
-const size_t diceMassFwdOffs[1] = {
+const size_t diceMassFwdOffs[2] = {
 	0,
+	8,
 };
 
-const size_t diceMassVertices[1] = {
+const size_t diceMassVertices[2] = {
+	36,
 	36,
 };
 
-const size_t diceMassRevOffs[1] = {
+const size_t diceMassRevOffs[2] = {
 	0,
+	36,
 };
 
-const size_t diceFwdIndexI[36] = {
-	36, 39, 48, 51, 67,
-	37, 53, 54, 57,
-	38, 40, 59, 60, 63,
-	41, 65, 68, 70,
-	42, 45, 49, 66, 69,
-	47, 50, 52, 55,
-	44, 46, 56, 58, 61,
-	43, 62, 64, 71,
+const size_t diceMassRevOffsOrig[2] = {
+	6,
+	42,
 };
 
-const size_t* diceFwdIndex[8] = {
+const size_t diceFwdIndexI[72] = {
+	6, 9, 18, 21, 37,
+	7, 23, 24, 27,
+	8, 10, 29, 30, 33,
+	11, 35, 38, 40,
+	12, 15, 19, 36, 39,
+	17, 20, 22, 25,
+	14, 16, 26, 28, 31,
+	13, 32, 34, 41,
+	42, 45, 54, 57, 73,
+	43, 59, 60, 63,
+	44, 46, 65, 66, 69,
+	47, 71, 74, 76,
+	48, 51, 55, 72, 75,
+	53, 56, 58, 61,
+	50, 52, 62, 64, 67,
+	49, 68, 70, 77,
+};
+
+const size_t* diceFwdIndex[16] = {
 	&diceFwdIndexI[0],
 	&diceFwdIndexI[5],
 	&diceFwdIndexI[9],
@@ -296,9 +340,25 @@ const size_t* diceFwdIndex[8] = {
 	&diceFwdIndexI[23],
 	&diceFwdIndexI[27],
 	&diceFwdIndexI[32],
+	&diceFwdIndexI[36],
+	&diceFwdIndexI[41],
+	&diceFwdIndexI[45],
+	&diceFwdIndexI[50],
+	&diceFwdIndexI[54],
+	&diceFwdIndexI[59],
+	&diceFwdIndexI[63],
+	&diceFwdIndexI[68],
 };
 
-const size_t diceFwdIndexLength[8] = {
+const size_t diceFwdIndexLength[16] = {
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
 	5,
 	4,
 	5,
@@ -309,7 +369,7 @@ const size_t diceFwdIndexLength[8] = {
 	4,
 };
 
-const size_t diceRevIndex[36] = {
+const size_t diceRevIndex[72] = {
 	0, 1, 2,
 	0, 2, 3,
 	4, 7, 6,
@@ -322,28 +382,44 @@ const size_t diceRevIndex[36] = {
 	2, 7, 3,
 	4, 0, 3,
 	4, 3, 7,
+	8, 9, 10,
+	8, 10, 11,
+	12, 15, 14,
+	12, 14, 13,
+	8, 12, 13,
+	8, 13, 9,
+	9, 13, 14,
+	9, 14, 10,
+	10, 14, 15,
+	10, 15, 11,
+	12, 8, 11,
+	12, 11, 15,
 };
 
-const size_t diceObjects = 2;
+const size_t diceObjects = 3;
 
-const size_t diceObjectOffset[2] = {
+const size_t diceObjectOffset[3] = {
 	0,
+	6,
+	42,
+};
+
+const size_t diceObjectLength[3] = {
+	6,
+	36,
 	36,
 };
 
-const size_t diceObjectLength[2] = {
-	36,
-	36,
-};
-
-const char diceObjectNamesString[25] = {
+const char diceObjectNamesString[36] = {
+	"dice_Plane\0"
 	"dice_RollingDie\0"
 	"dice_Die\0"
 };
 
-const char* diceObjectNames[2] = {
+const char* diceObjectNames[3] = {
 	&diceObjectNamesString[0],
-	&diceObjectNamesString[16],
+	&diceObjectNamesString[11],
+	&diceObjectNamesString[27],
 };
 
 const char diceTextureFilePath[34] = "/not_implemented_yet/edit/by.hand";
