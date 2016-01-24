@@ -18,6 +18,7 @@
 #include "Simulation.h"
 #include "Collision.h"
 #include "model_mapping.h"
+//#include "Cloth3D.h"
 
 // define simulation constants here
 
@@ -67,6 +68,105 @@ Scene::Scene(int argc, char* argv[]) : step(0.003), mass(0.15), stiffness(60.0),
 
 Scene::~Scene() {}
 
+//vector<Mass> points;
+//vector<Spring> springs;
+static int res = 10;
+
+bool inline withinBoundary(int x, int y, int res){
+	if(x<0 || y<0 || x>res || y> res) 
+		return false;
+	else 
+		return true;
+}
+
+void Scene::initSquaredCloth(){
+	//Init cloth as square 0,0 -> 1,1
+	double deltaGrid=1/(double)res;
+
+	points.resize((res+1)*(res+1));
+	//Init positions
+	for(int y=0;y<res+1;y++){
+		for(int x=0;x<res+1;x++){	
+			points[x+y*(res+1)]=Mass(Eigen::Vector3d(x*deltaGrid,0.0,y*deltaGrid),0.1,0.1);
+		}
+	}
+
+	//fix 2 positions
+	points[0].setFixed(true);
+	points[res].setFixed(true);
+	//points[res*(res+1)].setFixed(true);
+	//points[res+res*(res+1)].setFixed(true);
+	
+	
+	//Init springs, masses references, stiffness, restLength is computed in constructor
+	for(int y=0;y<res+1;y++){
+		for(int x=0;x<res+1;x++){
+			//structural springs
+			if(withinBoundary(x-1,y,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x-1+y*(res+1)],400.0));
+			}
+			if(withinBoundary(x,y-1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+(y-1)*(res+1)],400.0));
+			}
+			if(withinBoundary(x+1,y,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+1+y*(res+1)],400.0));
+			}
+			if(withinBoundary(x,y+1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+(y+1)*(res+1)],400.0));
+			}
+
+			//shear springs
+			if(withinBoundary(x-1,y-1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x-1+(y-1)*(res+1)],400.0));
+			}
+			if(withinBoundary(x+1,y-1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+1+(y-1)*(res+1)],400.0));
+			}
+			if(withinBoundary(x-1,y+1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x-1+(y+1)*(res+1)],400.0));
+			}
+			if(withinBoundary(x+1,y+1,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+1+(y+1)*(res+1)],400.0));
+			}
+
+			//bend springs
+			if(withinBoundary(x-2,y,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x-2+y*(res+1)],100.0));
+			}
+			if(withinBoundary(x,y-2,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+(y-2)*(res+1)],100.0));
+			}
+			if(withinBoundary(x+2,y,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+2+y*(res+1)],100.0));
+			}
+			if(withinBoundary(x,y+2,res)){
+				springs.push_back(Spring(&points[x+y*(res+1)],&points[x+(y+2)*(res+1)],100.0));
+			}
+		}
+	}
+}
+
+void Scene::drawSquaredCloth(){
+	glPushMatrix();
+	glTranslatef(0.0,2.0,0.0);
+    glScalef(2.0,2.0,2.0);
+	glLineWidth(2.0f);
+	glColor4f(0.2, 0.2, 0.2, 1.0);
+	for(int y=0;y<res;y++){
+		glBegin(GL_LINE_STRIP);
+		glVertex3f (points[0+y*(res+1)].getX(), points[0+y*(res+1)].getY(), points[0+y*(res+1)].getZ());
+		for(int x=0;x<res;x++){
+			glVertex3f (points[x+(y+1)*(res+1)].getX(), points[x+(y+1)*(res+1)].getY(), points[x+(y+1)*(res+1)].getZ());
+    		glVertex3f (points[x+1+(y+1)*(res+1)].getX(), points[x+1+(y+1)*(res+1)].getY(), points[x+1+(y+1)*(res+1)].getZ());
+			glVertex3f (points[x+y*(res+1)].getX(), points[x+y*(res+1)].getY(), points[x+y*(res+1)].getZ());
+			glVertex3f (points[x+1+y*(res+1)].getX(), points[x+1+y*(res+1)].getY(), points[x+1+y*(res+1)].getZ());
+		}
+		glVertex3f (points[res+(y+1)*(res+1)].getX(), points[res+(y+1)*(res+1)].getY(), points[res+(y+1)*(res+1)].getZ());
+		glEnd();
+	}
+	glPopMatrix();	
+}
+
 void Scene::initialize() {
 //	GLfloat model3dColor[model3dVertices*3];/XXX
 //	for(int i = 0; i < model3dVertices*3;++i) model3dColor[i]=1/(float)(rand()%254+1);
@@ -93,6 +193,10 @@ void Scene::initialize() {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, blankMaterial);
 //	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, blankMaterial);
 
+	this->Scene::initSquaredCloth();
+	//cloth = new Cloth3D(sim_res);
+
+	/*
 	for (size_t i = 0; i < model3dObjectsWithMass; ++i) { // for all objects with mass-spring definition
 
 		// initialize mass points with data given by the model header
@@ -102,6 +206,24 @@ void Scene::initialize() {
 				points.back().registerVertex(&model3dPositions[model3dFwdIndex[j+model3dMassFwdOffs[i]][k]*3]);
 			}
 		}
+<<<<<<< HEAD
+		
+		// initialize strong springs
+		vector<bool> done = vector<bool>(model3dMassVertices[i], false);
+		for (size_t j = 0; j < model3dMassVertices[i]/3; ++j) {
+			for (size_t k = 0; k < 3; ++k) {
+				if (!done[j+k]) {
+					springs.push_back(Spring(stiffness));
+					springs.back().init(
+							&points[model3dRevIndex[j+model3dMassRevOffs[i]+k]+model3dMassFwdOffs[i]],
+							&points[model3dRevIndex[j+model3dMassRevOffs[i]+(k+1)%3]+model3dMassFwdOffs[i]]);
+				}
+			}
+		}
+
+		// initialize weak springs
+		//FIXME weak springs are missing
+=======
 //// FIXME the springs code is messed up SEGFAULT! in weak springs and wrong values in strong springs
 //		// initialize strong springs
 //		vector<bool> done = vector<bool>(model3dMassVertices[i], false);
@@ -140,11 +262,13 @@ void Scene::initialize() {
 //				}
 //			}
 //		}
+>>>>>>> a2b850115f9999bbc53dac40b904fba881b509a1
 
-	}
+	}*/
 }
 
 void Scene::update() {
+	//Collision::collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len)
 	Simulation::step(step, Simulation::SYMPLECTIC, points, springs);
 	collisionDetectionAndResponse(points, model3dPositions, 0, model3dVertices*3);
 }
@@ -154,6 +278,9 @@ void Scene::render() {
 	glLoadIdentity();
 	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+<<<<<<< HEAD
+	//updateNormals();
+=======
 	updateNormals();
 
 //	for (size_t i = 0; i < model3dVertices * 3; ++i) {//XXX
@@ -161,7 +288,12 @@ void Scene::render() {
 //			std::cerr << "model3dPositions[" << i << "] out of bounds: " << model3dPositions[i] << std::endl;//XXX
 //		}
 //	}
+>>>>>>> a2b850115f9999bbc53dac40b904fba881b509a1
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);
+
+	//draw square Cloth
+	this->Scene::drawSquaredCloth();
+
 //	int model3dIndices[model3dVertices*3];
 //	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
 //	glDrawElements(GL_TRIANGLES, (GLsizei)model3dVertices, GL_UNSIGNED_BYTE, model3dIndices);
