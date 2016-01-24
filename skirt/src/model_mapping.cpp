@@ -20,7 +20,7 @@
  */
 
 /* activate the small model with two dice by uncommenting this line */
-//#define _DEBUG_OGL_MODEL
+#define _DEBUG_OGL_MODEL
 
 #include <GL/gl.h>
 #include <cstddef>

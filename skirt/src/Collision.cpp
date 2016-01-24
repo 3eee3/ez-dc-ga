@@ -4,6 +4,7 @@
 #include <Eigen/Dense>
 #include <GL/gl.h>
 
+#include "Collision.h"
 #include "Mass.h"
 
 using namespace std;
@@ -42,6 +43,7 @@ void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], 
 	Eigen::Vector3d normal;
 	//for each point of mass spring system
 	for (int i=0; i<(int)points.size(); i++){
+		points[i].setUserForce(Eigen::Vector3d(0.0, 0.0, 0.0));
 		//for each triangle of object mesh
 		for(size_t j=offs/3; j<(offs+len)/3;j++){
 			//TO DO: generate triangles

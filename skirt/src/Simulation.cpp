@@ -426,12 +426,13 @@ void analytical_spring(double dt, vector<Mass>& points,
 }
 
 Eigen::Vector3d gravity() {
-#ifndef _WIN32
-	static Accelerometer acc = Accelerometer();
-	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), acc.getX());
-#else
-	return Eigen::Vector3d(0.0, 0.0, 9.81);
-#endif
+//#ifndef _WIN32
+//	static Accelerometer acc = Accelerometer();
+//	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), acc.getX());
+//#else
+//	return Eigen::Vector3d(0.0, 0.0, 9.81);
+//#endif
+	return Eigen::Vector3d(0.0, 0.0, 0.0);//XXX disabled gravity
 }
 
 #ifdef _WRITE_FILE

@@ -9,6 +9,7 @@
  * # normals   =     6 - start index =     0
  * # faces     =    12
  * contains converted polygons of triangle fan shape
+ * includes masses and springs structures
  *
  * model statistics:
  * name: "dice_Die"
@@ -258,25 +259,37 @@ GLfloat diceNormals[216] = {
 	0.00000f, 0.00000f, -1.00000f,
 };
 
-const size_t diceObjectsWithMass = 1;
+const size_t diceObjectsWithMass = 2;
 
-const size_t diceMasses[1] = {
+const size_t diceMasses[2] = {
+	8,
 	8,
 };
 
-const size_t diceMassFwdOffs[1] = {
+const size_t diceMassFwdOffs[2] = {
 	0,
+	8,
 };
 
-const size_t diceMassVertices[1] = {
+const size_t diceMassVertices[2] = {
+	36,
 	36,
 };
 
-const size_t diceMassRevOffs[1] = {
+const size_t diceMassRevOffs[2] = {
 	0,
+	36,
 };
 
-const size_t diceFwdIndexI[36] = {
+const size_t diceFwdIndexI[72] = {
+	0, 3, 12, 15, 31,
+	1, 17, 18, 21,
+	2, 4, 23, 24, 27,
+	5, 29, 32, 34,
+	6, 9, 13, 30, 33,
+	11, 14, 16, 19,
+	8, 10, 20, 22, 25,
+	7, 26, 28, 35,
 	36, 39, 48, 51, 67,
 	37, 53, 54, 57,
 	38, 40, 59, 60, 63,
@@ -287,7 +300,7 @@ const size_t diceFwdIndexI[36] = {
 	43, 62, 64, 71,
 };
 
-const size_t* diceFwdIndex[8] = {
+const size_t* diceFwdIndex[16] = {
 	&diceFwdIndexI[0],
 	&diceFwdIndexI[5],
 	&diceFwdIndexI[9],
@@ -296,9 +309,25 @@ const size_t* diceFwdIndex[8] = {
 	&diceFwdIndexI[23],
 	&diceFwdIndexI[27],
 	&diceFwdIndexI[32],
+	&diceFwdIndexI[36],
+	&diceFwdIndexI[41],
+	&diceFwdIndexI[45],
+	&diceFwdIndexI[50],
+	&diceFwdIndexI[54],
+	&diceFwdIndexI[59],
+	&diceFwdIndexI[63],
+	&diceFwdIndexI[68],
 };
 
-const size_t diceFwdIndexLength[8] = {
+const size_t diceFwdIndexLength[16] = {
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
+	5,
+	4,
 	5,
 	4,
 	5,
@@ -309,7 +338,7 @@ const size_t diceFwdIndexLength[8] = {
 	4,
 };
 
-const size_t diceRevIndex[36] = {
+const size_t diceRevIndex[72] = {
 	0, 1, 2,
 	0, 2, 3,
 	4, 7, 6,
@@ -322,6 +351,18 @@ const size_t diceRevIndex[36] = {
 	2, 7, 3,
 	4, 0, 3,
 	4, 3, 7,
+	8, 9, 10,
+	8, 10, 11,
+	12, 15, 14,
+	12, 14, 13,
+	8, 12, 13,
+	8, 13, 9,
+	9, 13, 14,
+	9, 14, 10,
+	10, 14, 15,
+	10, 15, 11,
+	12, 8, 11,
+	12, 11, 15,
 };
 
 const size_t diceObjects = 2;
