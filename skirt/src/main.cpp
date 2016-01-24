@@ -69,14 +69,16 @@ void initialize() {
 
 //	glEnable(GL_CULL_FACE);//TODO. switch ON/OFF backside with these two lines
 //	glCullFace(GL_BACK);
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
+
 
 //	glEnable(GL_AUTO_NORMAL);
 //	glEnable(GL_NORMALIZE);
 
+	GLfloat spotdir[] = {1.0, 1.0, 0.0};
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotdir);
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0);
+	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 2.0);
     GLfloat lposition[] = {2.0f, 2.0f, 2.0f, 0.0f};
 //    GLfloat lposition[] = {9.0f, 9.0f, 9.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_POSITION, lposition);
@@ -85,6 +87,8 @@ void initialize() {
     glLightfv(GL_LIGHT0, GL_AMBIENT, lambient);
     GLfloat lspecular[] = {1.0f, 1.0f, 1.0f, 0.0f};
     glLightfv(GL_LIGHT0, GL_SPECULAR, lspecular);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
     MipMap texture;
 //    texture.loadPNG("textures/cube.png");//TODO. select texture
