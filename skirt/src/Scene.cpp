@@ -16,6 +16,7 @@
 #include "Mass.h"
 #include "Spring.h"
 #include "Simulation.h"
+#include "Collision.h"
 #include "model_mapping.h"
 
 // define simulation constants here
@@ -67,10 +68,10 @@ Scene::Scene(int argc, char* argv[]) : step(0.003), mass(0.15), stiffness(60.0),
 Scene::~Scene() {}
 
 void Scene::initialize() {
-//	GLfloat model3dColor[model3dVertices*3];
+//	GLfloat model3dColor[model3dVertices*3];/XXX
 //	for(int i = 0; i < model3dVertices*3;++i) model3dColor[i]=1/(float)(rand()%254+1);
-	int model3dIndices[model3dVertices*3];
-	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
+//	int model3dIndices[model3dVertices*3];
+//	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 //	glEnableClientState(GL_COLOR_ARRAY);
@@ -101,28 +102,51 @@ void Scene::initialize() {
 				points.back().registerVertex(&model3dPositions[model3dFwdIndex[j+model3dMassFwdOffs[i]][k]*3]);
 			}
 		}
-
-		// initialize strong springs
-		vector<bool> done = vector<bool>(model3dMassVertices[i], false);
-		for (size_t j = 0; j < model3dMassVertices[i]/3; ++j) {
-			for (size_t k = 0; k < 3; ++k) {
-				if (!done[j+k]) {
-					springs.push_back(Spring(stiffness));
-					springs.back().init(
-							&points[model3dRevIndex[j+model3dMassRevOffs[i]+k]+model3dMassFwdOffs[i]],
-							&points[model3dRevIndex[j+model3dMassRevOffs[i]+(k+1)%3]+model3dMassFwdOffs[i]]);
-				}
-			}
-		}
-
-		// initialize weak springs
-		//FIXME weak springs are missing
+//// FIXME the springs code is messed up SEGFAULT! in weak springs and wrong values in strong springs
+//		// initialize strong springs
+//		vector<bool> done = vector<bool>(model3dMassVertices[i], false);
+//		for (size_t j = 0; j < model3dMassVertices[i]/3; ++j) {
+//			for (size_t k = 0; k < 3; ++k) {
+//				if (!done[j+k]) {
+//					springs.push_back(Spring(stiffness));
+//					springs.back().init(
+//							&points[model3dRevIndex[j+model3dMassRevOffs[i]+k]+model3dMassFwdOffs[i]],
+//							&points[model3dRevIndex[j+model3dMassRevOffs[i]+(k+1)%3]+model3dMassFwdOffs[i]]);
+//				}
+//			}
+//		}
+//
+//		// initialize weak springs
+//		for (size_t j = 0; j < model3dMassVertices[i]/3; ++j) {
+//			for (size_t k = j + 1; k < model3dMassVertices[i]/3; ++k) {
+//				size_t found[4];
+//				int n = 0;
+//				for (size_t l = 0; l < 3; ++l) {
+//					for (size_t m = 0; m < 3; ++m) {
+//						if (model3dRevIndex[j+model3dMassRevOffs[i]+l] ==
+//								model3dRevIndex[k+model3dMassRevOffs[i]]+m) {
+//							found[n++] = l;
+//							found[n++] = m;
+//							break;
+//						}
+//					}
+//					if (n >= 4) {
+//						springs.push_back(Spring(weak_stiff));
+//						springs.back().init(
+//								&points[3*model3dRevIndex[j+model3dMassRevOffs[i]]+model3dMassFwdOffs[i]+3-found[0]-found[2]],
+//								&points[3*model3dRevIndex[k+model3dMassRevOffs[i]]+model3dMassFwdOffs[i]+3-found[1]-found[3]]);
+//						break;
+//					}
+//				}
+//			}
+//		}
 
 	}
 }
 
 void Scene::update() {
 	Simulation::step(step, Simulation::SYMPLECTIC, points, springs);
+	collisionDetectionAndResponse(points, model3dPositions, 0, model3dVertices*3);
 }
 
 void Scene::render() {
@@ -131,6 +155,12 @@ void Scene::render() {
 	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	updateNormals();
+
+//	for (size_t i = 0; i < model3dVertices * 3; ++i) {//XXX
+//		if (model3dPositions[i] > 10.0f || model3dPositions[i] < -10 ) {
+//			std::cerr << "model3dPositions[" << i << "] out of bounds: " << model3dPositions[i] << std::endl;//XXX
+//		}
+//	}
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);
 //	int model3dIndices[model3dVertices*3];
 //	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
