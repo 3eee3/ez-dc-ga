@@ -1,57 +1,142 @@
-/*
- * Mass.h
- *
- * 	Created on: Jan 23, 2016
- *  Based on the Spring class used during the winter term 2015/16
- *  in the physically based simulations course.
- */
+/******************************************************************
+*
+* Mass.h
+*
+* Description: Class definition for mass Masss  
+*
+* Physically-Based Simulation Proseminar WS 2015
+* 
+* Interactive Graphics and Simulation Group
+* Institute of Computer Science
+* University of Innsbruck
+*
+*******************************************************************/
 
-#ifndef __MASS_H__
-#define __MASS_H__
+#ifndef __Mass_H__
+#define __Mass_H__
 
-#include <GL/gl.h>
 #include <Eigen/Dense>
-#include <vector>
 
-using std::vector;
-
-class Mass {
-
+class Mass
+{
 public:
-	Mass(std::vector<GLfloat*> posPtr = vector<GLfloat*>(),
-			double mass = 0.0, double damp = 0.0);
-	Mass(double mass, double damp = 0.0);
-	Mass(const Mass &m);
-	virtual ~Mass();
+    Eigen::Vector3d pos;         /* Position of mass Mass */
+    Eigen::Vector3d vel;         /* Velicity of mass Mass */
+    Eigen::Vector3d force;       /* Sum of all forces on mass Mass */
+    Eigen::Vector3d userForce;   /* Additional external force exerted by user */
 
-	void registerVertex(GLfloat* ptr);
-	void setPos(Eigen::Vector3d p);
-	Eigen::Vector3d getPos();
-	void setX(double x);
-	void setY(double y);
-	void setZ(double z);
+    double mass;      
+    double damping;
+    bool fixed;       /* True, if Mass is fixed in space */
 
-	void setVel(Eigen::Vector3d v);
-	Eigen::Vector3d getVel();
+    Mass(void) 
+    {
+        pos = Eigen::Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
-	void setForce(Eigen::Vector3d f);
-	Eigen::Vector3d getForce();
+        mass = 0.0;
+        damping = 0.0;
+        fixed = false; 
+    }
 
-	void addForce(Eigen::Vector3d f);
+    Mass(const Mass &rhs)
+    {
+        pos = rhs.pos;
+        vel = rhs.vel;
+        force = rhs.force;
+        userForce = rhs.userForce;
 
-	void setUserForce(Eigen::Vector3d f);
-	Eigen::Vector3d getUserForce();
+        mass = rhs.mass;
+        damping = rhs.damping;
+        fixed = rhs.fixed;
+    }
 
-	double mass;
-	double damping;
-	bool fixed; /* True, if point is fixed in space */
+    Mass(Eigen::Vector3d p) 
+    {
+        pos = p;
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 
-private:
-	vector<GLfloat*> posPtr;  /* Position of mass point - this vector contains pointers to all
-	                              vertices with shared position */
-	Eigen::Vector3d velocity;  /* Velocity of mass point */
-	Eigen::Vector3d force;     /* Sum of all forces on mass point */
-	Eigen::Vector3d userForce; /* Additional external force exerted by user */
+        mass = 0.0;
+        damping = 0.0;
+        fixed = false; 
+    }
+	
+	Mass(Eigen::Vector3d p, double m, double d)
+    {
+        pos = p;
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
+
+        mass = m;
+        damping = d;
+        fixed = false; 
+    }
+
+    Mass(double m, double d) 
+    {
+        pos = Eigen::Vector3d(0.0, 0.0, 0.0);
+        vel = Eigen::Vector3d(0.0, 0.0, 0.0);
+        force = Eigen::Vector3d(0.0, 0.0, 0.0);
+        userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
+
+        mass = m;
+        damping = d;
+        fixed = false; 
+    }
+
+    ~Mass(void){}
+
+    void render();
+
+    /* Getting and setting private variables */
+    void setPos(Eigen::Vector3d p);
+    Eigen::Vector3d getPos();
+    void setX(double x);
+    double getX();
+    void setY(double y);
+    double getY();
+    void setZ(double y);
+    double getZ();
+
+    void setVel(Eigen::Vector3d v);
+    Eigen::Vector3d getVel();
+    void setVelX(double vx);
+    double getVelX();
+    void setVelY(double vy);
+    double getVelY();
+    void setVelZ(double vz);
+    double getVelZ();
+
+    void setForce(Eigen::Vector3d f);
+    Eigen::Vector3d getForce();
+    void setForceX(double fx);
+    double getForceX();
+    void setForceY(double fy);
+    double getForceY();
+    void setForceZ(double fz);
+    double getForceZ();
+
+    void addForce(Eigen::Vector3d f);
+
+    void setMass(double m);
+    double getMass();
+    
+    void setDamping(double d);
+    double getDamping();
+
+    void setFixed(bool fix);
+    bool isFixed();
+
+    void setUserForce(Eigen::Vector3d f);    
+    Eigen::Vector3d getUserForce();
+  
+    /* Copy data to new Mass */
+    Mass copy();
 };
 
-#endif // __MASS_H__
+#endif
