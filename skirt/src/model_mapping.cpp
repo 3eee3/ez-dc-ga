@@ -86,9 +86,6 @@ const size_t* model3dMassVertices = MODEL(MassVertices);
 /* index offset for array ...RevIndex */
 const size_t* model3dMassRevOffs = MODEL(MassRevOffs);
 
-/* index offset for array - points to the first vertex of the objects with mass */
-const size_t* model3dMassRevOffsOrig = MODEL(MassRevOffsOrig);
-
 /* for each mass ... */
 /* mapping of mass to all owning vertices, e.g.: ...FwdIndex[i_mass][i_vertex] = index of vertex */
 const size_t** model3dFwdIndex = MODEL(FwdIndex);
@@ -129,7 +126,6 @@ const size_t* model3dMasses = diceMasses;
 const size_t* model3dMassFwdOffs = diceMassFwdOffs;
 const size_t* model3dMassVertices = diceMassVertices;
 const size_t* model3dMassRevOffs = diceMassRevOffs;
-const size_t* model3dMassRevOffsOrig = diceMassRevOffsOrig;
 const size_t** model3dFwdIndex = (const size_t**) diceFwdIndex;
 const size_t* model3dFwdIndexLength = diceFwdIndexLength;
 const size_t* model3dRevIndex = diceRevIndex;
@@ -137,7 +133,7 @@ const size_t model3dObjects = diceObjects; //FIXME hardcoded data
 const size_t* model3dObjectOffset = diceObjectOffset;
 const size_t* model3dObjectLength = diceObjectLength;
 const char** model3dObjectNames = (const char**) diceObjectNames;
-const char* model3dTextureFilePath = "textures/die.png";//diceTextureFilePath;//FIXME not implemented in blender2oGL tool
+const char* model3dTextureFilePath = "textures/wood.rgb";//diceTextureFilePath;//FIXME not implemented in blender2oGL tool
 #endif /* _DEBUG_OGL_MODEL */
 
 }

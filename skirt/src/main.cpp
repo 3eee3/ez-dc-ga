@@ -91,7 +91,10 @@ void initialize() {
     glEnable(GL_LIGHT0);
 
     MipMap texture;
-    texture.load(model3dTextureFilePath);
+//    texture.loadPNG("textures/cube.png");//TODO. select texture
+//    texture.loadSGI("textures/wood.rgb");
+//    texture.loadSGI("textures/red_cloth_256.rgb");
+    texture.loadSGI(model3dTextureFilePath);
 
 	scene->initialize();
 	glEnable(GL_TEXTURE_2D);

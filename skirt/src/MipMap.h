@@ -19,7 +19,6 @@ public:
 	virtual ~MipMap();
 	void loadPNG(const string fileName);
 	void loadSGI(const string fileName);
-	void load(const string fileName);
 
 private:
 	GLuint texture = 0;

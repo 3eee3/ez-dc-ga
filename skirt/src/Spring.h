@@ -14,7 +14,8 @@
 class Spring {
 public:
 	Spring(double stiff = 0.0, double restLen = 0.0);
-	Spring(Mass* mass0, Mass* mass1, double stiff = 0.0, double restLen = 0.0);
+	//Spring(Mass* mass0, Mass* mass1, double stiff = 0.0, double restLen = 0.0);
+	Spring(Mass* mass0, Mass* mass1, double stiff);
 	virtual ~Spring(void);
 
 	void init(Mass* mass0, Mass *mass1);

@@ -12,9 +12,21 @@
 Spring::Spring(double stiff, double restLen) :
 		stiffness(stiff), restLength(restLen), m0(new Mass), m1(new Mass) {
 }
-
+/*
 Spring::Spring(Mass* mass0, Mass* mass1, double stiff, double restLen) :
 		stiffness(stiff), restLength(restLen), m0(mass0), m1(mass1) {
+}*/
+
+Spring::Spring(Mass* _mass0, Mass* _mass1, double stiff){
+{
+    /* Initialize spring with pointers to both mass points */
+    m0=_mass0; 
+    m1=_mass1;
+
+	stiffness = stiff;
+    /* Assume rest length is given by initial configuration */
+    restLength = (_mass0->getPos() - _mass1->getPos()).norm();
+}
 }
 
 Spring::~Spring() {
@@ -44,3 +56,5 @@ Mass* Spring::getMass(int i) {
 		return m0;
 	}
 }
+
+
