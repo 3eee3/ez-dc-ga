@@ -34,7 +34,7 @@ Cloth3D::Cloth3D(int res_)
 	//Init positions
 	for(int y=0;y<res+1;y++){
 		for(int x=0;x<res+1;x++){
-			points[x+y*res]=Point(Vec3(x*deltaGrid,y*deltaGrid,0.0));
+			points[x+y*res]=Mass(Eigen::Vector3d(x*deltaGrid,y*deltaGrid,0.0));
 		}
 	}
 

@@ -16,6 +16,8 @@
 #include "Mass.h"
 #include <GL/freeglut.h> 
 
+namespace std {
+
 void Mass::setPos(Eigen::Vector3d p)
 {
     pos = p;
@@ -170,3 +172,5 @@ Eigen::Vector3d Mass::getUserForce()
 {
     return userForce;
 }
+
+} // namespace std

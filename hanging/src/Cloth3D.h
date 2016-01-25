@@ -6,7 +6,7 @@
 #include <iostream>
 #include <cstring>
 
-using namespace std;
+namespace std {
 
 class Cloth3D 
 {
@@ -16,5 +16,7 @@ public:
     Cloth3D(int res);
 	void draw();
 };
+
+} // namespace std
 
 #endif

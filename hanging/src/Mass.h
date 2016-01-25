@@ -17,6 +17,8 @@
 
 #include <Eigen/Dense>
 
+namespace std {
+
 class Mass
 {
 public:
@@ -139,4 +141,5 @@ public:
     Mass copy();
 };
 
+} // namespace std
 #endif

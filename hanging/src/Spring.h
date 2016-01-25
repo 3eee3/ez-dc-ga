@@ -11,6 +11,8 @@
 
 #include "Mass.h"
 
+namespace std {
+
 class Spring {
 public:
 	Spring(double stiff = 0.0, double restLen = 0.0);
@@ -28,5 +30,7 @@ public:
 private:
 	Mass *m0, *m1; /* Pointers to two masses */
 };
+
+}  // namespace std
 
 #endif // __SPRING_H__
