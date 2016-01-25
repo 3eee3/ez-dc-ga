@@ -13,8 +13,11 @@
 
 #include "Mass.h"
 
+namespace std {
 
-void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len);
+void collisionDetectionAndResponse(vector<Mass> &points, size_t offsP,
+		size_t lenP, GLfloat object_mesh[], size_t offsO, size_t lenO);
 
+} // namespace std
 
 #endif /* SRC_COLLISION_H_ */

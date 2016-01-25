@@ -28,38 +28,87 @@ MipMap::~MipMap() {
 }
 
 /**
+ * @brief load a texture with a selected import filter
+ *
+ * @param fileName the image file to be loaded
+ */
+void MipMap::load(const string fileName) {
+	if (texture) {
+		throw runtime_error(
+				"MipMap::load: Invalid call to load function: texture already loaded.");
+	}
+
+	//try if it is a PNG file
+
+	//header for testing if it is a png
+	unsigned char header[8];
+
+	//open file as binary
+	FILE *fp = fopen(fileName.c_str(), "rb");
+	if (!fp) {
+		throw runtime_error(
+				"MipMap::load: Opening file " + fileName + " failed.");
+	}
+
+	//read the header
+	if (!fread(header, 1, 8, fp)) {
+		fclose(fp);
+		throw runtime_error(
+				"MipMap::load: Reading signature of file " + fileName
+						+ " failed.");
+	}
+
+	//test if png
+	if (!png_sig_cmp((png_byte*)header, 0, 8)) {
+		loadPNG(fileName);
+	} else if (header[0] == 0x1 && header[1] == 0xDA) {
+		loadSGI(fileName);
+	} else {
+		fclose(fp);
+		throw runtime_error(
+				"MipMap::load: File " + fileName + " is not a known image file format.");
+	}
+
+}
+
+/**
  * @brief load texture from PNG
  *
  * loads a png file into an opengl mipmap object, using cstdio , libpng, and opengl.
  * This function is almost identical with the example code on
  * https://en.wikibooks.org/wiki/OpenGL_Programming/Intermediate/Textures
  *
- * \param filename : the png file to be loaded
+ * @param fileName the png file to be loaded
  */
-void MipMap::loadPNG(const string filename) {
+void MipMap::loadPNG(const string fileName) {
 	if (texture) {
-		throw runtime_error("Texture::loadPNG: Invalid call to load function: texture already loaded.");
+		throw runtime_error(
+				"MipMap::loadPNG: Invalid call to load function: texture already loaded.");
 	}
 	//header for testing if it is a png
 	png_byte header[8];
 
 	//open file as binary
-	FILE *fp = fopen(filename.c_str(), "rb");
+	FILE *fp = fopen(fileName.c_str(), "rb");
 	if (!fp) {
-		throw runtime_error("Texture::loadPNG: Opening file " + filename + " failed.");
+		throw runtime_error(
+				"MipMap::loadPNG: Opening file " + fileName + " failed.");
 	}
 
 	//read the header
 	if (!fread(header, 1, 8, fp)) {
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Reading signature of file " + filename + " failed.");
+		throw runtime_error(
+				"MipMap::loadPNG: Reading signature of file " + fileName
+						+ " failed.");
 	}
 
 	//test if png
 	int is_png = !png_sig_cmp(header, 0, 8);
 	if (!is_png) {
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: File " + filename + " is not a PNG image.");
+		throw runtime_error(
+				"MipMap::loadPNG: File " + fileName + " is not a PNG image.");
 	}
 
 	//create png struct
@@ -67,7 +116,8 @@ void MipMap::loadPNG(const string filename) {
 	NULL, NULL);
 	if (!png_ptr) {
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Function png_create_read_struct() returned 0.");
+		throw runtime_error(
+				"MipMap::loadPNG: Function png_create_read_struct() returned 0.");
 	}
 
 	//create png info struct
@@ -75,7 +125,8 @@ void MipMap::loadPNG(const string filename) {
 	if (!info_ptr) {
 		png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Function png_create_info_struct() returned 0.");
+		throw runtime_error(
+				"MipMap::loadPNG: Function png_create_info_struct() returned 0.");
 	}
 
 	//create png info struct
@@ -83,14 +134,15 @@ void MipMap::loadPNG(const string filename) {
 	if (!end_info) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Function png_create_info_struct() returned 0.");
+		throw runtime_error(
+				"MipMap::loadPNG: Function png_create_info_struct() returned 0.");
 	}
 
 	//png error stuff, not sure libpng man suggests this.
 	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: libpng encountered an error.");
+		throw runtime_error("MipMap::loadPNG: libpng encountered an error.");
 	}
 
 	//init png reading
@@ -129,7 +181,8 @@ void MipMap::loadPNG(const string filename) {
 		//clean up memory and close stuff
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Could not allocate memory for PNG image data.");
+		throw runtime_error(
+				"MipMap::loadPNG: Could not allocate memory for PNG image data.");
 	}
 
 	//row_pointers is for pointing to image_data for reading the png with libpng
@@ -139,7 +192,8 @@ void MipMap::loadPNG(const string filename) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		delete[] image_data;
 		fclose(fp);
-		throw runtime_error("Texture::loadPNG: Could not allocate memory for PNG row pointers.");
+		throw runtime_error(
+				"MipMap::loadPNG: Could not allocate memory for PNG row pointers.");
 	}
 	// set the individual row_pointers to point at the correct offsets of image_data
 	for (size_t i = 0; i < height; ++i)
@@ -158,16 +212,18 @@ void MipMap::loadPNG(const string filename) {
 //	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	GLenum gluerr;
-	glPixelStorei(GL_UNPACK_ALIGNMENT,4);
-	if((gluerr=gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, (GLsizei)width, (GLsizei)height, GL_RGB,
-				   GL_UNSIGNED_BYTE, (GLvoid *)image_data))) {
-		throw runtime_error("GLULib " + string((char*)gluErrorString(gluerr)));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	if ((gluerr = gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, (GLsizei) width,
+			(GLsizei) height, GL_RGB,
+			GL_UNSIGNED_BYTE, (GLvoid *) image_data))) {
+		throw runtime_error("GLULib " + string((char*) gluErrorString(gluerr)));
 	}
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+	GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	//clean up memory and close stuff
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -183,31 +239,34 @@ void MipMap::loadPNG(const string filename) {
  * This function is almost identical with the example code on
  * https://en.wikibooks.org/wiki/OpenGL_Programming/Intermediate/Textures
  *
- * \param filename : the SGI-rgb file to be loaded
+ * @param fileName the SGI-rgb file to be loaded
  */
-void MipMap::loadSGI(const string filename) {
+void MipMap::loadSGI(const string fileName) {
 	if (texture) {
-		throw runtime_error("Texture::loadPNG: Invalid call to load function: texture already loaded.");
+		throw runtime_error(
+				"MipMap::loadPNG: Invalid call to load function: texture already loaded.");
 	}
 	IMAGE *img;
 	GLenum gluerr;
 	GLuint texName;
 
-	glGenTextures(1,&texName);
-	glBindTexture(GL_TEXTURE_2D,texName);
-	if(!(img=ImageLoad((char*)filename.c_str()))) {
+	glGenTextures(1, &texName);
+	glBindTexture(GL_TEXTURE_2D, texName);
+	if (!(img = ImageLoad((char*) fileName.c_str()))) {
 		throw runtime_error("Error reading the texture wood.rgb");
 	}
-	glPixelStorei(GL_UNPACK_ALIGNMENT,4);
-	if((gluerr=gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, img->sizeX, img->sizeY, GL_RGB,
-				   GL_UNSIGNED_BYTE, (GLvoid *)(img->data)))) {
-		throw runtime_error("GLULib " + string((char*)gluErrorString(gluerr)));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	if ((gluerr = gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, img->sizeX,
+			img->sizeY, GL_RGB,
+			GL_UNSIGNED_BYTE, (GLvoid *) (img->data)))) {
+		throw runtime_error("GLULib " + string((char*) gluErrorString(gluerr)));
 	}
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+	GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 }
 
 } /* namespace std */

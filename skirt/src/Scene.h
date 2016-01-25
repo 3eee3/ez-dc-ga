@@ -26,8 +26,6 @@ public:
 	void render();
 	double getStep() const;
 	void updateNormals();
-	void initSquaredCloth();
-	void drawSquaredCloth();
 
 private:
 	double step;

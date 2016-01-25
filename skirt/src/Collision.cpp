@@ -3,11 +3,19 @@
 #include <cmath>
 #include <Eigen/Dense>
 #include <GL/gl.h>
+#include <iostream>
 
 #include "Collision.h"
 #include "Mass.h"
 
-using namespace std;
+//#define Y 0
+//#define Z 1
+//#define X 2
+#define X 0
+#define Y 1
+#define Z 2
+
+namespace std {
 
 bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, const float epsilon, float &dist, Eigen::Vector3d &N);
 bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C);
@@ -31,35 +39,56 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
 //	return 0;
 //}
 
-/*
-	Checks if there is a collision with mass spring points and object mesh.
-	Adds penalty forces for collisions.
-*/
-void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len){
-	const float repulsiveSpringConst=10.0;
-	const float epsilon=0.1;
+/**
+ * Checks if there is a collision with mass spring points and object mesh.
+ * Adds penalty forces for collisions.
+ *
+ * This algorithm can't deal with self collision, so assure the object_mesh
+ * doesn't contain vertices owned by points
+ *
+ * @param points array of mass points
+ * @param offsP offset in the points array
+ * @param lenP number of mass points
+ * @param object_mesh vertices array with all triangles (except them present in points)
+ * @param offsO offset in terms of vertices
+ * @param lenO number of vertices to compute
+ */
+void collisionDetectionAndResponse(vector<Mass> &points, size_t offsP, size_t lenP,
+		GLfloat object_mesh[], size_t offsO, size_t lenO){
+	cerr << "collision: range (" << offsP << "," << offsP+lenP-1 << ") ";//XXX
+	const float repulsiveSpringConst=1.0;
+	const float epsilon=5.0f;
 
 	float dist;
 	Eigen::Vector3d normal;
 	//for each point of mass spring system
-	for (int i=0; i<(int)points.size(); i++){
+	for (size_t i=offsP; i<points.size() && i<lenP; i++){
+		cerr << "i=" << i;//XXX
 		points[i].setUserForce(Eigen::Vector3d(0.0, 0.0, 0.0));
 		//for each triangle of object mesh
-		for(size_t j=offs/3; j<(offs+len)/3;j++){
-			//TO DO: generate triangles
-			Eigen::Vector3d A = Eigen::Vector3d(object_mesh[j*9], object_mesh[j*9+1], object_mesh[j*9+2]);
-			Eigen::Vector3d B = Eigen::Vector3d(object_mesh[j*9+3], object_mesh[j*9+4], object_mesh[j*9+5]);
-			Eigen::Vector3d C = Eigen::Vector3d(object_mesh[j*9+6], object_mesh[j*9+7], object_mesh[j*9+8]);
+		for(size_t j=offsO/3; j<(offsO+lenO)/3;j++){
+			//TODO: generate triangles
+			Eigen::Vector3d A = Eigen::Vector3d(object_mesh[j*9+X], object_mesh[j*9+Y], object_mesh[j*9+Z]);
+			Eigen::Vector3d B = Eigen::Vector3d(object_mesh[j*9+3+X], object_mesh[j*9+3+Y], object_mesh[j*9+3+Z]);
+			Eigen::Vector3d C = Eigen::Vector3d(object_mesh[j*9+6+X], object_mesh[j*9+6+Y], object_mesh[j*9+6+Z]);
 			//detect collision
 			if(vertexInTriangle(points[i].getPos(),A,B,C,epsilon,dist,normal)){
-			//responde with penalty force
+			//respond with penalty force
 				Eigen::Vector3d penaltyF = repulsiveSpringConst * (-1) * (dist - epsilon) * normal;
 				points[i].setUserForce(penaltyF);
+				cerr << ", detected: pt " << i+offsP << "(" << offsP << "," << offsP+lenP-1 << ")"
+						<< ", vert " << 3*j << "(" << offsO << "," << offsO+lenO-1 << "), j=" << j
+						<< ", normal = "<< normal[0] << ", " << normal[1] << ", " << normal[2];//XXX
 				break; //collision with one triangle found (possible other collisions not considered)
 				//points[i].setForce(penaltyF);
 			}
+			//XXX start
+//			Eigen::Vector3d N = (B-A).cross(C-A);
+//			cerr << "j=" << j << "N=(" << N[0] << "," << N[1] << "," << N[2] << ") ";
+			//XXX end
 		}
 	}
+	cerr << endl;//XXX
 }
 
 /*
@@ -95,7 +124,7 @@ bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const 
 		//signed distance of point from plane
 		N = (B-A).cross(C-A); //N not normalized
 		dist = N.dot(P) - N.dot(A); //distance not normalized (length of N constant for triangles with same area)
-	
+		cerr << "(dist=" << dist << ")";//XXX
 		//check if point is near plane
 		if(dist > epsilon || dist < -epsilon){
 			return false;
@@ -170,3 +199,5 @@ void inline compute_intervals(double p0, double p1, double p2, double d1, double
 	t2 = p0 + (p2-p0)*d0/(d0-d2);	
 }
 */
+
+} // namespace std
