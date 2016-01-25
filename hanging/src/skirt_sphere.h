@@ -1,35 +1,34 @@
-// This is a C-header file (.h) for the models "skirt_sphere_Cone", "skirt_sphere_Grid", "skirt_sphere_Icosphere"
+// This is a C-header file (.h) for the models "skirt_sphere_Grid", "skirt_sphere_Icosphere", "skirt_sphere_Cone"
 // Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
 
 /*
  * model statistics:
- * name: "skirt_sphere_Cone"
- * # positions =   353 - start index =     0
- * # texels    =   416 - start index =     0
- * # normals   =    98 - start index =     0
- * # faces     =   608
- * contains converted polygons of triangle fan shape
- * includes masses and springs structures
- *
- * model statistics:
  * name: "skirt_sphere_Grid"
- * # positions =   361 - start index =   353
- * # texels    =     4 - start index =   416
- * # normals   =     1 - start index =    98
+ * # positions =   361 - start index =     0
+ * # texels    =     4 - start index =     0
+ * # normals   =     1 - start index =     0
  * # faces     =   648
  * contains converted polygons of triangle fan shape
  *
  * model statistics:
  * name: "skirt_sphere_Icosphere"
- * # positions =    42 - start index =   714
- * # texels    =     3 - start index =   420
- * # normals   =    80 - start index =    99
+ * # positions =    42 - start index =   361
+ * # texels    =     3 - start index =     4
+ * # normals   =    80 - start index =     1
  * # faces     =    80
  *
- * # positions total =   756
- * # texels total    =   423
- * # normals total   =   179
- * # faces total     =  1336
+ * model statistics:
+ * name: "skirt_sphere_Cone"
+ * # positions =  3456 - start index =   403
+ * # texels    =  3723 - start index =     7
+ * # normals   =    35 - start index =    81
+ * # faces     =  6144
+ * includes masses and springs structures
+ *
+ * # positions total =  3859
+ * # texels total    =  3730
+ * # normals total   =   116
+ * # faces total     =  6872
  * includes masses and springs structures
  */
 
@@ -47,9 +46,9 @@ extern "C" {
 #endif
 
 extern const size_t skirt_sphereVertices;
-extern GLfloat skirt_spherePositions[12024];
-extern GLfloat skirt_sphereTexels[8016];
-extern GLfloat skirt_sphereNormals[12024];
+extern GLfloat skirt_spherePositions[61848];
+extern GLfloat skirt_sphereTexels[41232];
+extern GLfloat skirt_sphereNormals[61848];
 
 /* all masses and springs */
 /* indexing arrays: 3 ascending values per coordinate at index, index+1 and index+2 */
@@ -58,12 +57,11 @@ extern const size_t skirt_sphereMasses[1];
 extern const size_t skirt_sphereMassFwdOffs[1];
 extern const size_t skirt_sphereMassVertices[1];
 extern const size_t skirt_sphereMassRevOffs[1];
-extern const size_t skirt_sphereMassRevOffsOrig[1];
 
-extern const size_t skirt_sphereFwdIndexI[1824];
-extern const size_t* skirt_sphereFwdIndex[353];
-extern const size_t skirt_sphereFwdIndexLength[353];
-extern const size_t skirt_sphereRevIndex[1824];
+extern const size_t skirt_sphereFwdIndexI[18432];
+extern const size_t* skirt_sphereFwdIndex[3456];
+extern const size_t skirt_sphereFwdIndexLength[3456];
+extern const size_t skirt_sphereRevIndex[18432];
 
 /* object metadata */
 extern const size_t skirt_sphereObjects;
