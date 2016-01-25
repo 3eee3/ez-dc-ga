@@ -16,7 +16,7 @@
 #include "Mass.h"
 #include "Spring.h"
 #include "Simulation.h"
-//#include "Collision.h"
+#include "Collision.h"
 #include "model_mapping.h"
 
 // define simulation constants here
@@ -145,7 +145,7 @@ void Scene::initSquaredCloth(){
 void Scene::drawSquaredCloth(){
 	glPushMatrix();
 	glTranslatef(-2.0,3.0,0.0);
-    glScalef(4.0,4.0,4.0);
+    glScalef(3.5,3.5,3.5);
 	glLineWidth(2.0f);
 	glColor4f(0.2, 0.2, 0.2, 1.0);
 	for(int y=0;y<res;y++){
@@ -160,6 +160,11 @@ void Scene::drawSquaredCloth(){
 		glVertex3f (points[res+(y+1)*(res+1)].getX(), points[res+(y+1)*(res+1)].getY(), points[res+(y+1)*(res+1)].getZ());
 		glEnd();
 	}
+
+	//draw model3DObject
+	
+
+	
 	glPopMatrix();	
 }
 

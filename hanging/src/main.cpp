@@ -49,7 +49,7 @@ ulong getTime() {
 void initialize() {
 	//TODO implementation incomplete
 
-	glClearColor(0.95f, 0.95f, 0.95f, 0.0f); // Background color
+	glClearColor(0.7f, 0.7f, 0.7f, 0.0f); // Background color
 
 	// size of 3D space and camera
 	glMatrixMode(GL_PROJECTION);
@@ -75,6 +75,7 @@ void initialize() {
 //	glEnable(GL_AUTO_NORMAL);
 //	glEnable(GL_NORMALIZE);
 
+/*
 	GLfloat spotdir[] = {1.0, 1.0, 0.0};
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotdir);
 	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0);
@@ -95,11 +96,11 @@ void initialize() {
 //    texture.loadSGI("textures/wood.rgb");
 //    texture.loadSGI("textures/red_cloth_256.rgb");
     texture.loadSGI(model3dTextureFilePath);
-
+*/
 	scene->initialize();
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 //	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//TODO. select < wireframe
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//TODO. select < solid
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//TODO. select < solid
 }
 
 void motionCallback(int /*x*/, int /*y*/) {
@@ -113,7 +114,7 @@ void reshapeCallback(int w, int h) {
 	glMatrixMode (GL_PROJECTION);
    glLoadIdentity ();
    /* perspective projection */
-   glFrustum (-3.0, 3.0, -3.0, 3.0, 7.5, 15.0);
+   glFrustum (-3.0, 3.0, -3.0, 3.0, 5.0, 15.0);
    glMatrixMode (GL_MODELVIEW);
 }
 
