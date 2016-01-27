@@ -1,0 +1,82 @@
+\hypertarget{model__mapping_8cpp}{}\section{src/model\+\_\+mapping.cpp File Reference}
+\label{model__mapping_8cpp}\index{src/model\+\_\+mapping.\+cpp@{src/model\+\_\+mapping.\+cpp}}
+{\ttfamily \#include $<$G\+L/gl.\+h$>$}\\*
+{\ttfamily \#include $<$cstddef$>$}\\*
+{\ttfamily \#include \char`\"{}model\+\_\+mapping.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}skirt\+\_\+sphere.\+h\char`\"{}}\\*
+Include dependency graph for model\+\_\+mapping.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=323pt]{model__mapping_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacestd}{std}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(X)~skirt\+\_\+sphere\#\#X
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \hyperlink{namespacestd_a2c56d5934d3e2877598b1eba9302a70f}{std\+::model3d\+Vertices} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Vertices)
+\begin{DoxyCompactList}\small\item\em number of vertices \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_aa45ed5de4e82f7ca1e4fd453a157715c}{std\+::model3d\+Positions} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Positions)
+\begin{DoxyCompactList}\small\item\em all vertex positions \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_a75a224804224819d960875bd982ce0c6}{std\+::model3d\+Texels} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Texels)
+\begin{DoxyCompactList}\small\item\em all texture coordinates \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_ab62b34140cca60f41eac455edd195e5a}{std\+::model3d\+Normals} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Normals)
+\begin{DoxyCompactList}\small\item\em all normals of the face surfaces \end{DoxyCompactList}\item 
+const size\+\_\+t \hyperlink{namespacestd_a74aad4fa6e8a984849221081da2ef691}{std\+::model3d\+Objects\+With\+Mass} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Objects\+With\+Mass)
+\begin{DoxyCompactList}\small\item\em number of objects to apply to the mass-\/spring simulation \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a20a6e87f65453b04a7eac93004989039}{std\+::model3d\+Masses} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Masses)
+\begin{DoxyCompactList}\small\item\em array of 3\+D-\/objects with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a22dba9fb8da88b07cd8b471827b6fac7}{std\+::model3d\+Mass\+Fwd\+Offs} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Fwd\+Offs)
+\begin{DoxyCompactList}\small\item\em offset in the points array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_aea2c80cb8809cdc4c2f3b2b0961d3036}{std\+::model3d\+Mass\+Vertices} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Vertices)
+\begin{DoxyCompactList}\small\item\em number of vertices per object with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_acb567e43ad7c5a09fec7eeed5b529d96}{std\+::model3d\+Mass\+Rev\+Offs} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Rev\+Offs)
+\begin{DoxyCompactList}\small\item\em offsets for the model3d\+Rev\+Index array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_ad0535524d79ce742b34e78404e55a224}{std\+::model3d\+Mass\+Rev\+Offs\+Orig} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Rev\+Offs\+Orig)
+\begin{DoxyCompactList}\small\item\em offset to the first vertex of an object with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$$\ast$ \hyperlink{namespacestd_a339638085d29cb13db371a07634085c6}{std\+::model3d\+Fwd\+Index} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Fwd\+Index)
+\begin{DoxyCompactList}\small\item\em indices of the mass-\/points in the positions array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a0ff16d332f71a0822fb8570c16df06ff}{std\+::model3d\+Fwd\+Index\+Length} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Fwd\+Index\+Length)
+\begin{DoxyCompactList}\small\item\em number of indices for each mass-\/point \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a13dd980059224bfd90cd1fde9aa706a9}{std\+::model3d\+Rev\+Index} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Rev\+Index)
+\begin{DoxyCompactList}\small\item\em index of a vertex in the mass-\/points array \end{DoxyCompactList}\item 
+const size\+\_\+t \hyperlink{namespacestd_ae8e9077260287353aa87ecaadb67b8e7}{std\+::model3d\+Objects} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Objects)
+\begin{DoxyCompactList}\small\item\em number of 3\+D-\/objects \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a34c26b88877b9e50d420b2f5ee1c1c47}{std\+::model3d\+Object\+Offset} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Offset)
+\begin{DoxyCompactList}\small\item\em offset to the first vertex of a 3\+D-\/object \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a678ef71cdf9ee666493694bfcf4d238f}{std\+::model3d\+Object\+Length} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Length)
+\begin{DoxyCompactList}\small\item\em number of vertices for each 3\+D-\/object \end{DoxyCompactList}\item 
+const char $\ast$$\ast$ \hyperlink{namespacestd_af3ac1c474abd23473b8fca32585ffe52}{std\+::model3d\+Object\+Names} = (const char$\ast$$\ast$) \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Names)
+\begin{DoxyCompactList}\small\item\em names of the objects (for identification) \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacestd_ab193fa08b6666c1bca6ccbb53acd58f6}{std\+::model3d\+Texture\+File\+Path} = \char`\"{}textures/textures\+\_\+all.\+rgb\char`\"{}
+\begin{DoxyCompactList}\small\item\em path to the texture-\/image file \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file includes the vertex, texture and normals coordinates and some 3\+D object topology informations.
+
+It is a wrapper to make the code relying on these variables independent from varying names supplied by the header file generator tool {\ttfamily blender2o\+G\+L}. Use the following line to generate a customized header file\+: 
+\begin{DoxyCode}
+blender2oGL ./path/to-your/file.obj -m -s -o -r -a file\_objectWithMass -a file\_otherObjectIfDesired
+\end{DoxyCode}
+ Edit the pointers in this file to fit the code to an exchanged header file. D\+O\+N\textquotesingle{}T E\+D\+I\+T them in the generated .h file, they may be overwritten by the generator tool. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{}\index{model\+\_\+mapping.\+cpp@{model\+\_\+mapping.\+cpp}!M\+O\+D\+E\+L@{M\+O\+D\+E\+L}}
+\index{M\+O\+D\+E\+L@{M\+O\+D\+E\+L}!model\+\_\+mapping.\+cpp@{model\+\_\+mapping.\+cpp}}
+\subsubsection[{M\+O\+D\+E\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+O\+D\+E\+L(
+\begin{DoxyParamCaption}
+\item[{}]{X}
+\end{DoxyParamCaption}
+)~skirt\+\_\+sphere\#\#X}\label{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}
+define the prefix of the structures for mapping the variable names 

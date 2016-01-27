@@ -1,0 +1,536 @@
+\hypertarget{namespacestd}{}\section{std Namespace Reference}
+\label{namespacestd}\index{std@{std}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classstd_1_1MipMap}{Mip\+Map}
+\item 
+class \hyperlink{classstd_1_1Scene}{Scene}
+\item 
+class \hyperlink{classstd_1_1Simulation}{Simulation}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespacestd_a8f17d2dea5f0758f77d130979a6ce6bf}{vertex\+In\+Triangle} (const Eigen\+::\+Vector3d \&P, const Eigen\+::\+Vector3d \&A, const Eigen\+::\+Vector3d \&B, const Eigen\+::\+Vector3d \&C, const float epsilon, float \&dist, Eigen\+::\+Vector3d \&N)
+\item 
+bool \hyperlink{namespacestd_a41fa9cfdd951bf0cc7f23973beaa7fdb}{bary\+Vertex\+In\+Triangle} (const Eigen\+::\+Vector3d \&P, const Eigen\+::\+Vector3d \&A, const Eigen\+::\+Vector3d \&B, const Eigen\+::\+Vector3d \&C)
+\item 
+void \hyperlink{namespacestd_a21cb14ca4c41a856be94b8fc9ff59c5a}{collision\+Detection\+And\+Response} (vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, size\+\_\+t offs\+P, size\+\_\+t len\+P, G\+Lfloat object\+\_\+mesh\mbox{[}$\,$\mbox{]}, size\+\_\+t offs\+O, size\+\_\+t len\+O)
+\item 
+void \hyperlink{namespacestd_a799147cff61c9c79a5ef80489d410fe2}{fwd\+\_\+euler} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+Eigen\+::\+Vector3d \hyperlink{namespacestd_a531c113b5d68b2af865bcc27ae4c8cc4}{f\+\_\+int} (\hyperlink{classMass}{Mass} \&pt, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs)
+\item 
+Eigen\+::\+Vector3d \hyperlink{namespacestd_a4b332ac1eb524b67a49cfc0187f70b75}{gravity} ()
+\item 
+void \hyperlink{namespacestd_af9b93750ea7aaecab7885d024fd822a2}{symplectic} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_a6a2a5c73fecc45374baf25b7b05dbc97}{leapfrog} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_ae925c3874f2dd2ec669c4640831d17b6}{midpoint} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_a8bde1e030dd347ced2d32f063f983420}{force} (vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \hyperlink{namespacestd_a2c56d5934d3e2877598b1eba9302a70f}{model3d\+Vertices} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Vertices)
+\begin{DoxyCompactList}\small\item\em number of vertices \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_aa45ed5de4e82f7ca1e4fd453a157715c}{model3d\+Positions} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Positions)
+\begin{DoxyCompactList}\small\item\em all vertex positions \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_a75a224804224819d960875bd982ce0c6}{model3d\+Texels} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Texels)
+\begin{DoxyCompactList}\small\item\em all texture coordinates \end{DoxyCompactList}\item 
+G\+Lfloat $\ast$ \hyperlink{namespacestd_ab62b34140cca60f41eac455edd195e5a}{model3d\+Normals} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Normals)
+\begin{DoxyCompactList}\small\item\em all normals of the face surfaces \end{DoxyCompactList}\item 
+const size\+\_\+t \hyperlink{namespacestd_a74aad4fa6e8a984849221081da2ef691}{model3d\+Objects\+With\+Mass} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Objects\+With\+Mass)
+\begin{DoxyCompactList}\small\item\em number of objects to apply to the mass-\/spring simulation \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a20a6e87f65453b04a7eac93004989039}{model3d\+Masses} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Masses)
+\begin{DoxyCompactList}\small\item\em array of 3\+D-\/objects with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a22dba9fb8da88b07cd8b471827b6fac7}{model3d\+Mass\+Fwd\+Offs} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Fwd\+Offs)
+\begin{DoxyCompactList}\small\item\em offset in the points array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_aea2c80cb8809cdc4c2f3b2b0961d3036}{model3d\+Mass\+Vertices} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Vertices)
+\begin{DoxyCompactList}\small\item\em number of vertices per object with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_acb567e43ad7c5a09fec7eeed5b529d96}{model3d\+Mass\+Rev\+Offs} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Rev\+Offs)
+\begin{DoxyCompactList}\small\item\em offsets for the model3d\+Rev\+Index array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_ad0535524d79ce742b34e78404e55a224}{model3d\+Mass\+Rev\+Offs\+Orig} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Mass\+Rev\+Offs\+Orig)
+\begin{DoxyCompactList}\small\item\em offset to the first vertex of an object with mass \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$$\ast$ \hyperlink{namespacestd_a339638085d29cb13db371a07634085c6}{model3d\+Fwd\+Index} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Fwd\+Index)
+\begin{DoxyCompactList}\small\item\em indices of the mass-\/points in the positions array \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a0ff16d332f71a0822fb8570c16df06ff}{model3d\+Fwd\+Index\+Length} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Fwd\+Index\+Length)
+\begin{DoxyCompactList}\small\item\em number of indices for each mass-\/point \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a13dd980059224bfd90cd1fde9aa706a9}{model3d\+Rev\+Index} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Rev\+Index)
+\begin{DoxyCompactList}\small\item\em index of a vertex in the mass-\/points array \end{DoxyCompactList}\item 
+const size\+\_\+t \hyperlink{namespacestd_ae8e9077260287353aa87ecaadb67b8e7}{model3d\+Objects} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Objects)
+\begin{DoxyCompactList}\small\item\em number of 3\+D-\/objects \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a34c26b88877b9e50d420b2f5ee1c1c47}{model3d\+Object\+Offset} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Offset)
+\begin{DoxyCompactList}\small\item\em offset to the first vertex of a 3\+D-\/object \end{DoxyCompactList}\item 
+const size\+\_\+t $\ast$ \hyperlink{namespacestd_a678ef71cdf9ee666493694bfcf4d238f}{model3d\+Object\+Length} = \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Length)
+\begin{DoxyCompactList}\small\item\em number of vertices for each 3\+D-\/object \end{DoxyCompactList}\item 
+const char $\ast$$\ast$ \hyperlink{namespacestd_af3ac1c474abd23473b8fca32585ffe52}{model3d\+Object\+Names} = (const char$\ast$$\ast$) \hyperlink{model__mapping_8cpp_a4d1624dd68db4a8494c5e998b5aa60f9}{M\+O\+D\+E\+L}(Object\+Names)
+\begin{DoxyCompactList}\small\item\em names of the objects (for identification) \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{namespacestd_ab193fa08b6666c1bca6ccbb53acd58f6}{model3d\+Texture\+File\+Path} = \char`\"{}textures/textures\+\_\+all.\+rgb\char`\"{}
+\begin{DoxyCompactList}\small\item\em path to the texture-\/image file \end{DoxyCompactList}\item 
+bool \hyperlink{namespacestd_a46133dbc6d449430af9f3e4b497f0d19}{leap\+Frog\+Initialized} = false
+\item 
+double \hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t} = 0
+\item 
+double \hyperlink{namespacestd_a3a4f9480c35c84159c4009b499c3eea6}{floor\+Level} = -\/1.
+\item 
+double \hyperlink{namespacestd_a3901183639dea11eb8cf94025f5cfea8}{repulsive\+Spring\+Const} = -\/50.
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacestd_a41fa9cfdd951bf0cc7f23973beaa7fdb}{}\index{std@{std}!bary\+Vertex\+In\+Triangle@{bary\+Vertex\+In\+Triangle}}
+\index{bary\+Vertex\+In\+Triangle@{bary\+Vertex\+In\+Triangle}!std@{std}}
+\subsubsection[{bary\+Vertex\+In\+Triangle}]{\setlength{\rightskip}{0pt plus 5cm}bool std\+::bary\+Vertex\+In\+Triangle (
+\begin{DoxyParamCaption}
+\item[{const Eigen\+::\+Vector3d \&}]{P, }
+\item[{const Eigen\+::\+Vector3d \&}]{A, }
+\item[{const Eigen\+::\+Vector3d \&}]{B, }
+\item[{const Eigen\+::\+Vector3d \&}]{C}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a41fa9cfdd951bf0cc7f23973beaa7fdb}
+\hypertarget{namespacestd_a21cb14ca4c41a856be94b8fc9ff59c5a}{}\index{std@{std}!collision\+Detection\+And\+Response@{collision\+Detection\+And\+Response}}
+\index{collision\+Detection\+And\+Response@{collision\+Detection\+And\+Response}!std@{std}}
+\subsubsection[{collision\+Detection\+And\+Response}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::collision\+Detection\+And\+Response (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{size\+\_\+t}]{offs\+P, }
+\item[{size\+\_\+t}]{len\+P, }
+\item[{G\+Lfloat}]{object\+\_\+mesh\mbox{[}$\,$\mbox{]}, }
+\item[{size\+\_\+t}]{offs\+O, }
+\item[{size\+\_\+t}]{len\+O}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a21cb14ca4c41a856be94b8fc9ff59c5a}
+Checks if there is a collision with mass spring points and object mesh. Adds penalty forces for collisions.
+
+This algorithm can\textquotesingle{}t deal with self collision, so assure the object\+\_\+mesh doesn\textquotesingle{}t contain vertices owned by points
+
+
+\begin{DoxyParams}{Parameters}
+{\em points} & array of mass points \\
+\hline
+{\em offs\+P} & offset in the points array \\
+\hline
+{\em len\+P} & number of mass points \\
+\hline
+{\em object\+\_\+mesh} & vertices array with all triangles (except them present in points) \\
+\hline
+{\em offs\+O} & offset in terms of vertices \\
+\hline
+{\em len\+O} & number of vertices to compute \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_a21cb14ca4c41a856be94b8fc9ff59c5a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_a531c113b5d68b2af865bcc27ae4c8cc4}{}\index{std@{std}!f\+\_\+int@{f\+\_\+int}}
+\index{f\+\_\+int@{f\+\_\+int}!std@{std}}
+\subsubsection[{f\+\_\+int}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d std\+::f\+\_\+int (
+\begin{DoxyParamCaption}
+\item[{{\bf Mass} \&}]{pt, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a531c113b5d68b2af865bcc27ae4c8cc4}
+Compute internal forces of a point.
+
+This is a subroutine for the forward Euler method. 
+\begin{DoxyParams}{Parameters}
+{\em pt} & the actual point \\
+\hline
+{\em springs} & vector of springs \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sum of forces of all springs connected to point pt 
+\end{DoxyReturn}
+\hypertarget{namespacestd_a8bde1e030dd347ced2d32f063f983420}{}\index{std@{std}!force@{force}}
+\index{force@{force}!std@{std}}
+\subsubsection[{force}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::force (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs, }
+\item[{bool}]{interaction}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a8bde1e030dd347ced2d32f063f983420}
+Calculate force for all points at time t according to x(t) stored in the points.
+
+This is a subroutine for the midpoint method. 
+\begin{DoxyParams}{Parameters}
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+{\em interaction} & true = apply external forces other than gravity \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_a8bde1e030dd347ced2d32f063f983420_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_a799147cff61c9c79a5ef80489d410fe2}{}\index{std@{std}!fwd\+\_\+euler@{fwd\+\_\+euler}}
+\index{fwd\+\_\+euler@{fwd\+\_\+euler}!std@{std}}
+\subsubsection[{fwd\+\_\+euler}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::fwd\+\_\+euler (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs, }
+\item[{bool}]{interaction}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a799147cff61c9c79a5ef80489d410fe2}
+Euler Method -\/ Implementation.
+
+This function calculates the position and velocity for the next time step. 
+\begin{DoxyCode}
+\textcolor{preprocessor}{# Compute position at t+h      x(t+h) = x(t) + h*v(t)}
+\textcolor{preprocessor}{# Compute forces at t          f(t)   = f\_int(t) + f\_ext(t)}
+\textcolor{preprocessor}{# Compute acceleration at t    a(t)   = 1/m (f(t) - gamma*v(t))}
+\textcolor{preprocessor}{# Compute velocity at t+h      v(t+h) = v(t) + h*a(t)}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & time step \\
+\hline
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+{\em interaction} & true = apply external forces other than gravity \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_a799147cff61c9c79a5ef80489d410fe2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_a4b332ac1eb524b67a49cfc0187f70b75}{}\index{std@{std}!gravity@{gravity}}
+\index{gravity@{gravity}!std@{std}}
+\subsubsection[{gravity}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d std\+::gravity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a4b332ac1eb524b67a49cfc0187f70b75}
+The gravity. Either it is determined from an acceleration sensor or if not detected a constant in Z axis. \begin{DoxyReturn}{Returns}
+the gravity 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{namespacestd_a4b332ac1eb524b67a49cfc0187f70b75_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_a6a2a5c73fecc45374baf25b7b05dbc97}{}\index{std@{std}!leapfrog@{leapfrog}}
+\index{leapfrog@{leapfrog}!std@{std}}
+\subsubsection[{leapfrog}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::leapfrog (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs, }
+\item[{bool}]{interaction}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a6a2a5c73fecc45374baf25b7b05dbc97}
+Leapfrog method. 
+\begin{DoxyParams}{Parameters}
+{\em dt} & time step \\
+\hline
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+{\em interaction} & true = apply external forces other than gravity \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_a6a2a5c73fecc45374baf25b7b05dbc97_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_ae925c3874f2dd2ec669c4640831d17b6}{}\index{std@{std}!midpoint@{midpoint}}
+\index{midpoint@{midpoint}!std@{std}}
+\subsubsection[{midpoint}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::midpoint (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs, }
+\item[{bool}]{interaction}
+\end{DoxyParamCaption}
+)}\label{namespacestd_ae925c3874f2dd2ec669c4640831d17b6}
+Midpoint method. 
+\begin{DoxyCode}
+Formula:
+  a(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) = (f(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) - gamma*v(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}))/m
+  v\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2) = v(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) + h/2*a(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t})
+  x\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2) = x(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) + h/2*v(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t})
+  a\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2) = (f\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2) - gamma*v\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2))/m
+  x(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h) = x(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) + h*v\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2)
+  v(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h) = v(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}) + h*a\_half(\hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{t}+h/2)
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & time step \\
+\hline
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+{\em interaction} & true = apply external forces other than gravity \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_ae925c3874f2dd2ec669c4640831d17b6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_af9b93750ea7aaecab7885d024fd822a2}{}\index{std@{std}!symplectic@{symplectic}}
+\index{symplectic@{symplectic}!std@{std}}
+\subsubsection[{symplectic}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::symplectic (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs, }
+\item[{bool}]{interaction}
+\end{DoxyParamCaption}
+)}\label{namespacestd_af9b93750ea7aaecab7885d024fd822a2}
+Symplectic euler method.
+
+
+\begin{DoxyCode}
+Algorithm:
+\textcolor{preprocessor}{# Compute position at t+h      x(t+h) = x(t) + h*v(t)}
+\textcolor{preprocessor}{# Compute forces at t          f(t)   = f\_int(t) + f\_ext(t)}
+\textcolor{preprocessor}{# Compute acceleration at t    a(t)   = 1/m (f(t) - gamma*v(t))}
+\textcolor{preprocessor}{# Compute velocity at t+h      v(t+h) = v(t) + h*a(t)}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & time step \\
+\hline
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+{\em interaction} & true = apply external forces other than gravity \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacestd_af9b93750ea7aaecab7885d024fd822a2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespacestd_a8f17d2dea5f0758f77d130979a6ce6bf}{}\index{std@{std}!vertex\+In\+Triangle@{vertex\+In\+Triangle}}
+\index{vertex\+In\+Triangle@{vertex\+In\+Triangle}!std@{std}}
+\subsubsection[{vertex\+In\+Triangle}]{\setlength{\rightskip}{0pt plus 5cm}bool std\+::vertex\+In\+Triangle (
+\begin{DoxyParamCaption}
+\item[{const Eigen\+::\+Vector3d \&}]{P, }
+\item[{const Eigen\+::\+Vector3d \&}]{A, }
+\item[{const Eigen\+::\+Vector3d \&}]{B, }
+\item[{const Eigen\+::\+Vector3d \&}]{C, }
+\item[{const float}]{epsilon, }
+\item[{float \&}]{dist, }
+\item[{Eigen\+::\+Vector3d \&}]{N}
+\end{DoxyParamCaption}
+)}\label{namespacestd_a8f17d2dea5f0758f77d130979a6ce6bf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{namespacestd_a8f17d2dea5f0758f77d130979a6ce6bf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespacestd_a3a4f9480c35c84159c4009b499c3eea6}{}\index{std@{std}!floor\+Level@{floor\+Level}}
+\index{floor\+Level@{floor\+Level}!std@{std}}
+\subsubsection[{floor\+Level}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::floor\+Level = -\/1.}\label{namespacestd_a3a4f9480c35c84159c4009b499c3eea6}
+\hypertarget{namespacestd_a46133dbc6d449430af9f3e4b497f0d19}{}\index{std@{std}!leap\+Frog\+Initialized@{leap\+Frog\+Initialized}}
+\index{leap\+Frog\+Initialized@{leap\+Frog\+Initialized}!std@{std}}
+\subsubsection[{leap\+Frog\+Initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool std\+::leap\+Frog\+Initialized = false}\label{namespacestd_a46133dbc6d449430af9f3e4b497f0d19}
+\hypertarget{namespacestd_a339638085d29cb13db371a07634085c6}{}\index{std@{std}!model3d\+Fwd\+Index@{model3d\+Fwd\+Index}}
+\index{model3d\+Fwd\+Index@{model3d\+Fwd\+Index}!std@{std}}
+\subsubsection[{model3d\+Fwd\+Index}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$$\ast$ std\+::model3d\+Fwd\+Index = {\bf M\+O\+D\+E\+L}(Fwd\+Index)}\label{namespacestd_a339638085d29cb13db371a07634085c6}
+
+
+indices of the mass-\/points in the positions array 
+
+\hypertarget{namespacestd_a0ff16d332f71a0822fb8570c16df06ff}{}\index{std@{std}!model3d\+Fwd\+Index\+Length@{model3d\+Fwd\+Index\+Length}}
+\index{model3d\+Fwd\+Index\+Length@{model3d\+Fwd\+Index\+Length}!std@{std}}
+\subsubsection[{model3d\+Fwd\+Index\+Length}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Fwd\+Index\+Length = {\bf M\+O\+D\+E\+L}(Fwd\+Index\+Length)}\label{namespacestd_a0ff16d332f71a0822fb8570c16df06ff}
+
+
+number of indices for each mass-\/point 
+
+\hypertarget{namespacestd_a20a6e87f65453b04a7eac93004989039}{}\index{std@{std}!model3d\+Masses@{model3d\+Masses}}
+\index{model3d\+Masses@{model3d\+Masses}!std@{std}}
+\subsubsection[{model3d\+Masses}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Masses = {\bf M\+O\+D\+E\+L}(Masses)}\label{namespacestd_a20a6e87f65453b04a7eac93004989039}
+
+
+array of 3\+D-\/objects with mass 
+
+\hypertarget{namespacestd_a22dba9fb8da88b07cd8b471827b6fac7}{}\index{std@{std}!model3d\+Mass\+Fwd\+Offs@{model3d\+Mass\+Fwd\+Offs}}
+\index{model3d\+Mass\+Fwd\+Offs@{model3d\+Mass\+Fwd\+Offs}!std@{std}}
+\subsubsection[{model3d\+Mass\+Fwd\+Offs}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Mass\+Fwd\+Offs = {\bf M\+O\+D\+E\+L}(Mass\+Fwd\+Offs)}\label{namespacestd_a22dba9fb8da88b07cd8b471827b6fac7}
+
+
+offset in the points array 
+
+\hypertarget{namespacestd_acb567e43ad7c5a09fec7eeed5b529d96}{}\index{std@{std}!model3d\+Mass\+Rev\+Offs@{model3d\+Mass\+Rev\+Offs}}
+\index{model3d\+Mass\+Rev\+Offs@{model3d\+Mass\+Rev\+Offs}!std@{std}}
+\subsubsection[{model3d\+Mass\+Rev\+Offs}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Mass\+Rev\+Offs = {\bf M\+O\+D\+E\+L}(Mass\+Rev\+Offs)}\label{namespacestd_acb567e43ad7c5a09fec7eeed5b529d96}
+
+
+offsets for the model3d\+Rev\+Index array 
+
+\hypertarget{namespacestd_ad0535524d79ce742b34e78404e55a224}{}\index{std@{std}!model3d\+Mass\+Rev\+Offs\+Orig@{model3d\+Mass\+Rev\+Offs\+Orig}}
+\index{model3d\+Mass\+Rev\+Offs\+Orig@{model3d\+Mass\+Rev\+Offs\+Orig}!std@{std}}
+\subsubsection[{model3d\+Mass\+Rev\+Offs\+Orig}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Mass\+Rev\+Offs\+Orig = {\bf M\+O\+D\+E\+L}(Mass\+Rev\+Offs\+Orig)}\label{namespacestd_ad0535524d79ce742b34e78404e55a224}
+
+
+offset to the first vertex of an object with mass 
+
+\hypertarget{namespacestd_aea2c80cb8809cdc4c2f3b2b0961d3036}{}\index{std@{std}!model3d\+Mass\+Vertices@{model3d\+Mass\+Vertices}}
+\index{model3d\+Mass\+Vertices@{model3d\+Mass\+Vertices}!std@{std}}
+\subsubsection[{model3d\+Mass\+Vertices}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Mass\+Vertices = {\bf M\+O\+D\+E\+L}(Mass\+Vertices)}\label{namespacestd_aea2c80cb8809cdc4c2f3b2b0961d3036}
+
+
+number of vertices per object with mass 
+
+\hypertarget{namespacestd_ab62b34140cca60f41eac455edd195e5a}{}\index{std@{std}!model3d\+Normals@{model3d\+Normals}}
+\index{model3d\+Normals@{model3d\+Normals}!std@{std}}
+\subsubsection[{model3d\+Normals}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat $\ast$ std\+::model3d\+Normals = {\bf M\+O\+D\+E\+L}(Normals)}\label{namespacestd_ab62b34140cca60f41eac455edd195e5a}
+
+
+all normals of the face surfaces 
+
+\hypertarget{namespacestd_a678ef71cdf9ee666493694bfcf4d238f}{}\index{std@{std}!model3d\+Object\+Length@{model3d\+Object\+Length}}
+\index{model3d\+Object\+Length@{model3d\+Object\+Length}!std@{std}}
+\subsubsection[{model3d\+Object\+Length}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Object\+Length = {\bf M\+O\+D\+E\+L}(Object\+Length)}\label{namespacestd_a678ef71cdf9ee666493694bfcf4d238f}
+
+
+number of vertices for each 3\+D-\/object 
+
+\hypertarget{namespacestd_af3ac1c474abd23473b8fca32585ffe52}{}\index{std@{std}!model3d\+Object\+Names@{model3d\+Object\+Names}}
+\index{model3d\+Object\+Names@{model3d\+Object\+Names}!std@{std}}
+\subsubsection[{model3d\+Object\+Names}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$$\ast$ std\+::model3d\+Object\+Names = (const char$\ast$$\ast$) {\bf M\+O\+D\+E\+L}(Object\+Names)}\label{namespacestd_af3ac1c474abd23473b8fca32585ffe52}
+
+
+names of the objects (for identification) 
+
+\hypertarget{namespacestd_a34c26b88877b9e50d420b2f5ee1c1c47}{}\index{std@{std}!model3d\+Object\+Offset@{model3d\+Object\+Offset}}
+\index{model3d\+Object\+Offset@{model3d\+Object\+Offset}!std@{std}}
+\subsubsection[{model3d\+Object\+Offset}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Object\+Offset = {\bf M\+O\+D\+E\+L}(Object\+Offset)}\label{namespacestd_a34c26b88877b9e50d420b2f5ee1c1c47}
+
+
+offset to the first vertex of a 3\+D-\/object 
+
+\hypertarget{namespacestd_ae8e9077260287353aa87ecaadb67b8e7}{}\index{std@{std}!model3d\+Objects@{model3d\+Objects}}
+\index{model3d\+Objects@{model3d\+Objects}!std@{std}}
+\subsubsection[{model3d\+Objects}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t std\+::model3d\+Objects = {\bf M\+O\+D\+E\+L}(Objects)}\label{namespacestd_ae8e9077260287353aa87ecaadb67b8e7}
+
+
+number of 3\+D-\/objects 
+
+\hypertarget{namespacestd_a74aad4fa6e8a984849221081da2ef691}{}\index{std@{std}!model3d\+Objects\+With\+Mass@{model3d\+Objects\+With\+Mass}}
+\index{model3d\+Objects\+With\+Mass@{model3d\+Objects\+With\+Mass}!std@{std}}
+\subsubsection[{model3d\+Objects\+With\+Mass}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t std\+::model3d\+Objects\+With\+Mass = {\bf M\+O\+D\+E\+L}(Objects\+With\+Mass)}\label{namespacestd_a74aad4fa6e8a984849221081da2ef691}
+
+
+number of objects to apply to the mass-\/spring simulation 
+
+\hypertarget{namespacestd_aa45ed5de4e82f7ca1e4fd453a157715c}{}\index{std@{std}!model3d\+Positions@{model3d\+Positions}}
+\index{model3d\+Positions@{model3d\+Positions}!std@{std}}
+\subsubsection[{model3d\+Positions}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat $\ast$ std\+::model3d\+Positions = {\bf M\+O\+D\+E\+L}(Positions)}\label{namespacestd_aa45ed5de4e82f7ca1e4fd453a157715c}
+
+
+all vertex positions 
+
+\hypertarget{namespacestd_a13dd980059224bfd90cd1fde9aa706a9}{}\index{std@{std}!model3d\+Rev\+Index@{model3d\+Rev\+Index}}
+\index{model3d\+Rev\+Index@{model3d\+Rev\+Index}!std@{std}}
+\subsubsection[{model3d\+Rev\+Index}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t $\ast$ std\+::model3d\+Rev\+Index = {\bf M\+O\+D\+E\+L}(Rev\+Index)}\label{namespacestd_a13dd980059224bfd90cd1fde9aa706a9}
+
+
+index of a vertex in the mass-\/points array 
+
+\hypertarget{namespacestd_a75a224804224819d960875bd982ce0c6}{}\index{std@{std}!model3d\+Texels@{model3d\+Texels}}
+\index{model3d\+Texels@{model3d\+Texels}!std@{std}}
+\subsubsection[{model3d\+Texels}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat $\ast$ std\+::model3d\+Texels = {\bf M\+O\+D\+E\+L}(Texels)}\label{namespacestd_a75a224804224819d960875bd982ce0c6}
+
+
+all texture coordinates 
+
+\hypertarget{namespacestd_ab193fa08b6666c1bca6ccbb53acd58f6}{}\index{std@{std}!model3d\+Texture\+File\+Path@{model3d\+Texture\+File\+Path}}
+\index{model3d\+Texture\+File\+Path@{model3d\+Texture\+File\+Path}!std@{std}}
+\subsubsection[{model3d\+Texture\+File\+Path}]{\setlength{\rightskip}{0pt plus 5cm}const char $\ast$ std\+::model3d\+Texture\+File\+Path = \char`\"{}textures/textures\+\_\+all.\+rgb\char`\"{}}\label{namespacestd_ab193fa08b6666c1bca6ccbb53acd58f6}
+
+
+path to the texture-\/image file 
+
+\hypertarget{namespacestd_a2c56d5934d3e2877598b1eba9302a70f}{}\index{std@{std}!model3d\+Vertices@{model3d\+Vertices}}
+\index{model3d\+Vertices@{model3d\+Vertices}!std@{std}}
+\subsubsection[{model3d\+Vertices}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t std\+::model3d\+Vertices = {\bf M\+O\+D\+E\+L}(Vertices)}\label{namespacestd_a2c56d5934d3e2877598b1eba9302a70f}
+
+
+number of vertices 
+
+\hypertarget{namespacestd_a3901183639dea11eb8cf94025f5cfea8}{}\index{std@{std}!repulsive\+Spring\+Const@{repulsive\+Spring\+Const}}
+\index{repulsive\+Spring\+Const@{repulsive\+Spring\+Const}!std@{std}}
+\subsubsection[{repulsive\+Spring\+Const}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::repulsive\+Spring\+Const = -\/50.}\label{namespacestd_a3901183639dea11eb8cf94025f5cfea8}
+\hypertarget{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{}\index{std@{std}!t@{t}}
+\index{t@{t}!std@{std}}
+\subsubsection[{t}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::t = 0}\label{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}

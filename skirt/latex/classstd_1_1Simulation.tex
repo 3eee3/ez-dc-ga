@@ -1,0 +1,94 @@
+\hypertarget{classstd_1_1Simulation}{}\section{std\+:\+:Simulation Class Reference}
+\label{classstd_1_1Simulation}\index{std\+::\+Simulation@{std\+::\+Simulation}}
+
+
+{\ttfamily \#include $<$Simulation.\+h$>$}
+
+
+
+Collaboration diagram for std\+:\+:Simulation\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=162pt]{classstd_1_1Simulation__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0f}{Method} \{ \hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa21053c5c5a0e88dd4e25f356893b3984}{E\+U\+L\+E\+R}, 
+\hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa288a5528e79bb869cfd34673e1182c96}{S\+Y\+M\+P\+L\+E\+C\+T\+I\+C}, 
+\hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fafe52396efa130f983ce4ab886f04fb49}{L\+E\+A\+P\+F\+R\+O\+G}, 
+\hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fad2702ad77e7db4ce9edede07636f46db}{M\+I\+D\+P\+O\+I\+N\+T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classstd_1_1Simulation_a0e50b0ce3a31b7ac77cf99b1aa7e3d62}{step} (double dt, \hyperlink{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0f}{Method} method, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classstd_1_1Simulation}{Simulation} class. Solver for mass-\/spring systems.
+
+This class provides some numerical solvers. They are programmed during a assignment of the pro-\/seminar physically based simulations preceding to this project. 
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0f}{}\index{std\+::\+Simulation@{std\+::\+Simulation}!Method@{Method}}
+\index{Method@{Method}!std\+::\+Simulation@{std\+::\+Simulation}}
+\subsubsection[{Method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf std\+::\+Simulation\+::\+Method}}\label{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0f}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{E\+U\+L\+E\+R@{E\+U\+L\+E\+R}!std\+::\+Simulation@{std\+::\+Simulation}}\index{std\+::\+Simulation@{std\+::\+Simulation}!E\+U\+L\+E\+R@{E\+U\+L\+E\+R}}\item[{\em 
+\hypertarget{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa21053c5c5a0e88dd4e25f356893b3984}{}E\+U\+L\+E\+R\label{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa21053c5c5a0e88dd4e25f356893b3984}
+}]\index{S\+Y\+M\+P\+L\+E\+C\+T\+I\+C@{S\+Y\+M\+P\+L\+E\+C\+T\+I\+C}!std\+::\+Simulation@{std\+::\+Simulation}}\index{std\+::\+Simulation@{std\+::\+Simulation}!S\+Y\+M\+P\+L\+E\+C\+T\+I\+C@{S\+Y\+M\+P\+L\+E\+C\+T\+I\+C}}\item[{\em 
+\hypertarget{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa288a5528e79bb869cfd34673e1182c96}{}S\+Y\+M\+P\+L\+E\+C\+T\+I\+C\label{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fa288a5528e79bb869cfd34673e1182c96}
+}]\index{L\+E\+A\+P\+F\+R\+O\+G@{L\+E\+A\+P\+F\+R\+O\+G}!std\+::\+Simulation@{std\+::\+Simulation}}\index{std\+::\+Simulation@{std\+::\+Simulation}!L\+E\+A\+P\+F\+R\+O\+G@{L\+E\+A\+P\+F\+R\+O\+G}}\item[{\em 
+\hypertarget{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fafe52396efa130f983ce4ab886f04fb49}{}L\+E\+A\+P\+F\+R\+O\+G\label{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fafe52396efa130f983ce4ab886f04fb49}
+}]\index{M\+I\+D\+P\+O\+I\+N\+T@{M\+I\+D\+P\+O\+I\+N\+T}!std\+::\+Simulation@{std\+::\+Simulation}}\index{std\+::\+Simulation@{std\+::\+Simulation}!M\+I\+D\+P\+O\+I\+N\+T@{M\+I\+D\+P\+O\+I\+N\+T}}\item[{\em 
+\hypertarget{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fad2702ad77e7db4ce9edede07636f46db}{}M\+I\+D\+P\+O\+I\+N\+T\label{classstd_1_1Simulation_a7cbc16315b54abab3ee481b83d90bf0fad2702ad77e7db4ce9edede07636f46db}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classstd_1_1Simulation_a0e50b0ce3a31b7ac77cf99b1aa7e3d62}{}\index{std\+::\+Simulation@{std\+::\+Simulation}!step@{step}}
+\index{step@{step}!std\+::\+Simulation@{std\+::\+Simulation}}
+\subsubsection[{step}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Simulation\+::step (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{{\bf Method}}]{method, }
+\item[{vector$<$ {\bf Mass} $>$ \&}]{points, }
+\item[{vector$<$ {\bf Spring} $>$ \&}]{springs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classstd_1_1Simulation_a0e50b0ce3a31b7ac77cf99b1aa7e3d62}
+Execute one step of the simulation. 
+\begin{DoxyParams}{Parameters}
+{\em dt} & time delay between two steps \\
+\hline
+{\em method} & select the method to use; The value can be E\+U\+L\+E\+R, S\+Y\+M\+P\+L\+E\+C\+T\+I\+C, L\+E\+A\+P\+F\+R\+O\+G or M\+I\+D\+P\+O\+I\+N\+T. \\
+\hline
+{\em points} & all mass-\/points \\
+\hline
+{\em springs} & all springs \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1Simulation_a0e50b0ce3a31b7ac77cf99b1aa7e3d62_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Simulation_8h}{Simulation.\+h}\item 
+src/\hyperlink{Simulation_8cpp}{Simulation.\+cpp}\end{DoxyCompactItemize}

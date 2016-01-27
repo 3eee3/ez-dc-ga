@@ -1,0 +1,30 @@
+\section{Introduction}
+Here goes the introduction of the project
+
+\section{Installation}
+\subsection{Minimal Requirements}
+\begin{itemize}
+	\item Linux based OS
+	\item Memory min. 4\,MB RAM
+	\item CPU min. speed 1\,GHz with 2 cores e.g. i5-2540 or better
+	\item approx 1\,MB free hard-disk space
+\end{itemize}
+\subsection{Dependencies}
+\begin{itemize}
+	\item OpenGL and utility libraries (package libglu***-dev e.g. libglu-mesa-dev; depends on graphics hardware)
+	\item OpenGL utilities toolkit (package freeglut3-dev)
+	\item libPNG  -- PNG file handling (package libpng12-dev)
+	\item Eigen -- math utilities for vector and matrix arithmetics (package libeigen3-dev)
+	\item C++ compiler with C++ 11 support e.g. GNU GCC g++ V4.7 or better
+\end{itemize}
+\subsection{Compiling}
+Go to the sub-folder \it{build} of the project folder and run \tt{make all}.\par
+If you want to compile directly on the console use the following options:  
+\begin{itemize}
+	\item -std=c++11 or -std=c++0x (use the C++ 11 dialect)  
+	\item -lGL (the OpenGL library)  
+	\item -lGLU (OpenGL utility library)
+	\item -lglut (the GL utility Toolkit - make sure 'freeglut' is installed, some extensions not present in the GLUT API are used)  
+	\item -lpthread (or -lthread; manage threads)  
+	\item -lpng (library to handle PNG files)
+\end{itemize}

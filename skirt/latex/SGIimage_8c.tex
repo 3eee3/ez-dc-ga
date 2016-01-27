@@ -1,0 +1,133 @@
+\hypertarget{SGIimage_8c}{}\section{src/\+S\+G\+Iimage.c File Reference}
+\label{SGIimage_8c}\index{src/\+S\+G\+Iimage.\+c@{src/\+S\+G\+Iimage.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}S\+G\+Iimage.\+h\char`\"{}}\\*
+Include dependency graph for S\+G\+Iimage.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=278pt]{SGIimage_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structImage}{Image}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{SGIimage_8c_ae85edbe538f26e9d7c01ce9575e5a869}{I\+M\+A\+G\+I\+C}~0x01da
+\item 
+\#define \hyperlink{SGIimage_8c_abb38fb3b165149d6f89182858a0a69a8}{I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P}~0xda01
+\item 
+\#define \hyperlink{SGIimage_8c_a7d328a88b3bb666030687fedff1c1731}{S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S}(x)~((((x) \& 0xff) $<$$<$ 8) $\vert$ (((x) \& 0xff00) $>$$>$ 8))
+\item 
+\#define \hyperlink{SGIimage_8c_aeb2cd9336afe0983ef5bcf18088bd05d}{S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S}(x)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structImage}{Image} $\ast$ \hyperlink{SGIimage_8c_a3967a181b57e2a65499de032d78157cc}{Image\+Open} (char $\ast$file\+Name)
+\item 
+static void \hyperlink{SGIimage_8c_a574c885bc947fe1c2e4449ffbea4d69b}{Image\+Close} (\hyperlink{structImage}{Image} $\ast$image)
+\item 
+static void \hyperlink{SGIimage_8c_a89377c9eeb925f11cfc8a1be53a93e0f}{Image\+Get\+Row} (\hyperlink{structImage}{Image} $\ast$image, unsigned char $\ast$buf, int y, int z)
+\item 
+static void \hyperlink{SGIimage_8c_a4b37c80287479ac74c394a49b7369004}{Image\+Get\+Raw\+Data} (\hyperlink{structImage}{Image} $\ast$image, unsigned char $\ast$data)
+\item 
+\hyperlink{structIMAGE}{I\+M\+A\+G\+E} $\ast$ \hyperlink{SGIimage_8c_a6655dfddda5907fa62719e900116cacc}{Image\+Load} (char $\ast$file\+Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{SGIimage_8c_ae85edbe538f26e9d7c01ce9575e5a869}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!I\+M\+A\+G\+I\+C@{I\+M\+A\+G\+I\+C}}
+\index{I\+M\+A\+G\+I\+C@{I\+M\+A\+G\+I\+C}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{I\+M\+A\+G\+I\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+M\+A\+G\+I\+C~0x01da}\label{SGIimage_8c_ae85edbe538f26e9d7c01ce9575e5a869}
+\hypertarget{SGIimage_8c_abb38fb3b165149d6f89182858a0a69a8}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P@{I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P}}
+\index{I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P@{I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+M\+A\+G\+I\+C\+\_\+\+S\+W\+A\+P~0xda01}\label{SGIimage_8c_abb38fb3b165149d6f89182858a0a69a8}
+\hypertarget{SGIimage_8c_aeb2cd9336afe0983ef5bcf18088bd05d}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S@{S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S}}
+\index{S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S@{S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+W\+A\+P\+\_\+\+L\+O\+N\+G\+\_\+\+B\+Y\+T\+E\+S(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}\label{SGIimage_8c_aeb2cd9336afe0983ef5bcf18088bd05d}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((((x) & 0xff) << 24) | (((x) & 0xff00) << 8)) | \(\backslash\)
+((((x) & 0xff0000) >> 8) | (((x) & 0xff000000) >> 24)))
+\end{DoxyCode}
+\hypertarget{SGIimage_8c_a7d328a88b3bb666030687fedff1c1731}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S@{S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S}}
+\index{S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S@{S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+W\+A\+P\+\_\+\+S\+H\+O\+R\+T\+\_\+\+B\+Y\+T\+E\+S(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((((x) \& 0xff) $<$$<$ 8) $\vert$ (((x) \& 0xff00) $>$$>$ 8))}\label{SGIimage_8c_a7d328a88b3bb666030687fedff1c1731}
+
+
+\subsection{Function Documentation}
+\hypertarget{SGIimage_8c_a574c885bc947fe1c2e4449ffbea4d69b}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!Image\+Close@{Image\+Close}}
+\index{Image\+Close@{Image\+Close}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{Image\+Close}]{\setlength{\rightskip}{0pt plus 5cm}static void Image\+Close (
+\begin{DoxyParamCaption}
+\item[{{\bf Image} $\ast$}]{image}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{SGIimage_8c_a574c885bc947fe1c2e4449ffbea4d69b}
+\hypertarget{SGIimage_8c_a4b37c80287479ac74c394a49b7369004}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!Image\+Get\+Raw\+Data@{Image\+Get\+Raw\+Data}}
+\index{Image\+Get\+Raw\+Data@{Image\+Get\+Raw\+Data}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{Image\+Get\+Raw\+Data}]{\setlength{\rightskip}{0pt plus 5cm}static void Image\+Get\+Raw\+Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Image} $\ast$}]{image, }
+\item[{unsigned char $\ast$}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{SGIimage_8c_a4b37c80287479ac74c394a49b7369004}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{SGIimage_8c_a4b37c80287479ac74c394a49b7369004_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{SGIimage_8c_a89377c9eeb925f11cfc8a1be53a93e0f}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!Image\+Get\+Row@{Image\+Get\+Row}}
+\index{Image\+Get\+Row@{Image\+Get\+Row}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{Image\+Get\+Row}]{\setlength{\rightskip}{0pt plus 5cm}static void Image\+Get\+Row (
+\begin{DoxyParamCaption}
+\item[{{\bf Image} $\ast$}]{image, }
+\item[{unsigned char $\ast$}]{buf, }
+\item[{int}]{y, }
+\item[{int}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{SGIimage_8c_a89377c9eeb925f11cfc8a1be53a93e0f}
+\hypertarget{SGIimage_8c_a6655dfddda5907fa62719e900116cacc}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!Image\+Load@{Image\+Load}}
+\index{Image\+Load@{Image\+Load}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{Image\+Load}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\+M\+A\+G\+E}$\ast$ Image\+Load (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{file\+Name}
+\end{DoxyParamCaption}
+)}\label{SGIimage_8c_a6655dfddda5907fa62719e900116cacc}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{SGIimage_8c_a6655dfddda5907fa62719e900116cacc_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{SGIimage_8c_a3967a181b57e2a65499de032d78157cc}{}\index{S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}!Image\+Open@{Image\+Open}}
+\index{Image\+Open@{Image\+Open}!S\+G\+Iimage.\+c@{S\+G\+Iimage.\+c}}
+\subsubsection[{Image\+Open}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Image}$\ast$ Image\+Open (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{file\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{SGIimage_8c_a3967a181b57e2a65499de032d78157cc}

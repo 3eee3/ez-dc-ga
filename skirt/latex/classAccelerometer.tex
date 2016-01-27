@@ -1,0 +1,342 @@
+\hypertarget{classAccelerometer}{}\section{Accelerometer Class Reference}
+\label{classAccelerometer}\index{Accelerometer@{Accelerometer}}
+
+
+{\ttfamily \#include $<$Accelerometer.\+h$>$}
+
+
+
+Collaboration diagram for Accelerometer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{classAccelerometer__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classAccelerometer_aa01d756f8ba70acaaab7938dff643d4d}{Accelerometer} ()
+\item 
+\hyperlink{classAccelerometer_ac5ae04cdfd2ad1e500fd5cd4c1d10a19}{Accelerometer} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+\hyperlink{classAccelerometer_acb6a7d9c61f2084ec4aec4a8ff35d622}{$\sim$\+Accelerometer} ()
+\item 
+double \hyperlink{classAccelerometer_a9c6ac96d56c678b523216b690ff05723}{get\+X} ()
+\item 
+double \hyperlink{classAccelerometer_ac66896e76f13e8395203a142125f792b}{get\+Y} ()
+\item 
+double \hyperlink{classAccelerometer_ac35787c41e79c66c25b2c6bde034af87}{get\+Z} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classAccelerometer_a47ffdc4ab4b99fd0339f964e8a4325f1}{is\+Available} ()
+\item 
+static void \hyperlink{classAccelerometer_a148aaf7f305b2085c5eacf672007d126}{accelerometer\+Init\+Device} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classAccelerometer_ab237ee2d54f41bf5b9cdd1b2d0e30da2}{object\+Counter} (int count)
+\item 
+static void \hyperlink{classAccelerometer_a0ef1257304190883a415bd1c5d6e2b13}{update\+Values} ()
+\item 
+static void \hyperlink{classAccelerometer_ae79d97fb2ca83127b10ca309b0732cba}{init\+Update\+Thread} ()
+\item 
+static void \hyperlink{classAccelerometer_ab8a7687fc06b233e12368b04ec402357}{close\+Update\+Thread} ()
+\item 
+static void \hyperlink{classAccelerometer_aad6765aee0dbea85d3b5d3fa74a2992c}{device\+Config\+From\+File} (std\+::string config\+Path)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \hyperlink{classAccelerometer_acb0857fa75bff055f25584ae24d362d4}{device\+Path}
+\item 
+static std\+::thread \hyperlink{classAccelerometer_a8b9d7d942de3ac41f6fe2b2c7e3f15e8}{updater\+Thread}
+\item 
+static std\+::mutex \hyperlink{classAccelerometer_aa5e00cbce6850be9d3083530bff709dd}{mtx}
+\item 
+static std\+::ifstream \hyperlink{classAccelerometer_adde7ddf4ba2fae34b4a0910f1a64076b}{device}
+\item 
+static double \hyperlink{classAccelerometer_a6c600b26e7eeb394058515e8481c8ae0}{sensitivity} = 1.\+0
+\item 
+static bool \hyperlink{classAccelerometer_a3a11a04b74460eb6ddcf79af3a35e33b}{present} = false
+\item 
+static bool \hyperlink{classAccelerometer_abe36590009a1913b6886427fc110f531}{done} = false
+\item 
+static double \hyperlink{classAccelerometer_af06011557497aa4603cbe47966f32aaf}{x} = 0.\+0
+\item 
+static double \hyperlink{classAccelerometer_a4cba3b73c6339058c046baf1659595fc}{y} = 0.\+0
+\item 
+static double \hyperlink{classAccelerometer_ac11a92cc27528e883bbfe04cf4a150f7}{z} = 0.\+0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class handles the connection to the accelerometer device of a notebook.
+
+Actually it supports the accelerometer of type lis3lv02d. Other devices are unsupported, but they may work with proper settings in the configuration file.~\newline
+~\newline
+Configuration file\+:~\newline
+The file follows the specifications of a windows I\+N\+I file. Here is an example setup\+: 
+\begin{DoxyCode}
+1 [accelerometer] ; this section must be present
+2 device = "/sys/devices/platform/lis3lv02d/position" ; must be an absolute path to the unix device
+3 sensitivity = 0.001 ; multiplier to scale the accelerometer output to fit it to gravity force
+\end{DoxyCode}
+ 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classAccelerometer_aa01d756f8ba70acaaab7938dff643d4d}{}\index{Accelerometer@{Accelerometer}!Accelerometer@{Accelerometer}}
+\index{Accelerometer@{Accelerometer}!Accelerometer@{Accelerometer}}
+\subsubsection[{Accelerometer}]{\setlength{\rightskip}{0pt plus 5cm}Accelerometer\+::\+Accelerometer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_aa01d756f8ba70acaaab7938dff643d4d}
+Construct an accelerometer device handle.
+
+This constructor fails if no device has been initialized previously by using the constructor which takes command line arguments. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_aa01d756f8ba70acaaab7938dff643d4d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classAccelerometer_ac5ae04cdfd2ad1e500fd5cd4c1d10a19}{}\index{Accelerometer@{Accelerometer}!Accelerometer@{Accelerometer}}
+\index{Accelerometer@{Accelerometer}!Accelerometer@{Accelerometer}}
+\subsubsection[{Accelerometer}]{\setlength{\rightskip}{0pt plus 5cm}Accelerometer\+::\+Accelerometer (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_ac5ae04cdfd2ad1e500fd5cd4c1d10a19}
+Construct an accelerometer device handle.
+
+This constructor initializes a helping thread which determines periodically data from the device, if it is called the first time. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & command line arguments counter from {\ttfamily \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}} \\
+\hline
+{\em argv} & arguments vector \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_ac5ae04cdfd2ad1e500fd5cd4c1d10a19_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classAccelerometer_acb6a7d9c61f2084ec4aec4a8ff35d622}{}\index{Accelerometer@{Accelerometer}!````~Accelerometer@{$\sim$\+Accelerometer}}
+\index{````~Accelerometer@{$\sim$\+Accelerometer}!Accelerometer@{Accelerometer}}
+\subsubsection[{$\sim$\+Accelerometer}]{\setlength{\rightskip}{0pt plus 5cm}Accelerometer\+::$\sim$\+Accelerometer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_acb6a7d9c61f2084ec4aec4a8ff35d622}
+Destroy the device handle.
+
+If the last handle is destroyed, also the connection to the device is closed and the appertaining thread is destroyed. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_acb6a7d9c61f2084ec4aec4a8ff35d622_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classAccelerometer_a148aaf7f305b2085c5eacf672007d126}{}\index{Accelerometer@{Accelerometer}!accelerometer\+Init\+Device@{accelerometer\+Init\+Device}}
+\index{accelerometer\+Init\+Device@{accelerometer\+Init\+Device}!Accelerometer@{Accelerometer}}
+\subsubsection[{accelerometer\+Init\+Device}]{\setlength{\rightskip}{0pt plus 5cm}void Accelerometer\+::accelerometer\+Init\+Device (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classAccelerometer_a148aaf7f305b2085c5eacf672007d126}
+Initialize the device.
+
+This method is called by the constructor of the \hyperlink{classAccelerometer}{Accelerometer} class. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & arguments counter \\
+\hline
+{\em argv} & arguments vector \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_a148aaf7f305b2085c5eacf672007d126_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classAccelerometer_ab8a7687fc06b233e12368b04ec402357}{}\index{Accelerometer@{Accelerometer}!close\+Update\+Thread@{close\+Update\+Thread}}
+\index{close\+Update\+Thread@{close\+Update\+Thread}!Accelerometer@{Accelerometer}}
+\subsubsection[{close\+Update\+Thread}]{\setlength{\rightskip}{0pt plus 5cm}void Accelerometer\+::close\+Update\+Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_ab8a7687fc06b233e12368b04ec402357}
+Close the updater thread if the last instance of \hyperlink{classAccelerometer}{Accelerometer} is destroyed. This method is called by the destructor of the \hyperlink{classAccelerometer}{Accelerometer} class. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_ab8a7687fc06b233e12368b04ec402357_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classAccelerometer_aad6765aee0dbea85d3b5d3fa74a2992c}{}\index{Accelerometer@{Accelerometer}!device\+Config\+From\+File@{device\+Config\+From\+File}}
+\index{device\+Config\+From\+File@{device\+Config\+From\+File}!Accelerometer@{Accelerometer}}
+\subsubsection[{device\+Config\+From\+File}]{\setlength{\rightskip}{0pt plus 5cm}void Accelerometer\+::device\+Config\+From\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{config\+Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_aad6765aee0dbea85d3b5d3fa74a2992c}
+Read configuration for accelerometer device from a config file. 
+\begin{DoxyParams}{Parameters}
+{\em config\+Path} & path to the config file \\
+\hline
+\end{DoxyParams}
+\hypertarget{classAccelerometer_a9c6ac96d56c678b523216b690ff05723}{}\index{Accelerometer@{Accelerometer}!get\+X@{get\+X}}
+\index{get\+X@{get\+X}!Accelerometer@{Accelerometer}}
+\subsubsection[{get\+X}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::get\+X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_a9c6ac96d56c678b523216b690ff05723}
+Get the force into X direction. \begin{DoxyReturn}{Returns}
+the force determined from the device. 
+\end{DoxyReturn}
+\hypertarget{classAccelerometer_ac66896e76f13e8395203a142125f792b}{}\index{Accelerometer@{Accelerometer}!get\+Y@{get\+Y}}
+\index{get\+Y@{get\+Y}!Accelerometer@{Accelerometer}}
+\subsubsection[{get\+Y}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::get\+Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_ac66896e76f13e8395203a142125f792b}
+Get the force into Y direction. \begin{DoxyReturn}{Returns}
+the force determined from the device. 
+\end{DoxyReturn}
+\hypertarget{classAccelerometer_ac35787c41e79c66c25b2c6bde034af87}{}\index{Accelerometer@{Accelerometer}!get\+Z@{get\+Z}}
+\index{get\+Z@{get\+Z}!Accelerometer@{Accelerometer}}
+\subsubsection[{get\+Z}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::get\+Z (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classAccelerometer_ac35787c41e79c66c25b2c6bde034af87}
+Get the force into Z direction. \begin{DoxyReturn}{Returns}
+the force determined from the device. 
+\end{DoxyReturn}
+\hypertarget{classAccelerometer_ae79d97fb2ca83127b10ca309b0732cba}{}\index{Accelerometer@{Accelerometer}!init\+Update\+Thread@{init\+Update\+Thread}}
+\index{init\+Update\+Thread@{init\+Update\+Thread}!Accelerometer@{Accelerometer}}
+\subsubsection[{init\+Update\+Thread}]{\setlength{\rightskip}{0pt plus 5cm}void Accelerometer\+::init\+Update\+Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_ae79d97fb2ca83127b10ca309b0732cba}
+Initialize the updater thread, which reads periodically the state of the accelerometer. This method is called each times an \hyperlink{classAccelerometer}{Accelerometer} object is created. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classAccelerometer_ae79d97fb2ca83127b10ca309b0732cba_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classAccelerometer_a47ffdc4ab4b99fd0339f964e8a4325f1}{}\index{Accelerometer@{Accelerometer}!is\+Available@{is\+Available}}
+\index{is\+Available@{is\+Available}!Accelerometer@{Accelerometer}}
+\subsubsection[{is\+Available}]{\setlength{\rightskip}{0pt plus 5cm}bool Accelerometer\+::is\+Available (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classAccelerometer_a47ffdc4ab4b99fd0339f964e8a4325f1}
+Checks if the device is present. 
+\begin{DoxyRetVals}{Return values}
+{\em true} & if the device is online \\
+\hline
+{\em false} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classAccelerometer_ab237ee2d54f41bf5b9cdd1b2d0e30da2}{}\index{Accelerometer@{Accelerometer}!object\+Counter@{object\+Counter}}
+\index{object\+Counter@{object\+Counter}!Accelerometer@{Accelerometer}}
+\subsubsection[{object\+Counter}]{\setlength{\rightskip}{0pt plus 5cm}int Accelerometer\+::object\+Counter (
+\begin{DoxyParamCaption}
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_ab237ee2d54f41bf5b9cdd1b2d0e30da2}
+Count the number of open accelerometers 
+\begin{DoxyParams}{Parameters}
+{\em count} & 1 count up, -\/1 count down or 0 to retrieve without change \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the counter after change 
+\end{DoxyReturn}
+\hypertarget{classAccelerometer_a0ef1257304190883a415bd1c5d6e2b13}{}\index{Accelerometer@{Accelerometer}!update\+Values@{update\+Values}}
+\index{update\+Values@{update\+Values}!Accelerometer@{Accelerometer}}
+\subsubsection[{update\+Values}]{\setlength{\rightskip}{0pt plus 5cm}void Accelerometer\+::update\+Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_a0ef1257304190883a415bd1c5d6e2b13}
+Updater function delivered to the device-\/handling thread. 
+
+\subsection{Member Data Documentation}
+\hypertarget{classAccelerometer_adde7ddf4ba2fae34b4a0910f1a64076b}{}\index{Accelerometer@{Accelerometer}!device@{device}}
+\index{device@{device}!Accelerometer@{Accelerometer}}
+\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ifstream Accelerometer\+::device\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_adde7ddf4ba2fae34b4a0910f1a64076b}
+\hypertarget{classAccelerometer_acb0857fa75bff055f25584ae24d362d4}{}\index{Accelerometer@{Accelerometer}!device\+Path@{device\+Path}}
+\index{device\+Path@{device\+Path}!Accelerometer@{Accelerometer}}
+\subsubsection[{device\+Path}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Accelerometer\+::device\+Path\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_acb0857fa75bff055f25584ae24d362d4}
+\hypertarget{classAccelerometer_abe36590009a1913b6886427fc110f531}{}\index{Accelerometer@{Accelerometer}!done@{done}}
+\index{done@{done}!Accelerometer@{Accelerometer}}
+\subsubsection[{done}]{\setlength{\rightskip}{0pt plus 5cm}bool Accelerometer\+::done = false\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_abe36590009a1913b6886427fc110f531}
+\hypertarget{classAccelerometer_aa5e00cbce6850be9d3083530bff709dd}{}\index{Accelerometer@{Accelerometer}!mtx@{mtx}}
+\index{mtx@{mtx}!Accelerometer@{Accelerometer}}
+\subsubsection[{mtx}]{\setlength{\rightskip}{0pt plus 5cm}std\+::mutex Accelerometer\+::mtx\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_aa5e00cbce6850be9d3083530bff709dd}
+\hypertarget{classAccelerometer_a3a11a04b74460eb6ddcf79af3a35e33b}{}\index{Accelerometer@{Accelerometer}!present@{present}}
+\index{present@{present}!Accelerometer@{Accelerometer}}
+\subsubsection[{present}]{\setlength{\rightskip}{0pt plus 5cm}bool Accelerometer\+::present = false\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_a3a11a04b74460eb6ddcf79af3a35e33b}
+\hypertarget{classAccelerometer_a6c600b26e7eeb394058515e8481c8ae0}{}\index{Accelerometer@{Accelerometer}!sensitivity@{sensitivity}}
+\index{sensitivity@{sensitivity}!Accelerometer@{Accelerometer}}
+\subsubsection[{sensitivity}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::sensitivity = 1.\+0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_a6c600b26e7eeb394058515e8481c8ae0}
+\hypertarget{classAccelerometer_a8b9d7d942de3ac41f6fe2b2c7e3f15e8}{}\index{Accelerometer@{Accelerometer}!updater\+Thread@{updater\+Thread}}
+\index{updater\+Thread@{updater\+Thread}!Accelerometer@{Accelerometer}}
+\subsubsection[{updater\+Thread}]{\setlength{\rightskip}{0pt plus 5cm}std\+::thread Accelerometer\+::updater\+Thread\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_a8b9d7d942de3ac41f6fe2b2c7e3f15e8}
+\hypertarget{classAccelerometer_af06011557497aa4603cbe47966f32aaf}{}\index{Accelerometer@{Accelerometer}!x@{x}}
+\index{x@{x}!Accelerometer@{Accelerometer}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::x = 0.\+0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_af06011557497aa4603cbe47966f32aaf}
+\hypertarget{classAccelerometer_a4cba3b73c6339058c046baf1659595fc}{}\index{Accelerometer@{Accelerometer}!y@{y}}
+\index{y@{y}!Accelerometer@{Accelerometer}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::y = 0.\+0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_a4cba3b73c6339058c046baf1659595fc}
+\hypertarget{classAccelerometer_ac11a92cc27528e883bbfe04cf4a150f7}{}\index{Accelerometer@{Accelerometer}!z@{z}}
+\index{z@{z}!Accelerometer@{Accelerometer}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}double Accelerometer\+::z = 0.\+0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}\label{classAccelerometer_ac11a92cc27528e883bbfe04cf4a150f7}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Accelerometer_8h}{Accelerometer.\+h}\item 
+src/\hyperlink{Accelerometer_8cpp}{Accelerometer.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,186 @@
+\hypertarget{classSpring}{}\section{Spring Class Reference}
+\label{classSpring}\index{Spring@{Spring}}
+
+
+{\ttfamily \#include $<$Spring.\+h$>$}
+
+
+
+Collaboration diagram for Spring\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classSpring__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSpring_ae69e4d641c622ff4bc839583ba53bfdb}{Spring} (double stiff=0.\+0, double rest\+Len=0.\+0)
+\item 
+\hyperlink{classSpring_ac7d4d41e27e14f7cf5cd293cc38df645}{Spring} (\hyperlink{classMass}{Mass} $\ast$mass0, \hyperlink{classMass}{Mass} $\ast$mass1, double stiff=0.\+0, double rest\+Len=0.\+0)
+\item 
+\hyperlink{classSpring_a613221adae8bbcb7d64850e58d8646c6}{Spring} (\hyperlink{classSpring}{Spring} \&s)
+\item 
+\hyperlink{classSpring_aba1c60d6b08ffd72dc8560d657d8b703}{Spring} (\hyperlink{classSpring}{Spring} \&\&s)
+\item 
+virtual \hyperlink{classSpring_a8a9311f8a7cce2868498ad3da5d9c4b8}{$\sim$\+Spring} (void)
+\item 
+void \hyperlink{classSpring_a274a8d1cdb7de865bbf90ad6d95d789f}{init} (\hyperlink{classMass}{Mass} $\ast$mass0, \hyperlink{classMass}{Mass} $\ast$mass1)
+\item 
+\hyperlink{classMass}{Mass} $\ast$ \hyperlink{classSpring_a737bbcb5fe53e65b2afbb9c62dc3186f}{get\+Mass} (int i)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classSpring_aed22a149191c40dcef27af3e029e60fd}{stiffness}
+\item 
+double \hyperlink{classSpring_ab2e2b4c400fcd277234b297f4f8cfd28}{rest\+Length}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classMass}{Mass} $\ast$ \hyperlink{classSpring_a59fda4f49a5645908643319198f4206f}{m0}
+\item 
+\hyperlink{classMass}{Mass} $\ast$ \hyperlink{classSpring_ac7909ea9cf093d7f267982a5ec3c51c6}{m1}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class contains all properties of a spring which are necessary to run a physically based simulation of a mass-\/spring system. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classSpring_ae69e4d641c622ff4bc839583ba53bfdb}{}\index{Spring@{Spring}!Spring@{Spring}}
+\index{Spring@{Spring}!Spring@{Spring}}
+\subsubsection[{Spring}]{\setlength{\rightskip}{0pt plus 5cm}Spring\+::\+Spring (
+\begin{DoxyParamCaption}
+\item[{double}]{stiff = {\ttfamily 0.0}, }
+\item[{double}]{rest\+Len = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}\label{classSpring_ae69e4d641c622ff4bc839583ba53bfdb}
+Default constructor.
+
+The end-\/points are left uninitialized, so after calling this constructor a call to {\ttfamily \hyperlink{classSpring_a274a8d1cdb7de865bbf90ad6d95d789f}{init()}} is necessary. 
+\begin{DoxyParams}{Parameters}
+{\em stiff} & stiffness factor of the spring \\
+\hline
+{\em rest\+Len} & the rest length = length of the spring without any forces taking effect to it \\
+\hline
+\end{DoxyParams}
+\hypertarget{classSpring_ac7d4d41e27e14f7cf5cd293cc38df645}{}\index{Spring@{Spring}!Spring@{Spring}}
+\index{Spring@{Spring}!Spring@{Spring}}
+\subsubsection[{Spring}]{\setlength{\rightskip}{0pt plus 5cm}Spring\+::\+Spring (
+\begin{DoxyParamCaption}
+\item[{{\bf Mass} $\ast$}]{mass0, }
+\item[{{\bf Mass} $\ast$}]{mass1, }
+\item[{double}]{stiff = {\ttfamily 0.0}, }
+\item[{double}]{rest\+Len = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}\label{classSpring_ac7d4d41e27e14f7cf5cd293cc38df645}
+Constructor which initializes the endpoints of the spring with two mass-\/points 
+\begin{DoxyParams}{Parameters}
+{\em mass0} & mass-\/point on the first end of the spring \\
+\hline
+{\em mass1} & mass-\/point on the second end \\
+\hline
+{\em stiff} & stiffness factor of the spring \\
+\hline
+{\em rest\+Len} & the rest length = length of the spring without any forces taking effect to it \\
+\hline
+\end{DoxyParams}
+\hypertarget{classSpring_a613221adae8bbcb7d64850e58d8646c6}{}\index{Spring@{Spring}!Spring@{Spring}}
+\index{Spring@{Spring}!Spring@{Spring}}
+\subsubsection[{Spring}]{\setlength{\rightskip}{0pt plus 5cm}Spring\+::\+Spring (
+\begin{DoxyParamCaption}
+\item[{{\bf Spring} \&}]{s}
+\end{DoxyParamCaption}
+)}\label{classSpring_a613221adae8bbcb7d64850e58d8646c6}
+Copy Constructor 
+\begin{DoxyParams}{Parameters}
+{\em s} & source spring \\
+\hline
+\end{DoxyParams}
+\hypertarget{classSpring_aba1c60d6b08ffd72dc8560d657d8b703}{}\index{Spring@{Spring}!Spring@{Spring}}
+\index{Spring@{Spring}!Spring@{Spring}}
+\subsubsection[{Spring}]{\setlength{\rightskip}{0pt plus 5cm}Spring\+::\+Spring (
+\begin{DoxyParamCaption}
+\item[{{\bf Spring} \&\&}]{s}
+\end{DoxyParamCaption}
+)}\label{classSpring_aba1c60d6b08ffd72dc8560d657d8b703}
+Move constructor 
+\begin{DoxyParams}{Parameters}
+{\em s} & source spring \\
+\hline
+\end{DoxyParams}
+\hypertarget{classSpring_a8a9311f8a7cce2868498ad3da5d9c4b8}{}\index{Spring@{Spring}!````~Spring@{$\sim$\+Spring}}
+\index{````~Spring@{$\sim$\+Spring}!Spring@{Spring}}
+\subsubsection[{$\sim$\+Spring}]{\setlength{\rightskip}{0pt plus 5cm}Spring\+::$\sim$\+Spring (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classSpring_a8a9311f8a7cce2868498ad3da5d9c4b8}
+Default destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classSpring_a737bbcb5fe53e65b2afbb9c62dc3186f}{}\index{Spring@{Spring}!get\+Mass@{get\+Mass}}
+\index{get\+Mass@{get\+Mass}!Spring@{Spring}}
+\subsubsection[{get\+Mass}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mass} $\ast$ Spring\+::get\+Mass (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)}\label{classSpring_a737bbcb5fe53e65b2afbb9c62dc3186f}
+Get a mass. 
+\begin{DoxyParams}{Parameters}
+{\em i} & 0 or 1 to select the mass \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the selected mass 
+\end{DoxyReturn}
+\hypertarget{classSpring_a274a8d1cdb7de865bbf90ad6d95d789f}{}\index{Spring@{Spring}!init@{init}}
+\index{init@{init}!Spring@{Spring}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void Spring\+::init (
+\begin{DoxyParamCaption}
+\item[{{\bf Mass} $\ast$}]{mass0, }
+\item[{{\bf Mass} $\ast$}]{mass1}
+\end{DoxyParamCaption}
+)}\label{classSpring_a274a8d1cdb7de865bbf90ad6d95d789f}
+Initialize spring with two given masses and set the rest length to the distance of the two points. 
+\begin{DoxyParams}{Parameters}
+{\em mass0} & mass at end-\/point \\
+\hline
+{\em mass1} & mass at end-\/point \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{classSpring_a274a8d1cdb7de865bbf90ad6d95d789f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classSpring_a59fda4f49a5645908643319198f4206f}{}\index{Spring@{Spring}!m0@{m0}}
+\index{m0@{m0}!Spring@{Spring}}
+\subsubsection[{m0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mass}$\ast$ Spring\+::m0\hspace{0.3cm}{\ttfamily [private]}}\label{classSpring_a59fda4f49a5645908643319198f4206f}
+\hypertarget{classSpring_ac7909ea9cf093d7f267982a5ec3c51c6}{}\index{Spring@{Spring}!m1@{m1}}
+\index{m1@{m1}!Spring@{Spring}}
+\subsubsection[{m1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mass} $\ast$ Spring\+::m1\hspace{0.3cm}{\ttfamily [private]}}\label{classSpring_ac7909ea9cf093d7f267982a5ec3c51c6}
+\hypertarget{classSpring_ab2e2b4c400fcd277234b297f4f8cfd28}{}\index{Spring@{Spring}!rest\+Length@{rest\+Length}}
+\index{rest\+Length@{rest\+Length}!Spring@{Spring}}
+\subsubsection[{rest\+Length}]{\setlength{\rightskip}{0pt plus 5cm}double Spring\+::rest\+Length}\label{classSpring_ab2e2b4c400fcd277234b297f4f8cfd28}
+\hypertarget{classSpring_aed22a149191c40dcef27af3e029e60fd}{}\index{Spring@{Spring}!stiffness@{stiffness}}
+\index{stiffness@{stiffness}!Spring@{Spring}}
+\subsubsection[{stiffness}]{\setlength{\rightskip}{0pt plus 5cm}double Spring\+::stiffness}\label{classSpring_aed22a149191c40dcef27af3e029e60fd}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Spring_8h}{Spring.\+h}\item 
+src/\hyperlink{Spring_8cpp}{Spring.\+cpp}\end{DoxyCompactItemize}

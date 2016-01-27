@@ -1,0 +1,156 @@
+\hypertarget{classstd_1_1MipMap}{}\section{std\+:\+:Mip\+Map Class Reference}
+\label{classstd_1_1MipMap}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+
+
+{\ttfamily \#include $<$Mip\+Map.\+h$>$}
+
+
+
+Collaboration diagram for std\+:\+:Mip\+Map\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{classstd_1_1MipMap__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classstd_1_1MipMap_a2d764943a2f94d50e33c33234966e3f4}{Mip\+Map} ()
+\item 
+virtual \hyperlink{classstd_1_1MipMap_ac9d8e7ccf0a161b7ae7922ed53abbd6b}{$\sim$\+Mip\+Map} ()
+\item 
+void \hyperlink{classstd_1_1MipMap_a1b80afd35e90bc8395c33ed2d208f183}{load\+P\+N\+G} (const string file\+Name)
+\begin{DoxyCompactList}\small\item\em load texture from P\+N\+G \end{DoxyCompactList}\item 
+void \hyperlink{classstd_1_1MipMap_a623e530b676d04b9cd5b07fea6172602}{load\+S\+G\+I} (const string file\+Name)
+\begin{DoxyCompactList}\small\item\em load texture from P\+N\+G \end{DoxyCompactList}\item 
+void \hyperlink{classstd_1_1MipMap_aa52b162bb516ffe6b7fb5bdc3604ac7d}{load} (const string file\+Name)
+\begin{DoxyCompactList}\small\item\em load a texture with a selected import filter \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+G\+Luint \hyperlink{classstd_1_1MipMap_a9ae62495e98f75e2d545634a0a8b4a61}{texture} = 0
+\item 
+size\+\_\+t \hyperlink{classstd_1_1MipMap_aa7c7e74f1f05b2d8244f1d06289b18b4}{width} = 0
+\item 
+size\+\_\+t \hyperlink{classstd_1_1MipMap_a3baac3b8d33da5400b4a4bbca8604436}{height} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class is a container for a texture mipmap.
+
+It also handles the loading of an image file.~\newline
+Supported file formats\+:~\newline
+P\+N\+G images with three colors and no alpha channel S\+G\+I R\+G\+B images with uncompressed data and without alpha channel. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classstd_1_1MipMap_a2d764943a2f94d50e33c33234966e3f4}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!Mip\+Map@{Mip\+Map}}
+\index{Mip\+Map@{Mip\+Map}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{Mip\+Map}]{\setlength{\rightskip}{0pt plus 5cm}std\+::\+Mip\+Map\+::\+Mip\+Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1MipMap_a2d764943a2f94d50e33c33234966e3f4}
+Default constructor. \hypertarget{classstd_1_1MipMap_ac9d8e7ccf0a161b7ae7922ed53abbd6b}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!````~Mip\+Map@{$\sim$\+Mip\+Map}}
+\index{````~Mip\+Map@{$\sim$\+Mip\+Map}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{$\sim$\+Mip\+Map}]{\setlength{\rightskip}{0pt plus 5cm}std\+::\+Mip\+Map\+::$\sim$\+Mip\+Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classstd_1_1MipMap_ac9d8e7ccf0a161b7ae7922ed53abbd6b}
+Default destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classstd_1_1MipMap_aa52b162bb516ffe6b7fb5bdc3604ac7d}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!load@{load}}
+\index{load@{load}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Mip\+Map\+::load (
+\begin{DoxyParamCaption}
+\item[{const string}]{file\+Name}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1MipMap_aa52b162bb516ffe6b7fb5bdc3604ac7d}
+
+
+load a texture with a selected import filter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & the image file to be loaded \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1MipMap_aa52b162bb516ffe6b7fb5bdc3604ac7d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classstd_1_1MipMap_a1b80afd35e90bc8395c33ed2d208f183}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!load\+P\+N\+G@{load\+P\+N\+G}}
+\index{load\+P\+N\+G@{load\+P\+N\+G}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{load\+P\+N\+G}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Mip\+Map\+::load\+P\+N\+G (
+\begin{DoxyParamCaption}
+\item[{const string}]{file\+Name}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1MipMap_a1b80afd35e90bc8395c33ed2d208f183}
+
+
+load texture from P\+N\+G 
+
+loads a png file into an opengl mipmap object, using cstdio , libpng, and opengl. This function is almost identical with the example code on \href{https://en.wikibooks.org/wiki/OpenGL_Programming/Intermediate/Textures}{\tt https\+://en.\+wikibooks.\+org/wiki/\+Open\+G\+L\+\_\+\+Programming/\+Intermediate/\+Textures}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & the png file to be loaded \\
+\hline
+\end{DoxyParams}
+\hypertarget{classstd_1_1MipMap_a623e530b676d04b9cd5b07fea6172602}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!load\+S\+G\+I@{load\+S\+G\+I}}
+\index{load\+S\+G\+I@{load\+S\+G\+I}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{load\+S\+G\+I}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Mip\+Map\+::load\+S\+G\+I (
+\begin{DoxyParamCaption}
+\item[{const string}]{file\+Name}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1MipMap_a623e530b676d04b9cd5b07fea6172602}
+
+
+load texture from P\+N\+G 
+
+loads a R\+G\+B file into an opengl mipmap object, using cstdio , libpng, and opengl. This function is almost identical with the example code on \href{https://en.wikibooks.org/wiki/OpenGL_Programming/Intermediate/Textures}{\tt https\+://en.\+wikibooks.\+org/wiki/\+Open\+G\+L\+\_\+\+Programming/\+Intermediate/\+Textures}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & the S\+G\+I-\/rgb file to be loaded \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1MipMap_a623e530b676d04b9cd5b07fea6172602_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classstd_1_1MipMap_a3baac3b8d33da5400b4a4bbca8604436}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!height@{height}}
+\index{height@{height}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t std\+::\+Mip\+Map\+::height = 0\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1MipMap_a3baac3b8d33da5400b4a4bbca8604436}
+\hypertarget{classstd_1_1MipMap_a9ae62495e98f75e2d545634a0a8b4a61}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!texture@{texture}}
+\index{texture@{texture}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{texture}]{\setlength{\rightskip}{0pt plus 5cm}G\+Luint std\+::\+Mip\+Map\+::texture = 0\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1MipMap_a9ae62495e98f75e2d545634a0a8b4a61}
+\hypertarget{classstd_1_1MipMap_aa7c7e74f1f05b2d8244f1d06289b18b4}{}\index{std\+::\+Mip\+Map@{std\+::\+Mip\+Map}!width@{width}}
+\index{width@{width}!std\+::\+Mip\+Map@{std\+::\+Mip\+Map}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t std\+::\+Mip\+Map\+::width = 0\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1MipMap_aa7c7e74f1f05b2d8244f1d06289b18b4}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{MipMap_8h}{Mip\+Map.\+h}\item 
+src/\hyperlink{MipMap_8cpp}{Mip\+Map.\+cpp}\end{DoxyCompactItemize}

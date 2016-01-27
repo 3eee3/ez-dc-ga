@@ -1,0 +1,339 @@
+\hypertarget{classMass}{}\section{Mass Class Reference}
+\label{classMass}\index{Mass@{Mass}}
+
+
+{\ttfamily \#include $<$Mass.\+h$>$}
+
+
+
+Collaboration diagram for Mass\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classMass__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classMass_a93c1c52a88d9993644df8b458cacc8ec}{Mass} (std\+::vector$<$ G\+Lfloat $\ast$ $>$ \hyperlink{classMass_abfd5e8aa50988458d702763a48cb438e}{pos\+Ptr}=vector$<$ G\+Lfloat $\ast$ $>$(), double \hyperlink{classMass_a8f37b93ded277000424b7a92adcf9c30}{mass}=0.\+0, double damp=0.\+0)
+\item 
+\hyperlink{classMass_a4a736155e9f5a484a53705eec56cb282}{Mass} (double \hyperlink{classMass_a8f37b93ded277000424b7a92adcf9c30}{mass}, double damp=0.\+0)
+\item 
+\hyperlink{classMass_a13584c6157ece49918e644fc2717a7b5}{Mass} (const \hyperlink{classMass}{Mass} \&m)
+\item 
+\hyperlink{classMass_af1d7e68513a6eb81c1b809583d67fb53}{Mass} (\hyperlink{classMass}{Mass} \&\&)
+\item 
+virtual \hyperlink{classMass_acbfdfe607e64d1bb2f35ca89900c7136}{$\sim$\+Mass} ()
+\item 
+void \hyperlink{classMass_acef363ddd9f0f5a42e9d5fe019f5de6c}{register\+Vertex} (G\+Lfloat $\ast$ptr)
+\item 
+void \hyperlink{classMass_af2b6c3c70c82b277214befdd67c2acbe}{set\+Pos} (Eigen\+::\+Vector3d p)
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_ae07133ef0c5d62612a1126c0e002bd26}{get\+Pos} ()
+\item 
+void \hyperlink{classMass_a7f1db9674d10a9322f549ee5654a4569}{set\+X} (double x)
+\item 
+void \hyperlink{classMass_a29e53b261bc6f56cdbd34d458016a627}{set\+Y} (double y)
+\item 
+void \hyperlink{classMass_adf79327d78c04febb6609bdd1cb4f987}{set\+Z} (double z)
+\item 
+void \hyperlink{classMass_ac6e500296728680770485a6af1ac4419}{set\+Vel} (Eigen\+::\+Vector3d v)
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_a10e11378951a3dfc97a5029d0b845133}{get\+Vel} ()
+\item 
+void \hyperlink{classMass_abc2739dab59a65aa3987c91fb010f84c}{set\+Force} (Eigen\+::\+Vector3d f)
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_ab0b0f0e92be4a78dba625cac1e3f8337}{get\+Force} ()
+\item 
+void \hyperlink{classMass_ad7ec8fa0330bab09feaf536d07aaa1ea}{add\+Force} (Eigen\+::\+Vector3d f)
+\item 
+void \hyperlink{classMass_ac27a6878abc0caee4ec6af509ef36926}{set\+User\+Force} (Eigen\+::\+Vector3d f)
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_ad295f54d0c63b72db44fc082d27ef1cc}{get\+User\+Force} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classMass_a8f37b93ded277000424b7a92adcf9c30}{mass}
+\item 
+double \hyperlink{classMass_a3b1f3a41fdfc00900a242df309c9c77f}{damping}
+\item 
+bool \hyperlink{classMass_a596327e28cfa013455a6cd00ca25353e}{fixed}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ G\+Lfloat $\ast$ $>$ \hyperlink{classMass_abfd5e8aa50988458d702763a48cb438e}{pos\+Ptr}
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_ad6fe847559d3f2b4563df4fa3f08f101}{velocity}
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_a5afb4b915d143d4a5156eb7e7e035012}{force}
+\item 
+Eigen\+::\+Vector3d \hyperlink{classMass_a2e7622d21617bdbf3939ee2ec5784b6d}{user\+Force}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class contains all properties of a mass-\/point which are necessary to run a physically based simulation of a mass-\/spring system. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classMass_a93c1c52a88d9993644df8b458cacc8ec}{}\index{Mass@{Mass}!Mass@{Mass}}
+\index{Mass@{Mass}!Mass@{Mass}}
+\subsubsection[{Mass}]{\setlength{\rightskip}{0pt plus 5cm}Mass\+::\+Mass (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ G\+Lfloat $\ast$ $>$}]{pos\+Ptr = {\ttfamily vector$<$GLfloat$\ast$$>$()}, }
+\item[{double}]{mass = {\ttfamily 0.0}, }
+\item[{double}]{damp = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}\label{classMass_a93c1c52a88d9993644df8b458cacc8ec}
+Default constructor. 
+\begin{DoxyParams}{Parameters}
+{\em pos\+Ptr} & vector of pointers to the vertices in the positions array \\
+\hline
+{\em mass} & the mass of the mass-\/point \\
+\hline
+{\em damp} & the damping factor of the mass-\/point (to simulate friction and air resistance) \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_a4a736155e9f5a484a53705eec56cb282}{}\index{Mass@{Mass}!Mass@{Mass}}
+\index{Mass@{Mass}!Mass@{Mass}}
+\subsubsection[{Mass}]{\setlength{\rightskip}{0pt plus 5cm}Mass\+::\+Mass (
+\begin{DoxyParamCaption}
+\item[{double}]{mass, }
+\item[{double}]{damp = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}\label{classMass_a4a736155e9f5a484a53705eec56cb282}
+Constructor which takes at least the mass argument. 
+\begin{DoxyParams}{Parameters}
+{\em mass} & the mass of the mass-\/point \\
+\hline
+{\em damp} & the damping factor of the mass-\/point (to simulate friction and air resistance) \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_a13584c6157ece49918e644fc2717a7b5}{}\index{Mass@{Mass}!Mass@{Mass}}
+\index{Mass@{Mass}!Mass@{Mass}}
+\subsubsection[{Mass}]{\setlength{\rightskip}{0pt plus 5cm}Mass\+::\+Mass (
+\begin{DoxyParamCaption}
+\item[{const {\bf Mass} \&}]{m}
+\end{DoxyParamCaption}
+)}\label{classMass_a13584c6157ece49918e644fc2717a7b5}
+Copy constructor 
+\begin{DoxyParams}{Parameters}
+{\em m} & source object \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_af1d7e68513a6eb81c1b809583d67fb53}{}\index{Mass@{Mass}!Mass@{Mass}}
+\index{Mass@{Mass}!Mass@{Mass}}
+\subsubsection[{Mass}]{\setlength{\rightskip}{0pt plus 5cm}Mass\+::\+Mass (
+\begin{DoxyParamCaption}
+\item[{{\bf Mass} \&\&}]{m}
+\end{DoxyParamCaption}
+)}\label{classMass_af1d7e68513a6eb81c1b809583d67fb53}
+Move Constructor 
+\begin{DoxyParams}{Parameters}
+{\em m} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_acbfdfe607e64d1bb2f35ca89900c7136}{}\index{Mass@{Mass}!````~Mass@{$\sim$\+Mass}}
+\index{````~Mass@{$\sim$\+Mass}!Mass@{Mass}}
+\subsubsection[{$\sim$\+Mass}]{\setlength{\rightskip}{0pt plus 5cm}Mass\+::$\sim$\+Mass (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classMass_acbfdfe607e64d1bb2f35ca89900c7136}
+Default destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMass_ad7ec8fa0330bab09feaf536d07aaa1ea}{}\index{Mass@{Mass}!add\+Force@{add\+Force}}
+\index{add\+Force@{add\+Force}!Mass@{Mass}}
+\subsubsection[{add\+Force}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::add\+Force (
+\begin{DoxyParamCaption}
+\item[{Eigen\+::\+Vector3d}]{f}
+\end{DoxyParamCaption}
+)}\label{classMass_ad7ec8fa0330bab09feaf536d07aaa1ea}
+Add a force to the stored value. 
+\begin{DoxyParams}{Parameters}
+{\em f} & force vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_ab0b0f0e92be4a78dba625cac1e3f8337}{}\index{Mass@{Mass}!get\+Force@{get\+Force}}
+\index{get\+Force@{get\+Force}!Mass@{Mass}}
+\subsubsection[{get\+Force}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::get\+Force (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classMass_ab0b0f0e92be4a78dba625cac1e3f8337}
+Get the force. \begin{DoxyReturn}{Returns}
+force vector 
+\end{DoxyReturn}
+\hypertarget{classMass_ae07133ef0c5d62612a1126c0e002bd26}{}\index{Mass@{Mass}!get\+Pos@{get\+Pos}}
+\index{get\+Pos@{get\+Pos}!Mass@{Mass}}
+\subsubsection[{get\+Pos}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::get\+Pos (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classMass_ae07133ef0c5d62612a1126c0e002bd26}
+Get position vector of mass.
+
+Don\textquotesingle{}t write to the elements of the returned vector. This will lead to inconsistencies in the vertices array. To set a single value use \hyperlink{classMass_a7f1db9674d10a9322f549ee5654a4569}{set\+X()}, \hyperlink{classMass_a29e53b261bc6f56cdbd34d458016a627}{set\+Y()} and \hyperlink{classMass_adf79327d78c04febb6609bdd1cb4f987}{set\+Z()} instead. \begin{DoxyReturn}{Returns}
+the position vector or if no vertices are registered the 0 vector. 
+\end{DoxyReturn}
+\hypertarget{classMass_ad295f54d0c63b72db44fc082d27ef1cc}{}\index{Mass@{Mass}!get\+User\+Force@{get\+User\+Force}}
+\index{get\+User\+Force@{get\+User\+Force}!Mass@{Mass}}
+\subsubsection[{get\+User\+Force}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::get\+User\+Force (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classMass_ad295f54d0c63b72db44fc082d27ef1cc}
+Get external forces (usually without gravity). \begin{DoxyReturn}{Returns}
+force vector 
+\end{DoxyReturn}
+\hypertarget{classMass_a10e11378951a3dfc97a5029d0b845133}{}\index{Mass@{Mass}!get\+Vel@{get\+Vel}}
+\index{get\+Vel@{get\+Vel}!Mass@{Mass}}
+\subsubsection[{get\+Vel}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::get\+Vel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classMass_a10e11378951a3dfc97a5029d0b845133}
+Get the velocity. \begin{DoxyReturn}{Returns}
+velocity vector 
+\end{DoxyReturn}
+\hypertarget{classMass_acef363ddd9f0f5a42e9d5fe019f5de6c}{}\index{Mass@{Mass}!register\+Vertex@{register\+Vertex}}
+\index{register\+Vertex@{register\+Vertex}!Mass@{Mass}}
+\subsubsection[{register\+Vertex}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::register\+Vertex (
+\begin{DoxyParamCaption}
+\item[{G\+Lfloat $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}\label{classMass_acef363ddd9f0f5a42e9d5fe019f5de6c}
+Register the pointer to a vertex as position. 
+\begin{DoxyParams}{Parameters}
+{\em ptr} & pointer targeting the x-\/coordinate of the vertex position. The y-\/ and z-\/coordinates must be in consecutive order in the array. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_abc2739dab59a65aa3987c91fb010f84c}{}\index{Mass@{Mass}!set\+Force@{set\+Force}}
+\index{set\+Force@{set\+Force}!Mass@{Mass}}
+\subsubsection[{set\+Force}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+Force (
+\begin{DoxyParamCaption}
+\item[{Eigen\+::\+Vector3d}]{f}
+\end{DoxyParamCaption}
+)}\label{classMass_abc2739dab59a65aa3987c91fb010f84c}
+Set the force.
+
+This vector is reserved for the solver. Use {\ttfamily \hyperlink{classMass_ac27a6878abc0caee4ec6af509ef36926}{set\+User\+Force()}} to apply edxternal forces. 
+\begin{DoxyParams}{Parameters}
+{\em f} & force vector. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_af2b6c3c70c82b277214befdd67c2acbe}{}\index{Mass@{Mass}!set\+Pos@{set\+Pos}}
+\index{set\+Pos@{set\+Pos}!Mass@{Mass}}
+\subsubsection[{set\+Pos}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+Pos (
+\begin{DoxyParamCaption}
+\item[{Eigen\+::\+Vector3d}]{pos}
+\end{DoxyParamCaption}
+)}\label{classMass_af2b6c3c70c82b277214befdd67c2acbe}
+Set position of the mass object.
+
+This setter spreads the position to all registered vertices. 
+\begin{DoxyParams}{Parameters}
+{\em pos} & the position vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_ac27a6878abc0caee4ec6af509ef36926}{}\index{Mass@{Mass}!set\+User\+Force@{set\+User\+Force}}
+\index{set\+User\+Force@{set\+User\+Force}!Mass@{Mass}}
+\subsubsection[{set\+User\+Force}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+User\+Force (
+\begin{DoxyParamCaption}
+\item[{Eigen\+::\+Vector3d}]{f}
+\end{DoxyParamCaption}
+)}\label{classMass_ac27a6878abc0caee4ec6af509ef36926}
+Set external forces.
+
+Use this setter to apply all external forces except the gravity, the solver applies it separately. 
+\begin{DoxyParams}{Parameters}
+{\em f} & force vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_ac6e500296728680770485a6af1ac4419}{}\index{Mass@{Mass}!set\+Vel@{set\+Vel}}
+\index{set\+Vel@{set\+Vel}!Mass@{Mass}}
+\subsubsection[{set\+Vel}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+Vel (
+\begin{DoxyParamCaption}
+\item[{Eigen\+::\+Vector3d}]{v}
+\end{DoxyParamCaption}
+)}\label{classMass_ac6e500296728680770485a6af1ac4419}
+Set the velocity. 
+\begin{DoxyParams}{Parameters}
+{\em v} & velocity vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_a7f1db9674d10a9322f549ee5654a4569}{}\index{Mass@{Mass}!set\+X@{set\+X}}
+\index{set\+X@{set\+X}!Mass@{Mass}}
+\subsubsection[{set\+X}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+X (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)}\label{classMass_a7f1db9674d10a9322f549ee5654a4569}
+Set x-\/coordinate of the mass object.
+
+This setter spreads the x-\/coordinate to all registered vertices. Don\textquotesingle{}t use get\+Pos.\+x to write a coordinate, it will mess up the vertices array. 
+\begin{DoxyParams}{Parameters}
+{\em x} & the coordinate \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_a29e53b261bc6f56cdbd34d458016a627}{}\index{Mass@{Mass}!set\+Y@{set\+Y}}
+\index{set\+Y@{set\+Y}!Mass@{Mass}}
+\subsubsection[{set\+Y}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+Y (
+\begin{DoxyParamCaption}
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)}\label{classMass_a29e53b261bc6f56cdbd34d458016a627}
+Set y-\/coordinate of the mass object.
+
+This setter spreads the y-\/coordinate to all registered vertices. Don\textquotesingle{}t use get\+Pos.\+y to write a coordinate, it will mess up the vertices array. 
+\begin{DoxyParams}{Parameters}
+{\em y} & the coordinate \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMass_adf79327d78c04febb6609bdd1cb4f987}{}\index{Mass@{Mass}!set\+Z@{set\+Z}}
+\index{set\+Z@{set\+Z}!Mass@{Mass}}
+\subsubsection[{set\+Z}]{\setlength{\rightskip}{0pt plus 5cm}void Mass\+::set\+Z (
+\begin{DoxyParamCaption}
+\item[{double}]{z}
+\end{DoxyParamCaption}
+)}\label{classMass_adf79327d78c04febb6609bdd1cb4f987}
+Set z-\/coordinate of the mass object.
+
+This setter spreads the z-\/coordinate to all registered vertices. Don\textquotesingle{}t use get\+Pos.\+z to write a coordinate, it will mess up the vertices array. 
+\begin{DoxyParams}{Parameters}
+{\em z} & the coordinate \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classMass_a3b1f3a41fdfc00900a242df309c9c77f}{}\index{Mass@{Mass}!damping@{damping}}
+\index{damping@{damping}!Mass@{Mass}}
+\subsubsection[{damping}]{\setlength{\rightskip}{0pt plus 5cm}double Mass\+::damping}\label{classMass_a3b1f3a41fdfc00900a242df309c9c77f}
+\hypertarget{classMass_a596327e28cfa013455a6cd00ca25353e}{}\index{Mass@{Mass}!fixed@{fixed}}
+\index{fixed@{fixed}!Mass@{Mass}}
+\subsubsection[{fixed}]{\setlength{\rightskip}{0pt plus 5cm}bool Mass\+::fixed}\label{classMass_a596327e28cfa013455a6cd00ca25353e}
+\hypertarget{classMass_a5afb4b915d143d4a5156eb7e7e035012}{}\index{Mass@{Mass}!force@{force}}
+\index{force@{force}!Mass@{Mass}}
+\subsubsection[{force}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::force\hspace{0.3cm}{\ttfamily [private]}}\label{classMass_a5afb4b915d143d4a5156eb7e7e035012}
+\hypertarget{classMass_a8f37b93ded277000424b7a92adcf9c30}{}\index{Mass@{Mass}!mass@{mass}}
+\index{mass@{mass}!Mass@{Mass}}
+\subsubsection[{mass}]{\setlength{\rightskip}{0pt plus 5cm}double Mass\+::mass}\label{classMass_a8f37b93ded277000424b7a92adcf9c30}
+\hypertarget{classMass_abfd5e8aa50988458d702763a48cb438e}{}\index{Mass@{Mass}!pos\+Ptr@{pos\+Ptr}}
+\index{pos\+Ptr@{pos\+Ptr}!Mass@{Mass}}
+\subsubsection[{pos\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$G\+Lfloat$\ast$$>$ Mass\+::pos\+Ptr\hspace{0.3cm}{\ttfamily [private]}}\label{classMass_abfd5e8aa50988458d702763a48cb438e}
+\hypertarget{classMass_a2e7622d21617bdbf3939ee2ec5784b6d}{}\index{Mass@{Mass}!user\+Force@{user\+Force}}
+\index{user\+Force@{user\+Force}!Mass@{Mass}}
+\subsubsection[{user\+Force}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::user\+Force\hspace{0.3cm}{\ttfamily [private]}}\label{classMass_a2e7622d21617bdbf3939ee2ec5784b6d}
+\hypertarget{classMass_ad6fe847559d3f2b4563df4fa3f08f101}{}\index{Mass@{Mass}!velocity@{velocity}}
+\index{velocity@{velocity}!Mass@{Mass}}
+\subsubsection[{velocity}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\+::\+Vector3d Mass\+::velocity\hspace{0.3cm}{\ttfamily [private]}}\label{classMass_ad6fe847559d3f2b4563df4fa3f08f101}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Mass_8h}{Mass.\+h}\item 
+src/\hyperlink{Mass_8cpp}{Mass.\+cpp}\end{DoxyCompactItemize}

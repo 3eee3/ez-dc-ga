@@ -1,0 +1,30 @@
+\hypertarget{Collision_8cpp}{}\section{src/\+Collision.cpp File Reference}
+\label{Collision_8cpp}\index{src/\+Collision.\+cpp@{src/\+Collision.\+cpp}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\\*
+{\ttfamily \#include $<$G\+L/gl.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Collision.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Mass.\+h\char`\"{}}\\*
+Include dependency graph for Collision.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Collision_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacestd}{std}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespacestd_a8f17d2dea5f0758f77d130979a6ce6bf}{std\+::vertex\+In\+Triangle} (const Eigen\+::\+Vector3d \&P, const Eigen\+::\+Vector3d \&A, const Eigen\+::\+Vector3d \&B, const Eigen\+::\+Vector3d \&C, const float epsilon, float \&dist, Eigen\+::\+Vector3d \&N)
+\item 
+bool \hyperlink{namespacestd_a41fa9cfdd951bf0cc7f23973beaa7fdb}{std\+::bary\+Vertex\+In\+Triangle} (const Eigen\+::\+Vector3d \&P, const Eigen\+::\+Vector3d \&A, const Eigen\+::\+Vector3d \&B, const Eigen\+::\+Vector3d \&C)
+\item 
+void \hyperlink{namespacestd_a21cb14ca4c41a856be94b8fc9ff59c5a}{std\+::collision\+Detection\+And\+Response} (vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, size\+\_\+t offs\+P, size\+\_\+t len\+P, G\+Lfloat object\+\_\+mesh\mbox{[}$\,$\mbox{]}, size\+\_\+t offs\+O, size\+\_\+t len\+O)
+\end{DoxyCompactItemize}

@@ -1,0 +1,250 @@
+\hypertarget{classstd_1_1Scene}{}\section{std\+:\+:Scene Class Reference}
+\label{classstd_1_1Scene}\index{std\+::\+Scene@{std\+::\+Scene}}
+
+
+{\ttfamily \#include $<$Scene.\+h$>$}
+
+
+
+Collaboration diagram for std\+:\+:Scene\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{classstd_1_1Scene__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classstd_1_1Scene_a8398f31d8872107aa869418bb7c24c25}{Scene} ()
+\item 
+\hyperlink{classstd_1_1Scene_ae405abc9a41334e8aadb6e731c44df9c}{Scene} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+virtual \hyperlink{classstd_1_1Scene_abcd83c86b41e1719e9a140bcf431d881}{$\sim$\+Scene} ()
+\item 
+void \hyperlink{classstd_1_1Scene_a3e68e24782a8a3d20434b2480ffa46ef}{initialize} ()
+\item 
+void \hyperlink{classstd_1_1Scene_afe443c3e9196ee13a701a0813e435239}{update} ()
+\item 
+void \hyperlink{classstd_1_1Scene_a6f5536cb6bf3df944508583badad1bd9}{render} ()
+\item 
+double \hyperlink{classstd_1_1Scene_a1cb16e4e736e71cd0c7cc53769e24261}{get\+Step} () const 
+\item 
+void \hyperlink{classstd_1_1Scene_a286eefef820ee9328dce8ec00b15b56f}{update\+Normals} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classstd_1_1Scene_a2616e46d7f209c505d8753f4878dd055}{init\+Springs\+Vector} (size\+\_\+t i)
+\item 
+void \hyperlink{classstd_1_1Scene_afd32b8076a67538f18533387fc58d61f}{init\+Points\+Vector} (size\+\_\+t i, size\+\_\+t $\ast$n)
+\item 
+void \hyperlink{classstd_1_1Scene_acf0a57cadc3904cb157058a3f12d8b9a}{detect\+Collisions} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classstd_1_1Scene_aba3e53049dcf6b4fb7309a0fe6bb1e2d}{step}
+\item 
+double \hyperlink{classstd_1_1Scene_a0d5f3e4771f79d5c0f22ef4bd59ca8a7}{mass}
+\item 
+double \hyperlink{classstd_1_1Scene_af694f3276a68d61649f9fabf2de017d2}{stiffness}
+\item 
+double \hyperlink{classstd_1_1Scene_a8b5958cd5f7a3f5f03ea8ec6042bceca}{weak\+\_\+stiff}
+\item 
+double \hyperlink{classstd_1_1Scene_ae8e94f4460f413a412f20a1386f1b308}{damping}
+\item 
+vector$<$ \hyperlink{classMass}{Mass} $>$ \hyperlink{classstd_1_1Scene_a6666d887df77fc484259f4ad165dcf19}{points}
+\item 
+vector$<$ \hyperlink{classSpring}{Spring} $>$ \hyperlink{classstd_1_1Scene_a374f417dbcf99c8a314688460876283c}{springs}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a class which handles all tasks to set up, simulate and render a scene with a physical model.
+
+Usually one scene object instance exists program-\/wide. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classstd_1_1Scene_a8398f31d8872107aa869418bb7c24c25}{}\index{std\+::\+Scene@{std\+::\+Scene}!Scene@{Scene}}
+\index{Scene@{Scene}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{Scene}]{\setlength{\rightskip}{0pt plus 5cm}std\+::\+Scene\+::\+Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_a8398f31d8872107aa869418bb7c24c25}
+Default constructor \hypertarget{classstd_1_1Scene_ae405abc9a41334e8aadb6e731c44df9c}{}\index{std\+::\+Scene@{std\+::\+Scene}!Scene@{Scene}}
+\index{Scene@{Scene}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{Scene}]{\setlength{\rightskip}{0pt plus 5cm}std\+::\+Scene\+::\+Scene (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_ae405abc9a41334e8aadb6e731c44df9c}
+Constructor which initializes the objectives with values given by command line parameters. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & arguments counter supplied by the main function \\
+\hline
+{\em argv} & arguments vector of length {\ttfamily argc} \\
+\hline
+\end{DoxyParams}
+\hypertarget{classstd_1_1Scene_abcd83c86b41e1719e9a140bcf431d881}{}\index{std\+::\+Scene@{std\+::\+Scene}!````~Scene@{$\sim$\+Scene}}
+\index{````~Scene@{$\sim$\+Scene}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{$\sim$\+Scene}]{\setlength{\rightskip}{0pt plus 5cm}std\+::\+Scene\+::$\sim$\+Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classstd_1_1Scene_abcd83c86b41e1719e9a140bcf431d881}
+Default destructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classstd_1_1Scene_acf0a57cadc3904cb157058a3f12d8b9a}{}\index{std\+::\+Scene@{std\+::\+Scene}!detect\+Collisions@{detect\+Collisions}}
+\index{detect\+Collisions@{detect\+Collisions}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{detect\+Collisions}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::detect\+Collisions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_acf0a57cadc3904cb157058a3f12d8b9a}
+Call the collision detection algorithm for each 3\+D-\/object with mass. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1Scene_acf0a57cadc3904cb157058a3f12d8b9a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classstd_1_1Scene_a1cb16e4e736e71cd0c7cc53769e24261}{}\index{std\+::\+Scene@{std\+::\+Scene}!get\+Step@{get\+Step}}
+\index{get\+Step@{get\+Step}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{get\+Step}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::get\+Step (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{classstd_1_1Scene_a1cb16e4e736e71cd0c7cc53769e24261}
+Get the time step for the simulation. \begin{DoxyReturn}{Returns}
+step in seconds 
+\end{DoxyReturn}
+\hypertarget{classstd_1_1Scene_a3e68e24782a8a3d20434b2480ffa46ef}{}\index{std\+::\+Scene@{std\+::\+Scene}!initialize@{initialize}}
+\index{initialize@{initialize}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_a3e68e24782a8a3d20434b2480ffa46ef}
+Initialize the scene for rendering and physical simulation. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1Scene_a3e68e24782a8a3d20434b2480ffa46ef_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classstd_1_1Scene_afd32b8076a67538f18533387fc58d61f}{}\index{std\+::\+Scene@{std\+::\+Scene}!init\+Points\+Vector@{init\+Points\+Vector}}
+\index{init\+Points\+Vector@{init\+Points\+Vector}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{init\+Points\+Vector}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::init\+Points\+Vector (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i, }
+\item[{size\+\_\+t $\ast$}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_afd32b8076a67538f18533387fc58d61f}
+Initialize all mass-\/points.
+
+This method connects all mass-\/points processed by the physics simulation to the vertices in the ...Positions vector for the renderer. The vector of points must be filled with the correct number of \hyperlink{classMass}{Mass} objects initialized with default values. 
+\begin{DoxyParams}{Parameters}
+{\em i} & the i-\/th 3d-\/object \\
+\hline
+{\em n} & a pointer to a counter value, it is incremented with each initialized mass-\/point. it must be initialized with 0 before the first call of this method. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classstd_1_1Scene_a2616e46d7f209c505d8753f4878dd055}{}\index{std\+::\+Scene@{std\+::\+Scene}!init\+Springs\+Vector@{init\+Springs\+Vector}}
+\index{init\+Springs\+Vector@{init\+Springs\+Vector}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{init\+Springs\+Vector}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::init\+Springs\+Vector (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_a2616e46d7f209c505d8753f4878dd055}
+Initialize structural (strong) and bending (weak) springs. No diagonal springs, because of triangular grid
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the i-\/th 3\+D-\/object to process \\
+\hline
+\end{DoxyParams}
+\hypertarget{classstd_1_1Scene_a6f5536cb6bf3df944508583badad1bd9}{}\index{std\+::\+Scene@{std\+::\+Scene}!render@{render}}
+\index{render@{render}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{render}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::render (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_a6f5536cb6bf3df944508583badad1bd9}
+Render the scene. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{classstd_1_1Scene_a6f5536cb6bf3df944508583badad1bd9_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classstd_1_1Scene_afe443c3e9196ee13a701a0813e435239}{}\index{std\+::\+Scene@{std\+::\+Scene}!update@{update}}
+\index{update@{update}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_afe443c3e9196ee13a701a0813e435239}
+Update the simulation step and collision detection. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstd_1_1Scene_afe443c3e9196ee13a701a0813e435239_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classstd_1_1Scene_a286eefef820ee9328dce8ec00b15b56f}{}\index{std\+::\+Scene@{std\+::\+Scene}!update\+Normals@{update\+Normals}}
+\index{update\+Normals@{update\+Normals}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{update\+Normals}]{\setlength{\rightskip}{0pt plus 5cm}void std\+::\+Scene\+::update\+Normals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classstd_1_1Scene_a286eefef820ee9328dce8ec00b15b56f}
+Recalculate all normals for all faces modified by the simulaton step. 
+
+\subsection{Member Data Documentation}
+\hypertarget{classstd_1_1Scene_ae8e94f4460f413a412f20a1386f1b308}{}\index{std\+::\+Scene@{std\+::\+Scene}!damping@{damping}}
+\index{damping@{damping}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{damping}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::damping\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_ae8e94f4460f413a412f20a1386f1b308}
+\hypertarget{classstd_1_1Scene_a0d5f3e4771f79d5c0f22ef4bd59ca8a7}{}\index{std\+::\+Scene@{std\+::\+Scene}!mass@{mass}}
+\index{mass@{mass}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{mass}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::mass\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_a0d5f3e4771f79d5c0f22ef4bd59ca8a7}
+\hypertarget{classstd_1_1Scene_a6666d887df77fc484259f4ad165dcf19}{}\index{std\+::\+Scene@{std\+::\+Scene}!points@{points}}
+\index{points@{points}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{points}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf Mass}$>$ std\+::\+Scene\+::points\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_a6666d887df77fc484259f4ad165dcf19}
+\hypertarget{classstd_1_1Scene_a374f417dbcf99c8a314688460876283c}{}\index{std\+::\+Scene@{std\+::\+Scene}!springs@{springs}}
+\index{springs@{springs}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{springs}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf Spring}$>$ std\+::\+Scene\+::springs\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_a374f417dbcf99c8a314688460876283c}
+\hypertarget{classstd_1_1Scene_aba3e53049dcf6b4fb7309a0fe6bb1e2d}{}\index{std\+::\+Scene@{std\+::\+Scene}!step@{step}}
+\index{step@{step}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{step}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::step\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_aba3e53049dcf6b4fb7309a0fe6bb1e2d}
+\hypertarget{classstd_1_1Scene_af694f3276a68d61649f9fabf2de017d2}{}\index{std\+::\+Scene@{std\+::\+Scene}!stiffness@{stiffness}}
+\index{stiffness@{stiffness}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{stiffness}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::stiffness\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_af694f3276a68d61649f9fabf2de017d2}
+\hypertarget{classstd_1_1Scene_a8b5958cd5f7a3f5f03ea8ec6042bceca}{}\index{std\+::\+Scene@{std\+::\+Scene}!weak\+\_\+stiff@{weak\+\_\+stiff}}
+\index{weak\+\_\+stiff@{weak\+\_\+stiff}!std\+::\+Scene@{std\+::\+Scene}}
+\subsubsection[{weak\+\_\+stiff}]{\setlength{\rightskip}{0pt plus 5cm}double std\+::\+Scene\+::weak\+\_\+stiff\hspace{0.3cm}{\ttfamily [private]}}\label{classstd_1_1Scene_a8b5958cd5f7a3f5f03ea8ec6042bceca}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{Scene_8h}{Scene.\+h}\item 
+src/\hyperlink{Scene_8cpp}{Scene.\+cpp}\end{DoxyCompactItemize}

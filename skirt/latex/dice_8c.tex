@@ -1,0 +1,280 @@
+\hypertarget{dice_8c}{}\section{src/dice.c File Reference}
+\label{dice_8c}\index{src/dice.\+c@{src/dice.\+c}}
+{\ttfamily \#include $<$stddef.\+h$>$}\\*
+{\ttfamily \#include $<$G\+L/gl.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}dice.\+h\char`\"{}}\\*
+Include dependency graph for dice.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{dice_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_aadb2131969293f873d1ad5afc390f758}{dice\+Vertices} = 78
+\item 
+G\+Lfloat \hyperlink{dice_8c_ae0ea6da5fe2c1d7bccb52f18a41e9e5f}{dice\+Positions} \mbox{[}234\mbox{]}
+\item 
+G\+Lfloat \hyperlink{dice_8c_a57b46804d1b1e5cd7dcb056fedaf3d0d}{dice\+Texels} \mbox{[}156\mbox{]}
+\item 
+G\+Lfloat \hyperlink{dice_8c_a6a2708a2cb629b805ce3aeec64c252df}{dice\+Normals} \mbox{[}234\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a4d2afca4fccbc7967d7216539391e5ea}{dice\+Objects\+With\+Mass} = 2
+\item 
+const size\+\_\+t \hyperlink{dice_8c_af446084555dabc98d40fe6c825071792}{dice\+Masses} \mbox{[}2\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a2256021b0b6b805513f1107594c26fac}{dice\+Mass\+Fwd\+Offs} \mbox{[}2\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_afc003c18ccbad7053176a220fb2ba3bf}{dice\+Mass\+Vertices} \mbox{[}2\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a2cc6d2cbe0fb31f9f17dea30abbfbfe3}{dice\+Mass\+Rev\+Offs} \mbox{[}2\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a0894ea6172a7fe5d0d4ced09bb7bbce0}{dice\+Mass\+Rev\+Offs\+Orig} \mbox{[}2\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_aeacfb6aff4516202ff41ef3526f5ec17}{dice\+Fwd\+Index\+I} \mbox{[}72\mbox{]}
+\item 
+const size\+\_\+t $\ast$ \hyperlink{dice_8c_a008b85911456de4da8f11d0c8c361960}{dice\+Fwd\+Index} \mbox{[}16\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a0b5984db198523e421624a64a32d27a6}{dice\+Fwd\+Index\+Length} \mbox{[}16\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a151d4cc385afe602fe63029a3d2f8c72}{dice\+Rev\+Index} \mbox{[}72\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a95c05be2ec1d8199c405524c55576ae0}{dice\+Objects} = 3
+\item 
+const size\+\_\+t \hyperlink{dice_8c_adcd16a4c099cdc1cc4c75dd090d15ac0}{dice\+Object\+Offset} \mbox{[}3\mbox{]}
+\item 
+const size\+\_\+t \hyperlink{dice_8c_a665ab56567cdd39fca232f2a419e1596}{dice\+Object\+Length} \mbox{[}3\mbox{]}
+\item 
+const char \hyperlink{dice_8c_a01ece6ed8608732e272c5ac8221da2b7}{dice\+Object\+Names\+String} \mbox{[}36\mbox{]}
+\item 
+const char $\ast$ \hyperlink{dice_8c_aa7e6988a4ed1c68ec723a27a6bb8f139}{dice\+Object\+Names} \mbox{[}3\mbox{]}
+\item 
+const char \hyperlink{dice_8c_aa9a6cc0cda3677ec53bb02d138fbb54b}{dice\+Texture\+File\+Path} \mbox{[}34\mbox{]} = \char`\"{}/not\+\_\+implemented\+\_\+yet/edit/by.\+hand\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a C-\/source file (.c) for the models \char`\"{}dice\+\_\+\+Plane\char`\"{}, \char`\"{}dice\+\_\+\+Rolling\+Die\char`\"{}, \char`\"{}dice\+\_\+\+Die\char`\"{} Don\textquotesingle{}t edit! This is an auto-\/generated file by blender2o\+G\+L. Modifications are not permanent. 
+
+\subsection{Variable Documentation}
+\hypertarget{dice_8c_a008b85911456de4da8f11d0c8c361960}{}\index{dice.\+c@{dice.\+c}!dice\+Fwd\+Index@{dice\+Fwd\+Index}}
+\index{dice\+Fwd\+Index@{dice\+Fwd\+Index}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Fwd\+Index}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t$\ast$ dice\+Fwd\+Index\mbox{[}16\mbox{]}}\label{dice_8c_a008b85911456de4da8f11d0c8c361960}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    &\hyperlink{dice_8c_aeacfb6aff4516202ff41ef3526f5ec17}{diceFwdIndexI}[0],
+    &\hyperlink{dice_8c_aeacfb6aff4516202ff41ef3526f5ec17}{diceFwdIndexI}[5],
+    &diceFwdIndexI[9],
+    &diceFwdIndexI[14],
+    &diceFwdIndexI[18],
+    &diceFwdIndexI[23],
+    &diceFwdIndexI[27],
+    &diceFwdIndexI[32],
+    &diceFwdIndexI[36],
+    &diceFwdIndexI[41],
+    &diceFwdIndexI[45],
+    &diceFwdIndexI[50],
+    &diceFwdIndexI[54],
+    &diceFwdIndexI[59],
+    &diceFwdIndexI[63],
+    &diceFwdIndexI[68],
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_aeacfb6aff4516202ff41ef3526f5ec17}{}\index{dice.\+c@{dice.\+c}!dice\+Fwd\+Index\+I@{dice\+Fwd\+Index\+I}}
+\index{dice\+Fwd\+Index\+I@{dice\+Fwd\+Index\+I}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Fwd\+Index\+I}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Fwd\+Index\+I\mbox{[}72\mbox{]}}\label{dice_8c_aeacfb6aff4516202ff41ef3526f5ec17}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    6, 9, 18, 21, 37,
+    7, 23, 24, 27,
+    8, 10, 29, 30, 33,
+    11, 35, 38, 40,
+    12, 15, 19, 36, 39,
+    17, 20, 22, 25,
+    14, 16, 26, 28, 31,
+    13, 32, 34, 41,
+    42, 45, 54, 57, 73,
+    43, 59, 60, 63,
+    44, 46, 65, 66, 69,
+    47, 71, 74, 76,
+    48, 51, 55, 72, 75,
+    53, 56, 58, 61,
+    50, 52, 62, 64, 67,
+    49, 68, 70, 77,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a0b5984db198523e421624a64a32d27a6}{}\index{dice.\+c@{dice.\+c}!dice\+Fwd\+Index\+Length@{dice\+Fwd\+Index\+Length}}
+\index{dice\+Fwd\+Index\+Length@{dice\+Fwd\+Index\+Length}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Fwd\+Index\+Length}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Fwd\+Index\+Length\mbox{[}16\mbox{]}}\label{dice_8c_a0b5984db198523e421624a64a32d27a6}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_af446084555dabc98d40fe6c825071792}{}\index{dice.\+c@{dice.\+c}!dice\+Masses@{dice\+Masses}}
+\index{dice\+Masses@{dice\+Masses}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Masses}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Masses\mbox{[}2\mbox{]}}\label{dice_8c_af446084555dabc98d40fe6c825071792}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    8,
+    8,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a2256021b0b6b805513f1107594c26fac}{}\index{dice.\+c@{dice.\+c}!dice\+Mass\+Fwd\+Offs@{dice\+Mass\+Fwd\+Offs}}
+\index{dice\+Mass\+Fwd\+Offs@{dice\+Mass\+Fwd\+Offs}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Mass\+Fwd\+Offs}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Mass\+Fwd\+Offs\mbox{[}2\mbox{]}}\label{dice_8c_a2256021b0b6b805513f1107594c26fac}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    0,
+    8,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a2cc6d2cbe0fb31f9f17dea30abbfbfe3}{}\index{dice.\+c@{dice.\+c}!dice\+Mass\+Rev\+Offs@{dice\+Mass\+Rev\+Offs}}
+\index{dice\+Mass\+Rev\+Offs@{dice\+Mass\+Rev\+Offs}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Mass\+Rev\+Offs}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Mass\+Rev\+Offs\mbox{[}2\mbox{]}}\label{dice_8c_a2cc6d2cbe0fb31f9f17dea30abbfbfe3}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    0,
+    36,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a0894ea6172a7fe5d0d4ced09bb7bbce0}{}\index{dice.\+c@{dice.\+c}!dice\+Mass\+Rev\+Offs\+Orig@{dice\+Mass\+Rev\+Offs\+Orig}}
+\index{dice\+Mass\+Rev\+Offs\+Orig@{dice\+Mass\+Rev\+Offs\+Orig}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Mass\+Rev\+Offs\+Orig}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Mass\+Rev\+Offs\+Orig\mbox{[}2\mbox{]}}\label{dice_8c_a0894ea6172a7fe5d0d4ced09bb7bbce0}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    6,
+    42,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_afc003c18ccbad7053176a220fb2ba3bf}{}\index{dice.\+c@{dice.\+c}!dice\+Mass\+Vertices@{dice\+Mass\+Vertices}}
+\index{dice\+Mass\+Vertices@{dice\+Mass\+Vertices}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Mass\+Vertices}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Mass\+Vertices\mbox{[}2\mbox{]}}\label{dice_8c_afc003c18ccbad7053176a220fb2ba3bf}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    36,
+    36,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a6a2708a2cb629b805ce3aeec64c252df}{}\index{dice.\+c@{dice.\+c}!dice\+Normals@{dice\+Normals}}
+\index{dice\+Normals@{dice\+Normals}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Normals}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat dice\+Normals\mbox{[}234\mbox{]}}\label{dice_8c_a6a2708a2cb629b805ce3aeec64c252df}
+\hypertarget{dice_8c_a665ab56567cdd39fca232f2a419e1596}{}\index{dice.\+c@{dice.\+c}!dice\+Object\+Length@{dice\+Object\+Length}}
+\index{dice\+Object\+Length@{dice\+Object\+Length}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Object\+Length}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Object\+Length\mbox{[}3\mbox{]}}\label{dice_8c_a665ab56567cdd39fca232f2a419e1596}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    6,
+    36,
+    36,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_aa7e6988a4ed1c68ec723a27a6bb8f139}{}\index{dice.\+c@{dice.\+c}!dice\+Object\+Names@{dice\+Object\+Names}}
+\index{dice\+Object\+Names@{dice\+Object\+Names}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Object\+Names}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ dice\+Object\+Names\mbox{[}3\mbox{]}}\label{dice_8c_aa7e6988a4ed1c68ec723a27a6bb8f139}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    &\hyperlink{dice_8c_a01ece6ed8608732e272c5ac8221da2b7}{diceObjectNamesString}[0],
+    &\hyperlink{dice_8c_a01ece6ed8608732e272c5ac8221da2b7}{diceObjectNamesString}[11],
+    &diceObjectNamesString[27],
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a01ece6ed8608732e272c5ac8221da2b7}{}\index{dice.\+c@{dice.\+c}!dice\+Object\+Names\+String@{dice\+Object\+Names\+String}}
+\index{dice\+Object\+Names\+String@{dice\+Object\+Names\+String}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Object\+Names\+String}]{\setlength{\rightskip}{0pt plus 5cm}const char dice\+Object\+Names\+String\mbox{[}36\mbox{]}}\label{dice_8c_a01ece6ed8608732e272c5ac8221da2b7}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    \textcolor{stringliteral}{"dice\_Plane\(\backslash\)0"}
+    \textcolor{stringliteral}{"dice\_RollingDie\(\backslash\)0"}
+    \textcolor{stringliteral}{"dice\_Die\(\backslash\)0"}
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_adcd16a4c099cdc1cc4c75dd090d15ac0}{}\index{dice.\+c@{dice.\+c}!dice\+Object\+Offset@{dice\+Object\+Offset}}
+\index{dice\+Object\+Offset@{dice\+Object\+Offset}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Object\+Offset}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Object\+Offset\mbox{[}3\mbox{]}}\label{dice_8c_adcd16a4c099cdc1cc4c75dd090d15ac0}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    0,
+    6,
+    42,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a95c05be2ec1d8199c405524c55576ae0}{}\index{dice.\+c@{dice.\+c}!dice\+Objects@{dice\+Objects}}
+\index{dice\+Objects@{dice\+Objects}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Objects}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Objects = 3}\label{dice_8c_a95c05be2ec1d8199c405524c55576ae0}
+\hypertarget{dice_8c_a4d2afca4fccbc7967d7216539391e5ea}{}\index{dice.\+c@{dice.\+c}!dice\+Objects\+With\+Mass@{dice\+Objects\+With\+Mass}}
+\index{dice\+Objects\+With\+Mass@{dice\+Objects\+With\+Mass}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Objects\+With\+Mass}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Objects\+With\+Mass = 2}\label{dice_8c_a4d2afca4fccbc7967d7216539391e5ea}
+\hypertarget{dice_8c_ae0ea6da5fe2c1d7bccb52f18a41e9e5f}{}\index{dice.\+c@{dice.\+c}!dice\+Positions@{dice\+Positions}}
+\index{dice\+Positions@{dice\+Positions}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Positions}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat dice\+Positions\mbox{[}234\mbox{]}}\label{dice_8c_ae0ea6da5fe2c1d7bccb52f18a41e9e5f}
+\hypertarget{dice_8c_a151d4cc385afe602fe63029a3d2f8c72}{}\index{dice.\+c@{dice.\+c}!dice\+Rev\+Index@{dice\+Rev\+Index}}
+\index{dice\+Rev\+Index@{dice\+Rev\+Index}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Rev\+Index}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Rev\+Index\mbox{[}72\mbox{]}}\label{dice_8c_a151d4cc385afe602fe63029a3d2f8c72}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    0, 1, 2,
+    0, 2, 3,
+    4, 7, 6,
+    4, 6, 5,
+    0, 4, 5,
+    0, 5, 1,
+    1, 5, 6,
+    1, 6, 2,
+    2, 6, 7,
+    2, 7, 3,
+    4, 0, 3,
+    4, 3, 7,
+    8, 9, 10,
+    8, 10, 11,
+    12, 15, 14,
+    12, 14, 13,
+    8, 12, 13,
+    8, 13, 9,
+    9, 13, 14,
+    9, 14, 10,
+    10, 14, 15,
+    10, 15, 11,
+    12, 8, 11,
+    12, 11, 15,
+\}
+\end{DoxyCode}
+\hypertarget{dice_8c_a57b46804d1b1e5cd7dcb056fedaf3d0d}{}\index{dice.\+c@{dice.\+c}!dice\+Texels@{dice\+Texels}}
+\index{dice\+Texels@{dice\+Texels}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Texels}]{\setlength{\rightskip}{0pt plus 5cm}G\+Lfloat dice\+Texels\mbox{[}156\mbox{]}}\label{dice_8c_a57b46804d1b1e5cd7dcb056fedaf3d0d}
+\hypertarget{dice_8c_aa9a6cc0cda3677ec53bb02d138fbb54b}{}\index{dice.\+c@{dice.\+c}!dice\+Texture\+File\+Path@{dice\+Texture\+File\+Path}}
+\index{dice\+Texture\+File\+Path@{dice\+Texture\+File\+Path}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Texture\+File\+Path}]{\setlength{\rightskip}{0pt plus 5cm}const char dice\+Texture\+File\+Path\mbox{[}34\mbox{]} = \char`\"{}/not\+\_\+implemented\+\_\+yet/edit/by.\+hand\char`\"{}}\label{dice_8c_aa9a6cc0cda3677ec53bb02d138fbb54b}
+\hypertarget{dice_8c_aadb2131969293f873d1ad5afc390f758}{}\index{dice.\+c@{dice.\+c}!dice\+Vertices@{dice\+Vertices}}
+\index{dice\+Vertices@{dice\+Vertices}!dice.\+c@{dice.\+c}}
+\subsubsection[{dice\+Vertices}]{\setlength{\rightskip}{0pt plus 5cm}const size\+\_\+t dice\+Vertices = 78}\label{dice_8c_aadb2131969293f873d1ad5afc390f758}

@@ -1,0 +1,222 @@
+\hypertarget{main_8cpp}{}\section{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.\+cpp@{src/main.\+cpp}}
+{\ttfamily \#include $<$G\+L/freeglut.\+h$>$}\\*
+{\ttfamily \#include $<$cstdlib$>$}\\*
+{\ttfamily \#include $<$ctime$>$}\\*
+{\ttfamily \#include $<$sys/time.\+h$>$}\\*
+{\ttfamily \#include $<$sys/times.\+h$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include \char`\"{}Accelerometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Scene.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Mip\+Map.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}model\+\_\+mapping.\+h\char`\"{}}\\*
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ulong \hyperlink{main_8cpp_ae1c3ac19af566b079fd1d72cb8838fab}{get\+Time} ()
+\item 
+void \hyperlink{main_8cpp_a25a40b6614565f755233080a384c35f1}{initialize} ()
+\item 
+void \hyperlink{main_8cpp_a8a4b4b466e95577718229e81f137208a}{motion\+Callback} (int, int)
+\item 
+void \hyperlink{main_8cpp_afa25ae0e53443c4fa04ae9e93233aa78}{reshape\+Callback} (int w, int h)
+\item 
+void \hyperlink{main_8cpp_a582135b73e5577fe41fa9361870272b1}{update\+Simulation} ()
+\item 
+void \hyperlink{main_8cpp_a96162111a8d4ce79c3a93988682de9d4}{display\+Callback} ()
+\item 
+void \hyperlink{main_8cpp_a63650c4ea8c74f426870155b82a8ebad}{keyboard\+Callback} (unsigned char key, int, int)
+\item 
+void \hyperlink{main_8cpp_a11eb900902ba49145d19defcf4b164c0}{mouse\+Callback} (int button, int state, int x, int y)
+\item 
+void \hyperlink{main_8cpp_a3706e3b3d41de8ef254f10f16d415a7e}{idle\+Callback} ()
+\item 
+int \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classstd_1_1Scene}{Scene} $\ast$ \hyperlink{main_8cpp_a6de66f9ad116ce1d596c7f4edc40c521}{scene} =nullptr
+\item 
+static const double \hyperlink{main_8cpp_ac1ad017c8f259a9a0a508ee9a6664229}{M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E} = 0.\+01
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{main_8cpp_a96162111a8d4ce79c3a93988682de9d4}{}\index{main.\+cpp@{main.\+cpp}!display\+Callback@{display\+Callback}}
+\index{display\+Callback@{display\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{display\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void display\+Callback (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a96162111a8d4ce79c3a93988682de9d4}
+Display callback function. Called each times the display needs to be redrawn. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a96162111a8d4ce79c3a93988682de9d4_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{main_8cpp_ae1c3ac19af566b079fd1d72cb8838fab}{}\index{main.\+cpp@{main.\+cpp}!get\+Time@{get\+Time}}
+\index{get\+Time@{get\+Time}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{get\+Time}]{\setlength{\rightskip}{0pt plus 5cm}ulong get\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_ae1c3ac19af566b079fd1d72cb8838fab}
+Get the system time. This function requires $\ast$\+N\+I\+X dependent system functions. \begin{DoxyReturn}{Returns}
+the time of now 
+\end{DoxyReturn}
+\hypertarget{main_8cpp_a3706e3b3d41de8ef254f10f16d415a7e}{}\index{main.\+cpp@{main.\+cpp}!idle\+Callback@{idle\+Callback}}
+\index{idle\+Callback@{idle\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{idle\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void idle\+Callback (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a3706e3b3d41de8ef254f10f16d415a7e}
+Idle function. Executed if Open\+G\+L is in an idle state. \hypertarget{main_8cpp_a25a40b6614565f755233080a384c35f1}{}\index{main.\+cpp@{main.\+cpp}!initialize@{initialize}}
+\index{initialize@{initialize}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}void initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a25a40b6614565f755233080a384c35f1}
+Initialize the Open\+G\+L system and the scene. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a25a40b6614565f755233080a384c35f1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{main_8cpp_a63650c4ea8c74f426870155b82a8ebad}{}\index{main.\+cpp@{main.\+cpp}!keyboard\+Callback@{keyboard\+Callback}}
+\index{keyboard\+Callback@{keyboard\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{keyboard\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void keyboard\+Callback (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{key, }
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a63650c4ea8c74f426870155b82a8ebad}
+Keyboard callback function. Processes the input events from the keyboard. 
+\begin{DoxyParams}{Parameters}
+{\em key} & key mapped to an event \\
+\hline
+\end{DoxyParams}
+\hypertarget{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{}\index{main.\+cpp@{main.\+cpp}!main@{main}}
+\index{main@{main}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}
+The main function. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & arguments counter. \\
+\hline
+{\em argv} & arguments vector. All arguments are passed on to {\ttfamily glut\+Init()} and {\ttfamily Scene()} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+process return value {\ttfamily E\+X\+I\+T\+\_\+\+S\+U\+C\+C\+E\+S\+S} or {\ttfamily E\+X\+I\+T\+\_\+\+F\+A\+I\+L\+U\+R\+E} 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{main_8cpp_a8a4b4b466e95577718229e81f137208a}{}\index{main.\+cpp@{main.\+cpp}!motion\+Callback@{motion\+Callback}}
+\index{motion\+Callback@{motion\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{motion\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void motion\+Callback (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a8a4b4b466e95577718229e81f137208a}
+Mouse Motion callback function Processes the input events from the Mouse.
+
+actually unused \hypertarget{main_8cpp_a11eb900902ba49145d19defcf4b164c0}{}\index{main.\+cpp@{main.\+cpp}!mouse\+Callback@{mouse\+Callback}}
+\index{mouse\+Callback@{mouse\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{mouse\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void mouse\+Callback (
+\begin{DoxyParamCaption}
+\item[{int}]{button, }
+\item[{int}]{state, }
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a11eb900902ba49145d19defcf4b164c0}
+Mouse button callback function. Processes the input events from the Mouse. 
+\begin{DoxyParams}{Parameters}
+{\em button} & \\
+\hline
+{\em state} & \\
+\hline
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{main_8cpp_afa25ae0e53443c4fa04ae9e93233aa78}{}\index{main.\+cpp@{main.\+cpp}!reshape\+Callback@{reshape\+Callback}}
+\index{reshape\+Callback@{reshape\+Callback}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{reshape\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void reshape\+Callback (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_afa25ae0e53443c4fa04ae9e93233aa78}
+Window reshape callback function. 
+\begin{DoxyParams}{Parameters}
+{\em w} & window width after size change \\
+\hline
+{\em h} & window height after size change \\
+\hline
+\end{DoxyParams}
+\hypertarget{main_8cpp_a582135b73e5577fe41fa9361870272b1}{}\index{main.\+cpp@{main.\+cpp}!update\+Simulation@{update\+Simulation}}
+\index{update\+Simulation@{update\+Simulation}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{update\+Simulation}]{\setlength{\rightskip}{0pt plus 5cm}void update\+Simulation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{main_8cpp_a582135b73e5577fe41fa9361870272b1}
+Update the simulation up to the present time. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a582135b73e5577fe41fa9361870272b1_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{main_8cpp_ac1ad017c8f259a9a0a508ee9a6664229}{}\index{main.\+cpp@{main.\+cpp}!M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E@{M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E}}
+\index{M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E@{M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}const double M\+A\+X\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+T\+I\+M\+E = 0.\+01\hspace{0.3cm}{\ttfamily [static]}}\label{main_8cpp_ac1ad017c8f259a9a0a508ee9a6664229}
+Maximum time allowed between updates when running in real-\/time mode (prevents performing too many calculations when running slower than real time) \hypertarget{main_8cpp_a6de66f9ad116ce1d596c7f4edc40c521}{}\index{main.\+cpp@{main.\+cpp}!scene@{scene}}
+\index{scene@{scene}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{scene}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene}$\ast$ scene =nullptr}\label{main_8cpp_a6de66f9ad116ce1d596c7f4edc40c521}

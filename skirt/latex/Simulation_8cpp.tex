@@ -1,0 +1,50 @@
+\hypertarget{Simulation_8cpp}{}\section{src/\+Simulation.cpp File Reference}
+\label{Simulation_8cpp}\index{src/\+Simulation.\+cpp@{src/\+Simulation.\+cpp}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\\*
+{\ttfamily \#include \char`\"{}Mass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Scene.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Accelerometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Simulation.\+h\char`\"{}}\\*
+Include dependency graph for Simulation.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Simulation_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacestd}{std}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacestd_a799147cff61c9c79a5ef80489d410fe2}{std\+::fwd\+\_\+euler} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+Eigen\+::\+Vector3d \hyperlink{namespacestd_a531c113b5d68b2af865bcc27ae4c8cc4}{std\+::f\+\_\+int} (\hyperlink{classMass}{Mass} \&pt, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs)
+\item 
+Eigen\+::\+Vector3d \hyperlink{namespacestd_a4b332ac1eb524b67a49cfc0187f70b75}{std\+::gravity} ()
+\item 
+void \hyperlink{namespacestd_af9b93750ea7aaecab7885d024fd822a2}{std\+::symplectic} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_a6a2a5c73fecc45374baf25b7b05dbc97}{std\+::leapfrog} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_ae925c3874f2dd2ec669c4640831d17b6}{std\+::midpoint} (double dt, vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\item 
+void \hyperlink{namespacestd_a8bde1e030dd347ced2d32f063f983420}{std\+::force} (vector$<$ \hyperlink{classMass}{Mass} $>$ \&points, vector$<$ \hyperlink{classSpring}{Spring} $>$ \&springs, bool interaction)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespacestd_a46133dbc6d449430af9f3e4b497f0d19}{std\+::leap\+Frog\+Initialized} = false
+\item 
+double \hyperlink{namespacestd_a3546d111a95e4b56d5e75a7ec695a2ee}{std\+::t} = 0
+\item 
+double \hyperlink{namespacestd_a3a4f9480c35c84159c4009b499c3eea6}{std\+::floor\+Level} = -\/1.
+\item 
+double \hyperlink{namespacestd_a3901183639dea11eb8cf94025f5cfea8}{std\+::repulsive\+Spring\+Const} = -\/50.
+\end{DoxyCompactItemize}

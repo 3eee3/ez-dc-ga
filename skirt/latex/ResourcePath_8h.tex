@@ -1,0 +1,89 @@
+\hypertarget{ResourcePath_8h}{}\section{src/\+Resource\+Path.h File Reference}
+\label{ResourcePath_8h}\index{src/\+Resource\+Path.\+h@{src/\+Resource\+Path.\+h}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+Include dependency graph for Resource\+Path.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{ResourcePath_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{ResourcePath_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{ResourcePath_8h_a49c5dd4204aaeea4802d8fa9d7c8fccc}{get\+Base\+Path} (int, char $\ast$argv\mbox{[}$\,$\mbox{]}=nullptr)
+\begin{DoxyCompactList}\small\item\em Get the path of the application folder. \end{DoxyCompactList}\item 
+string \hyperlink{ResourcePath_8h_ac072528545a90c4040a7b43c161a8e5a}{get\+Resource\+Path} (string file\+Path, string resources\+Folder=\char`\"{}resources\char`\"{}, int argc=0, char $\ast$argv\mbox{[}$\,$\mbox{]}=nullptr)
+\begin{DoxyCompactList}\small\item\em Get path to resource file relative to the Base\+Path(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{ResourcePath_8h_a49c5dd4204aaeea4802d8fa9d7c8fccc}{}\index{Resource\+Path.\+h@{Resource\+Path.\+h}!get\+Base\+Path@{get\+Base\+Path}}
+\index{get\+Base\+Path@{get\+Base\+Path}!Resource\+Path.\+h@{Resource\+Path.\+h}}
+\subsubsection[{get\+Base\+Path}]{\setlength{\rightskip}{0pt plus 5cm}string get\+Base\+Path (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)}\label{ResourcePath_8h_a49c5dd4204aaeea4802d8fa9d7c8fccc}
+
+
+Get the path of the application folder. 
+
+The path returned is an absolute path with trailing path separator. The first call of this function initializes the path constant and thus, it needs non-\/null values for argc and argv. If the initialization fails, the return value is an empty string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & the arguments list provided by the {\ttfamily \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}} function on first call, omit or set to {\ttfamily nullptr} on succeeding calls \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the base path or an empty string if not initialized. 
+\end{DoxyReturn}
+\hypertarget{ResourcePath_8h_ac072528545a90c4040a7b43c161a8e5a}{}\index{Resource\+Path.\+h@{Resource\+Path.\+h}!get\+Resource\+Path@{get\+Resource\+Path}}
+\index{get\+Resource\+Path@{get\+Resource\+Path}!Resource\+Path.\+h@{Resource\+Path.\+h}}
+\subsubsection[{get\+Resource\+Path}]{\setlength{\rightskip}{0pt plus 5cm}string get\+Resource\+Path (
+\begin{DoxyParamCaption}
+\item[{string}]{file\+Path, }
+\item[{string}]{resources\+Folder = {\ttfamily \char`\"{}resources\char`\"{}}, }
+\item[{int}]{argc = {\ttfamily 0}, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)}\label{ResourcePath_8h_ac072528545a90c4040a7b43c161a8e5a}
+
+
+Get path to resource file relative to the Base\+Path(). 
+
+The path returned is an absolute path resolved from ../resources/file\+Path. If the path to a sub-\/folder is required use the path separator supported by the target system. 
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & the path to the requested file in the resources folder \\
+\hline
+{\em resources\+Folder} & name of the folder without path separators or empty string to address the parent folder, default is \char`\"{}resources\char`\"{} \\
+\hline
+{\em argc} & the arguments count of the {\ttfamily \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}} function on first call \\
+\hline
+{\em argv} & the arguments list of the {\ttfamily \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}} function on first call \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the base path to the resource folder appended by file\+Path 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{ResourcePath_8h_ac072528545a90c4040a7b43c161a8e5a_cgraph}
+\end{center}
+\end{figure}
+
+
