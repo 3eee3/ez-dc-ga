@@ -11,18 +11,48 @@
 #include "Mass.h"
 #include "model_mapping.h"
 
+//#define _DEBUG_MASS
+//#define _DEBUG_MASS_CTOR
+
+#if defined _DEBUG_MASS || defined _DEBUG_MASS_CTOR
+#include <iostream>
+#warning "Debug messages for Mass class activated."
+#define _DEBUG_MSG_C(X) std::cerr << "Mass class: " << X << std::endl;
+#ifdef _DEBUG_MASS
+#define _DEBUG_MSG(X) _DEBUG_MSG_C(X)
+#else
+#define _DEBUG_MSG(X)
+#endif
+#else
+#define _DEBUG_MSG_C(X)
+#define _DEBUG_MSG(X)
+#endif
 
 #include <vector>
+
+/**
+ * Default constructor.
+ * @param posPtr vector of pointers to the vertices in the positions array
+ * @param mass the mass of the mass-point
+ * @param damp the damping factor of the mass-point (to simulate friction and air resistance)
+ */
 Mass::Mass(std::vector<GLfloat*> posPtr, double mass, double damp) :
 		mass(mass), damping(damp), posPtr(posPtr)  {
+	_DEBUG_MSG_C("constructor: posPtr.size=" << posPtr.size())
 	velocity = Eigen::Vector3d(0.0, 0.0, 0.0);
 	force = Eigen::Vector3d(0.0, 0.0, 0.0);
 	userForce = Eigen::Vector3d(0.0, 0.0, 0.0);
 	fixed = false;
 }
 
+/**
+ * Constructor which takes at least the mass argument.
+ * @param mass the mass of the mass-point
+ * @param damp the damping factor of the mass-point (to simulate friction and air resistance)
+ */
 Mass::Mass(double mass, double damp) :
 		mass(mass), damping(damp) {
+	_DEBUG_MSG_C("constructor: new posPtr")
 	posPtr = vector<GLfloat*>();
 	velocity = Eigen::Vector3d(0.0, 0.0, 0.0);
 	force = Eigen::Vector3d(0.0, 0.0, 0.0);
@@ -30,17 +60,45 @@ Mass::Mass(double mass, double damp) :
 	fixed = false;
 }
 
-Mass::Mass(const Mass &rhs) {
-	mass = rhs.mass;
-	damping = rhs.damping;
-	fixed = rhs.fixed;
-	posPtr = rhs.posPtr;
-	velocity = rhs.velocity;
-	force = rhs.force;
-	userForce = rhs.userForce;
+/**
+ * Copy constructor
+ * @param m source object
+ */
+Mass::Mass(const Mass &m) {
+	_DEBUG_MSG_C("constructor: copy mass")
+	mass = m.mass;
+	damping = m.damping;
+	fixed = m.fixed;
+	posPtr = vector<GLfloat*>(m.posPtr);
+	velocity = m.velocity;
+	force = m.force;
+	userForce = m.userForce;
 }
 
+/**
+ * Move Constructor
+ * @param m
+ */
+Mass::Mass(Mass &&m) {
+	_DEBUG_MSG_C("constructor: move mass")
+	mass = m.mass;
+	damping = m.damping;
+	fixed = m.fixed;
+	posPtr = std::move(m.posPtr);
+	velocity = std::move(m.velocity);
+	force = std::move(m.force);
+	userForce = std::move(m.userForce);
+	m.posPtr = vector<GLfloat*>();
+	m.velocity = Eigen::Vector3d();
+	m.force = Eigen::Vector3d();
+	m.userForce = Eigen::Vector3d();
+}
+
+/**
+ * Default destructor.
+ */
 Mass::~Mass() {
+	_DEBUG_MSG_C("delete")
 }
 
 /**
@@ -49,6 +107,7 @@ Mass::~Mass() {
  *        The y- and z-coordinates must be in consecutive order in the array.
  */
 void Mass::registerVertex(GLfloat* ptr) {
+	_DEBUG_MSG("registerVertex : posPtr.size=" << posPtr.size())
 	posPtr.push_back(ptr);
 }
 
@@ -60,9 +119,9 @@ void Mass::registerVertex(GLfloat* ptr) {
  */
 void Mass::setPos(Eigen::Vector3d pos) {
 	for (GLfloat* p : posPtr) {
-		p[0] = pos[0];
-		p[1] = pos[1];
-		p[2] = pos[2];
+		p[0] = (GLfloat)pos[0];
+		p[1] = (GLfloat)pos[1];
+		p[2] = (GLfloat)pos[2];
 	}
 }
 
@@ -76,7 +135,7 @@ void Mass::setPos(Eigen::Vector3d pos) {
  */
 void Mass::setX(double x) {
 	for (GLfloat* p : posPtr) {
-		p[0] = x;
+		p[0] = (GLfloat)x;
 	}
 }
 
@@ -86,11 +145,11 @@ void Mass::setX(double x) {
  * This setter spreads the y-coordinate to all registered vertices.
  * Don't use getPos.y to write a coordinate, it will mess up the
  * vertices array.
- * @param x the coordinate
+ * @param y the coordinate
  */
 void Mass::setY(double y) {
 	for (GLfloat* p : posPtr) {
-		p[0] = y;
+		p[0] = (GLfloat)y;
 	}
 }
 
@@ -100,11 +159,11 @@ void Mass::setY(double y) {
  * This setter spreads the z-coordinate to all registered vertices.
  * Don't use getPos.z to write a coordinate, it will mess up the
  * vertices array.
- * @param x the coordinate
+ * @param z the coordinate
  */
 void Mass::setZ(double z) {
 	for (GLfloat* p : posPtr) {
-		p[0] = z;
+		p[0] = (GLfloat)z;
 	}
 }
 
@@ -117,8 +176,13 @@ void Mass::setZ(double z) {
  * @return the position vector or if no vertices are registered the 0 vector.
  */
 Eigen::Vector3d Mass::getPos() {
-	if (posPtr.size() > 0) {
-		return Eigen::Vector3d(posPtr[0][0], posPtr[0][1], posPtr[0][2]);
+	if (!posPtr.empty() && posPtr.size() < posPtr.max_size()) {
+		_DEBUG_MSG("getPos: posPtr.size=" << posPtr.size() << ", x = " << *posPtr[0] << ", y = " << *(posPtr[0]+1) << ", z = " << *(posPtr[0]+2))
+		GLfloat x = *posPtr[0];
+		GLfloat y = *(posPtr[0]+1);
+		GLfloat z = *(posPtr[0]+2);
+
+		return Eigen::Vector3d((double)x, (double)y, (double)z);
 	} else {
 		return Eigen::Vector3d(0.0, 0.0, 0.0);
 	}

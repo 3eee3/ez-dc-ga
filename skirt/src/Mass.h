@@ -15,6 +15,10 @@
 
 using std::vector;
 
+/**
+ * This class contains all properties of a mass-point which are necessary to run
+ * a physically based simulation of a mass-spring system.
+ */
 class Mass {
 
 public:
@@ -22,6 +26,8 @@ public:
 			double mass = 0.0, double damp = 0.0);
 	Mass(double mass, double damp = 0.0);
 	Mass(const Mass &m);
+	Mass(Mass &&);
+
 	virtual ~Mass();
 
 	void registerVertex(GLfloat* ptr);

@@ -6,21 +6,24 @@
  */
 
 
-/*
+/**
+ * @file
  * This file includes the vertex, texture and normals coordinates
  * and some 3D object topology informations.
  *
  * It is a wrapper to make the code relying on these variables independent
  * from varying names supplied by the header file generator tool
- * 'blender2oGL'
- *
+ * @c blender2oGL. Use the following line to generate a customized header file:
+ * @code{.txt}
+ * blender2oGL ./path/to-your/file.obj -m -s -o -r -a file_objectWithMass -a file_otherObjectIfDesired
+ * @endcode
  * Edit the pointers in this file to fit the code to an exchanged header file.
  * DON'T EDIT them in the generated .h file, they may be overwritten by the
  * generator tool.
  */
 
-/* activate the small model with two dice by uncommenting this line */
-#define _DEBUG_OGL_MODEL
+// activate the small model with two dice by uncommenting this line
+// #define _DEBUG_OGL_MODEL
 
 #include <GL/gl.h>
 #include <cstddef>
@@ -31,15 +34,14 @@
 #else
 /* edit this #include instruction to import the generated header file */
 #include "skirt_sphere.h"
-//#include "woman.h"
-/* define the prefix of the structures for mapping the variable names */
+/** define the prefix of the structures for mapping the variable names */
 #define MODEL(X) skirt_sphere##X
-//#define MODEL(X) woman##X
 #endif
 
 namespace std {
 
 #ifndef _DEBUG_OGL_MODEL
+
 /*
  * Vertex Arrays:
  * The arrays contain the vertex data for all objects of a 3D model
@@ -63,7 +65,6 @@ GLfloat* model3dPositions = MODEL(Positions);
 GLfloat* model3dTexels = MODEL(Texels);
 GLfloat* model3dNormals = MODEL(Normals);
 
-//FIXME not finished yet
 /*
  * Index Mapping Arrays: masses and springs mapping
  * The dots of ...Name indicate a variable-name with prefix which is mapped to variable 'model3dName'.
@@ -140,5 +141,4 @@ const char** model3dObjectNames = (const char**) diceObjectNames;
 const char* model3dTextureFilePath = "textures/die.png";//diceTextureFilePath;//FIXME not implemented in blender2oGL tool
 #endif /* _DEBUG_OGL_MODEL */
 
-}
-// namespace std
+} // namespace std

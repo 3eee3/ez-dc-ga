@@ -1,5 +1,8 @@
-// This is a C-source file (.c) for the models "skirt_sphere_Cone", "skirt_sphere_Grid", "skirt_sphere_Icosphere"
-// Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
+/**
+ * @file
+ * This is a C-source file (.c) for the models "skirt_sphere_Cone", "skirt_sphere_Grid", "skirt_sphere_Icosphere"
+ * Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
+ */
 
 /*
  * model statistics:

@@ -5,7 +5,8 @@
  *      Author: littlelion
  */
 
-/*
+/**
+ * @file
  * This file includes the vertex, texture and normals coordinates
  * and some 3D object topology informations.
  *
@@ -28,29 +29,29 @@
 namespace std {
 
 // Vertex Arrays
-extern const size_t model3dVertices;
-extern GLfloat* model3dPositions;
-extern GLfloat* model3dTexels;
-extern GLfloat* model3dNormals;
+extern const size_t model3dVertices;         ///< number of vertices
+extern GLfloat* model3dPositions;            ///< all vertex positions
+extern GLfloat* model3dTexels;               ///< all texture coordinates
+extern GLfloat* model3dNormals;              ///< all normals of the face surfaces
 
 // Index Mapping Arrays
-extern const size_t model3dObjectsWithMass;
-extern const size_t* model3dMasses;
-extern const size_t* model3dMassFwdOffs;
-extern const size_t* model3dMassVertices;
-extern const size_t* model3dMassRevOffs;
-extern const size_t* model3dMassRevOffsOrig;
+extern const size_t model3dObjectsWithMass;  ///< number of objects to apply to the mass-spring simulation
+extern const size_t* model3dMasses;          ///< array of 3D-objects with mass
+extern const size_t* model3dMassFwdOffs;     ///< offset in the points array
+extern const size_t* model3dMassVertices;    ///< number of vertices per object with mass
+extern const size_t* model3dMassRevOffs;     ///< offsets for the model3dRevIndex array
+extern const size_t* model3dMassRevOffsOrig; ///< offset to the first vertex of an object with mass
 
-extern const size_t** model3dFwdIndex;
-extern const size_t* model3dFwdIndexLength;
-extern const size_t* model3dRevIndex;
+extern const size_t** model3dFwdIndex;       ///< indices of the mass-points in the positions array
+extern const size_t* model3dFwdIndexLength;  ///< number of indices for each mass-point
+extern const size_t* model3dRevIndex;        ///< index of a vertex in the mass-points array
 
 // Object Topology Informations
-extern const size_t model3dObjects;
-extern const size_t* model3dObjectOffset;
-extern const size_t* model3dObjectLength;
-extern const char** model3dObjectNames;
-extern const char* model3dTextureFilePath;
+extern const size_t model3dObjects;          ///< number of 3D-objects
+extern const size_t* model3dObjectOffset;    ///< offset to the first vertex of a 3D-object
+extern const size_t* model3dObjectLength;    ///< number of vertices for each 3D-object
+extern const char** model3dObjectNames;      ///< names of the objects (for identification)
+extern const char* model3dTextureFilePath;   ///< path to the texture-image file
 
 } // namespace std
 

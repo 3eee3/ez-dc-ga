@@ -10,12 +10,17 @@
 
 namespace std {
 
-/* mass spring - numerical solver */
+/**
+ * Simulation class. Solver for mass-spring systems.
+ *
+ * This class provides some numerical solvers. They are programmed during a assignment
+ * of the pro-seminar physically based simulations preceding to this project.
+ */
 class Simulation {
 public:
 //XXX remove this
 	enum Method {
-		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT, ANALYTICAL
+		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT
 	};
 // XXX end
 

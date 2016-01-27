@@ -1,4 +1,4 @@
-/******************************************************************
+/* *****************************************************************
  *
  * Exercise.cpp
  *
@@ -16,9 +16,9 @@
  * University of Innsbruck
  *
  *******************************************************************/
-/* uncomment following defines for additional output */
-//#define _DEBUG
-//#define _WRITE_FILE "results.csv"
+/* uncomment following define for additional output */
+//#define _DEBUG_SIM
+
 /* Standard includes */
 #include <iostream>
 #include <vector>
@@ -42,17 +42,12 @@ Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs);
 Eigen::Vector3d gravity();       // gravity acceleration downwards
 
 /* function declarations (zischg, including body) */
-#ifdef _WRITE_FILE
-void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points, vector<Spring>& springs);
-#endif
 void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction);
 void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction);
 bool leapFrogInitialized = false;
 double t = 0;
-void analytical_spring(double dt, vector<Mass>& points,
-		vector<Spring>& springs);
 
 /* function declarations (chea, including body, with help of aigner) */
 void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
@@ -62,18 +57,21 @@ void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 double floorLevel = -1.;            // ground level
 double repulsiveSpringConst = -50.; // spring-constant effective if point hits the ground level
 
-#ifdef _DEBUG /* (aigner) */
+#ifdef _DEBUG_SIM /* (aigner) */
 
-/*
- * print some data for debugging: summary of all points and springs
+/**
+ * Print some data for debugging: summary of all points and springs.
+ *
+ * @param points all mass-points
+ * @param springs all springs
  */
 void printData(vector<Mass>& points, vector<Spring>& springs) {
 	for (vector<Mass>::iterator it = points.begin(); it != points.end();
 			++it) {
-		cout << "Point: X=(" << it->getX() << ", " << it->getY() << ", " << it->getZ();
-		cout << "), F=(" << it->getForceX() << ", " << it->getForceY() << ", " << it->getForceZ();
+		cout << "Point: X=(" << it->getPos().x() << ", " << it->getPos().y() << ", " << it->getPos().z();
+		cout << "), F=(" << it->getForce().x() << ", " << it->getForce().y() << ", " << it->getForce().z();
 		cout << "), f_u=(" << it->getUserForce().x() << ", " << it->getUserForce().y() << ", " << it->getUserForce().z();
-		cout << "), V=(" << it->getVelX() << ", " << it->getVelY() << ", " << it->getVelZ();
+		cout << "), V=(" << it->getVel().x() << ", " << it->getVel().y() << ", " << it->getVel().z();
 		cout << "), m=" << it->mass << ", d=" << it->damping;
 		cout << ", g=(" << gravity().x() << ", " << gravity().y() << ", " << gravity().z() << ")";
 		cout << endl;
@@ -97,17 +95,18 @@ void printData(vector<Mass>& points, vector<Spring>& springs) {
  * mass points.
  *
  *******************************************************************/
+/**
+ * Execute one step of the simulation.
+ * @param dt time delay between two steps
+ * @param method select the method to use; The value can be EULER, SYMPLECTIC, LEAPFROG or MIDPOINT.
+ * @param points all mass-points
+ * @param springs all springs
+ */
 void Simulation::step(double dt, Method method, std::vector<Mass> &points,
 		std::vector<Spring> &springs) {
-	bool interaction = true; //XXX remove this
+	bool interaction = true;
 
 	switch (method) {
-	case ANALYTICAL: {
-		/*Analytic solution of single hanging mass*/
-		analytical_spring(dt, points, springs);
-		break;
-	}
-
 	case EULER: {
 		fwd_euler(dt, points, springs, interaction);
 		break;
@@ -129,27 +128,26 @@ void Simulation::step(double dt, Method method, std::vector<Mass> &points,
 	}
 	}
 
-#ifdef _WRITE_FILE
-	writeToFile(points[1].getY(),points[1].getVelY(),method,dt,points,springs);
-#endif
-
-#ifdef _DEBUG
+#ifdef _DEBUG_SIM
 	printData(points, springs);
 #endif
 }
 
 /**
- * Euler Method - Implementation
- * This function calculates the position and velocity for the next timestep.
+ * Euler Method - Implementation.
+ *
+ * This function calculates the position and velocity for the next time step.
+ * @code{.txt}
  * # Compute position at t+h      x(t+h) = x(t) + h*v(t)
  * # Compute forces at t          f(t)   = f_int(t) + f_ext(t)
  * # Compute acceleration at t    a(t)   = 1/m (f(t) - gamma*v(t))
  * # Compute velocity at t+h      v(t+h) = v(t) + h*a(t)
+ * @endcode
  *
- * @param dt            a time step
- * @param points        vector of points
- * @param springs       vector of springs
- * @param interaction   switch user-force on or off
+ * @param dt time step
+ * @param points all mass-points
+ * @param springs all springs
+ * @param interaction true = apply external forces other than gravity
  */
 void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs,
 		bool interaction) {
@@ -178,7 +176,9 @@ void fwd_euler(double dt, vector<Mass> &points, vector<Spring> &springs,
 }
 
 /**
- * compute internal forces of point
+ * Compute internal forces of a point.
+ *
+ * This is a subroutine for the forward Euler method.
  * @param pt       the actual point
  * @param springs  vector of springs
  * @return         sum of forces of all springs connected to point pt
@@ -200,15 +200,20 @@ Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs) {
 }
 
 /**
- * Symplectic euler method
+ * Symplectic euler method.
+ *
+ * @code{.txt}
+ * Algorithm:
  * # Compute position at t+h      x(t+h) = x(t) + h*v(t)
  * # Compute forces at t          f(t)   = f_int(t) + f_ext(t)
  * # Compute acceleration at t    a(t)   = 1/m (f(t) - gamma*v(t))
  * # Compute velocity at t+h      v(t+h) = v(t) + h*a(t)
- * @param dt
- * @param points
- * @param springs
- * @param interaction
+ * @endcode
+ *
+ * @param dt time step
+ * @param points all mass-points
+ * @param springs all springs
+ * @param interaction true = apply external forces other than gravity
  */
 void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
@@ -255,11 +260,11 @@ void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 }
 
 /**
- * leapfrog method
- * @param dt
- * @param points
- * @param springs
- * @param interaction
+ * Leapfrog method.
+ * @param dt time step
+ * @param points all mass-points
+ * @param springs all springs
+ * @param interaction true = apply external forces other than gravity
  */
 void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
@@ -306,10 +311,12 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 }
 
 /**
- * calculate force for all points at time t according to x(t) stored in the points.
- * @param points
- * @param springs
- * @param interaction
+ * Calculate force for all points at time t according to x(t) stored in the points.
+ *
+ * This is a subroutine for the midpoint method.
+ * @param points all mass-points
+ * @param springs all springs
+ * @param interaction true = apply external forces other than gravity
  */
 void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
 	for (int i = 0; i < (int) ((points.size())); i++) {
@@ -334,18 +341,21 @@ void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
 }
 
 /**
- * midpoint method
- * formula:
+ * Midpoint method.
+ * @code{.txt}
+ * Formula:
  *   a(t) = (f(t) - gamma*v(t))/m
  *   v_half(t+h/2) = v(t) + h/2*a(t)
  *   x_half(t+h/2) = x(t) + h/2*v(t)
  *   a_half(t+h/2) = (f_half(t+h/2) - gamma*v_half(t+h/2))/m
  *   x(t+h) = x(t) + h*v_half(t+h/2)
  *   v(t+h) = v(t) + h*a_half(t+h/2)
- * @param dt
- * @param points
- * @param springs
- * @param interaction
+ * @endcode
+ *
+ * @param dt time step
+ * @param points all mass-points
+ * @param springs all springs
+ * @param interaction true = apply external forces other than gravity
  */
 void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
@@ -380,123 +390,18 @@ void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 	}
 }
 
-///**
-// * absolute value
-// * @param x
-// * @return |x|
-// */
-//double abs(double x) {
-//	return x>=0. ? x : -x;
-//}
-
 /**
- * Analytical solution to vertical spring testcase.
- * @param dt
- * @param points
- * @param springs
+ * The gravity. Either it is determined from an acceleration sensor or if not detected a constant in Z axis.
+ * @return the gravity
  */
-void analytical_spring(double dt, vector<Mass>& points,
-		vector<Spring>& springs) {
-	/*Analytic solution of single hanging mass*/
-	double xt, vt;
-	t += dt;
-	double m = points[1].mass;
-	double g = -gravity().y();
-	double k = springs[0].stiffness;
-	double damp_crit = 2 * sqrt(m * k);
-	double w_r = points[1].damping / (2 * m);
-	double w_ = sqrt(abs(k / m - w_r * w_r));
-	double A = m * g / k;
-	double B = w_r * m * g / (k * w_);
-	double ee = exp(-w_r * t);
-	if (points[1].damping < damp_crit) { // weak damped case
-		xt = ee * (A * cos(w_ * t) + B * sin(w_ * t)) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
-		vt = ee * (-A * w_ * sin(w_ * t) + B * w_ * cos(w_ * t))
-				- w_r * ee * (A * cos(w_ * t) + B * sin(w_ * t));
-	} else if (points[1].damping > damp_crit) { // strong damped case
-		xt = ee * (A * exp(w_ * t) + B * exp(-w_ * t)) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
-		vt = ee * (A * w_ * exp(w_ * t) + B * -w_ * exp(-w_ * t))
-				- w_r * ee * (A * exp(w_ * t) + B * exp(w_ * t));
-	} else { // (points[1].damping == damp_crit) // aperiodic case
-		xt = ee * (A + B * t) - A; //initial pos is 0 (point[0]=(0,1) point[1]=(0,0))
-		vt = ee * B - w_r * ee * (A + B * t);
-	}
-	points[1].setPos(Eigen::Vector3d(0., xt, 0.));
-	points[1].setVel(Eigen::Vector3d(0., vt, 0.));
-}
-
 Eigen::Vector3d gravity() {
-//#ifndef _WIN32
-//	static Accelerometer acc = Accelerometer();
-//	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), -acc.getX());
-//#else
-//	return Eigen::Vector3d(0.0, 0.0, 9.81);
-//#endif
-	return Eigen::Vector3d(0.0, -0.5, 0.0);//XXX disabled gravity
-}
-
-#ifdef _WRITE_FILE
-void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points,vector<Spring>& springs) {
-	static int compstep=0;
-	static bool compfinished=false;
-	static const int numberofsteps=10000; //10 second when dt=0.001
-	static double xt[numberofsteps], vt[numberofsteps];
-	static int compi=0;
-	if(compi<=0) {
-		fprintf (stdout, "collecting data ...\n");
-	}
-	compstep+=1;
-	if(compfinished) {
-		return;
-	} else if(compstep>numberofsteps) {
-		compfinished=true;
-		//write to csv file
-		int i;
-		FILE * pFile;
-		pFile = fopen (_WRITE_FILE, "wb");
-		switch (method) {
-			case Scene::ANALYTICAL:
-			{
-				fprintf(pFile,"scene,analytical\n");
-				break;
-			}
-			case Scene::EULER:
-			{
-				fprintf(pFile,"scene,euler\n");
-				break;
-			}
-			case Scene::SYMPLECTIC:
-			{
-				fprintf(pFile,"scene,symplectic\n");
-				break;
-			}
-			case Scene::LEAPFROG:
-			{
-				fprintf(pFile,"scene,leapfrog\n");
-				break;
-			}
-			case Scene::MIDPOINT:
-			{
-				fprintf(pFile,"scene,midpoint\n");
-				break;
-			}
-		}
-		fprintf(pFile,"step,%f\ndamping,%f\nmass,%f\nk spring,%f\n",dt,points[1].damping,points[1].mass,springs[0].stiffness);
-		fprintf(pFile,"y(t),v_y(t)\n");
-		for(i=0;i<compi;i++) {
-			fprintf(pFile,"%f,",xt[i]);
-			fprintf(pFile,"%f,",vt[i]);
-			fprintf(pFile,"\n");
-		}
-		fclose (pFile);
-		fprintf(stdout,"Results written to file %s.\n", _WRITE_FILE);
-	} else {
-		xt[compi]=xt_;
-		vt[compi]=vt_;
-		compi++;
-	}
-}
+#ifndef _WIN32
+	static Accelerometer acc = Accelerometer();
+	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), -acc.getX());
+#else
+	return Eigen::Vector3d(0.0, 9.81, 0.0);
 #endif
-
+//	return Eigen::Vector3d(0.0, -0.5, 0.0);//XXX disabled gravity
 }
- // namespace std
+
+} // namespace std

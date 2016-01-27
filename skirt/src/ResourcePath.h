@@ -19,7 +19,7 @@ using namespace std;
  * The path returned is an absolute path with trailing path separator.
  * The first call of this function initializes the path constant and thus,
  * it needs non-null values for argc and argv. If the initialization fails, the return value is an empty string.
- * @param argc the argumants count of the @c main() function on first call, omit or set to 0 on succeeding calls
+ * @ignore{@param argc the argumants count of the @c main() function on first call, omit or set to 0 on succeeding calls}
  * @param argv the arguments list provided by the @c main() function on first call, omit or set to @c nullptr on succeeding calls
  * @return the base path or an empty string if not initialized.
  */
@@ -47,11 +47,11 @@ string getBasePath(int /*argc = 0*/, char* argv[] = nullptr) {
 /**
  * @brief Get path to resource file relative to the BasePath().
  *
- * The path returned is an absolute path resolved from ../resources/<filePath>.
+ * The path returned is an absolute path resolved from ../resources/filePath.
  * If the path to a sub-folder is required use the path separator supported
  * by the target system.
  * @param filePath the path to the requested file in the resources folder
- * @param resourcesFoder name of the folder without path separators
+ * @param resourcesFolder name of the folder without path separators
  *        or empty string to address the parent folder, default is "resources"
  * @param argc the arguments count of the @c main() function on first call
  * @param argv the arguments list of the @c main() function on first call

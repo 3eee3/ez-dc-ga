@@ -1,5 +1,5 @@
 /*
- * Texture.cpp
+ * MipMap.cpp
  *
  *  Created on: Jan 17, 2016
  *      Author: littlelion
@@ -17,10 +17,16 @@ extern "C" {
 
 namespace std {
 
+/**
+ * Default constructor.
+ */
 MipMap::MipMap() {
 	// TODO Auto-generated constructor stub
 }
 
+/**
+ * Default destructor.
+ */
 MipMap::~MipMap() {
 	if (texture) {
 		glDeleteTextures(1, &texture);

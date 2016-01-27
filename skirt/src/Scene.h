@@ -15,6 +15,11 @@
 
 namespace std {
 
+/**
+ * This is a class which handles all tasks to set up, simulate and render a scene with a physical model.
+ *
+ * Usually one scene object instance exists program-wide.
+ */
 class Scene {
 public:
 	Scene();
@@ -35,6 +40,10 @@ private:
     double damping;
     vector<Mass> points;
     vector<Spring> springs;
+
+	void initSpringsVector(size_t i);
+	void initPointsVector(size_t i, size_t *n);
+	void detectCollisions();
 };
 
 } /* namespace std */

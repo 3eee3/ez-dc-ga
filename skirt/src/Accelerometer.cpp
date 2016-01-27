@@ -26,24 +26,46 @@ double Accelerometer::x = 0.0;
 double Accelerometer::y = 0.0;
 double Accelerometer::z = 0.0;
 
-//int objectCounter(int count);
-//void updateValues();
-//void initUpdateThread();
-//void closeUpdateThread();
-
+/**
+ * Construct an accelerometer device handle.
+ *
+ * This constructor initializes a helping thread which determines periodically data
+ * from the device, if it is called the first time.
+ * @param argc command line arguments counter from @c main()
+ * @param argv arguments vector
+ */
 Accelerometer::Accelerometer(int argc, char* argv[]) {
 	accelerometerInitDevice(argc, argv);
 	initUpdateThread();
 }
 
+/**
+ * Construct an accelerometer device handle.
+ *
+ * This constructor fails if no device has been initialized previously by using the
+ * constructor which takes command line arguments.
+ */
 Accelerometer::Accelerometer() {
 	initUpdateThread();
 }
 
+/**
+ * Destroy the device handle.
+ *
+ * If the last handle is destroyed, also the connection to the device is closed and
+ * the appertaining thread is destroyed.
+ */
 Accelerometer::~Accelerometer() {
 	closeUpdateThread();
 }
 
+/**
+ * Initialize the device.
+ *
+ * This method is called by the constructor of the Accelerometer class.
+ * @param argc arguments counter
+ * @param argv arguments vector
+ */
 void Accelerometer::accelerometerInitDevice(int argc, char* argv[]) {
 	if (devicePath.empty() && argv != nullptr) {
 		deviceConfigFromFile(getResourcePath(CFG_FILENAME, "", argc, argv));
@@ -51,22 +73,42 @@ void Accelerometer::accelerometerInitDevice(int argc, char* argv[]) {
 	}
 }
 
+/**
+ * Checks if the device is present.
+ * @retval true if the device is online
+ * @retval false otherwise
+ */
 bool Accelerometer::isAvailable() {
 	return present;
 }
 
+/**
+ * Get the force into X direction.
+ * @return the force determined from the device.
+ */
 double Accelerometer::getX() {
 	return x;
 }
 
+/**
+ * Get the force into Y direction.
+ * @return the force determined from the device.
+ */
 double Accelerometer::getY() {
 	return y;
 }
 
+/**
+ * Get the force into Z direction.
+ * @return the force determined from the device.
+ */
 double Accelerometer::getZ() {
 	return z;
 }
 
+/**
+ * Updater function delivered to the device-handling thread.
+ */
 void Accelerometer::updateValues() {
 	while (!done) {
 		double x, y, z;
@@ -131,7 +173,8 @@ int Accelerometer::objectCounter(int count) {
 }
 
 /**
- * Read configuration for accelerometer device from config file.
+ * Read configuration for accelerometer device from a config file.
+ * @param configPath path to the config file
  */
 void Accelerometer::deviceConfigFromFile(std::string configPath) {
 #define _PRIV_LINE_LEN 100

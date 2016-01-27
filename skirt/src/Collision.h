@@ -4,6 +4,10 @@
  *  Created on: Jan 24, 2016
  *      Author: littlelion
  */
+/**
+ * @file
+ * This is a header file to include the functions needed for the collision detection algorithm.
+ */
 
 #ifndef SRC_COLLISION_H_
 #define SRC_COLLISION_H_

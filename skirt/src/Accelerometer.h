@@ -14,11 +14,25 @@
 #include <string>
 
 /**
- * hard-coded device
+ * This definition contains the hard-coded path to the device-config-file.
  * TODO. do it in a generic way - some changes may be necessary to maintain multiple devices
  */
 #define CFG_FILENAME "accelerometer.config"
 
+/**
+ * This class handles the connection to the accelerometer device of a notebook.
+ *
+ * Actually it supports the accelerometer of type lis3lv02d.
+ * Other devices are unsupported, but they may work with proper settings in the configuration file.\n
+ * \n
+ * Configuration file:\n
+ * The file follows the specifications of a windows INI file. Here is an example setup:
+ * \code{.ini}
+ * [accelerometer] ; this section must be present
+ * device = "/sys/devices/platform/lis3lv02d/position" ; must be an absolute path to the unix device
+ * sensitivity = 0.001 ; multiplier to scale the accelerometer output to fit it to gravity force
+ * \endcode
+ */
 class Accelerometer {
 
 public:
