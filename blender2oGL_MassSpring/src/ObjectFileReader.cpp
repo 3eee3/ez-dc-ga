@@ -480,7 +480,7 @@ void ObjectFileReader::writeHeader(ofstream* fp, bool isHfile) {
 	// WWW is field width for integers in the summary block
 #define MAX_N 3
 #define WWW 5
-    *fp << "// This is a ";
+    *fp << "/**\n * @file\n * This is a ";
     if (isHfile) {
     	*fp << "C-header file (.h)";
     } else {
@@ -495,7 +495,7 @@ void ObjectFileReader::writeHeader(ofstream* fp, bool isHfile) {
     		*fp << " ...";
     	}
     }
-    *fp << "\n// Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.\n\n";
+    *fp << "\n * Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.\n */\n\n";
     for (size_t i = 0; i < models.size(); ++i) {
     	models[i].writeStatistics(fp, true, i==0 ? 1 : 2);
     }

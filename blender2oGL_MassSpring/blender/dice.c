@@ -1,5 +1,8 @@
-// This is a C-source file (.c) for the models "dice_Plane", "dice_RollingDie", "dice_Die"
-// Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
+/**
+ * @file
+ * This is a C-source file (.c) for the models "dice_Plane", "dice_RollingDie", "dice_Die"
+ * Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.
+ */
 
 /*
  * model statistics:

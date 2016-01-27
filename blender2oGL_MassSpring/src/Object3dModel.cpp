@@ -349,14 +349,14 @@ void Object3dModel::writeStatistics(ostream* fp, bool addOffsets, int connect) {
  * @param isHfile @c true for .h file, @c false for .c file
  */
 void Object3dModel::writeHeader(ofstream* fp, bool isHfile) {
-    *fp << "// This is a ";
+    *fp << "/**\n * @file\n * This is a ";
     if (isHfile) {
     	*fp << "C-header file (.h)";
     } else {
     	*fp << "C-source file (.c)";
     }
     *fp << " for the model \"" << name << "\"\n";
-    *fp << "// Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.\n\n";
+    *fp << " * Don't edit! This is an auto-generated file by blender2oGL. Modifications are not permanent.\n */\n\n";
     writeStatistics(fp);
     *fp << endl;
 }
