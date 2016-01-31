@@ -1,11 +1,11 @@
 /*
  * Scene.cpp
- *
- *  Created on: Jan 16, 2016
- *      Author: littlelion
+ * Contains functions for initializing and drawing squared cloth and cube.
  */
 
+#include <GL/gl.h>
 #include <GL/freeglut.h>
+
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
@@ -17,9 +17,6 @@
 #include "Spring.h"
 #include "Simulation.h"
 #include "Collision.h"
-#include "model_mapping.h"
-
-// define simulation constants here
 
 namespace std {
 
@@ -66,8 +63,96 @@ Scene::Scene(int argc, char* argv[]) : step(0.003), mass(0.15), stiffness(60.0),
 
 Scene::~Scene() {}
 
-static int res = 10;
+//////////////////////////////////////// OBJECT CUBE///////////////////////////////////////////////////
 
+Eigen::Vector3d positionObject;
+float scaleObject;
+Eigen::Vector3d velocityObject;
+
+static const int numVerticesObject = 36;
+static const GLfloat vertex_buffer[] = {
+     -1.0f,-1.0f,-1.0f, // triangle 1
+     -1.0f,-1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f, 
+     1.0f, 1.0f,-1.0f, // triangle 2 : begin
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f,-1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f,-1.0f,
+     -1.0f, 1.0f,-1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f
+ };
+/*
+void Scene::updateObject(double dt){
+	//explicit euler integration
+	//update position
+	positionObject = positionObject + velocityObject * dt;
+	//velocity remains constant
+}*/
+
+void Scene::drawObject(){
+	glPushMatrix();
+	glCullFace(GL_CW);
+	glScalef(scaleObject,scaleObject,scaleObject);
+	glTranslatef(positionObject.x(),positionObject.y(),positionObject.z());//object position
+	glColor4f(0.4, 0, 0, 1.0);
+	glLineWidth(2.0f);
+	for(int i=0;i<numVerticesObject;i+=3){
+		if(i==3){glColor4f(0.9, 0, 0, 1.0);}
+		if(i==6){glColor4f(0.8, 0, 0.8, 1.0);}
+		if(i==9){glColor4f(0.9, 0, 0.9, 1.0);}
+		if(i==12){glColor4f(0.7, 0, 0.7, 1.0);}
+		if(i==15){glColor4f(0.6, 0, 0.6, 1.0);}
+		if(i==18){glColor4f(0.7, 0, 0, 1.0);}
+		if(i==21){glColor4f(0.5, 0, 0.5, 1.0);}
+		if(i==24){glColor4f(0.6, 0, 0, 1.0);}
+		if(i==27){glColor4f(0.7, 0, 0.7, 1.0);}
+		if(i==30){glColor4f(0.5, 0, 0, 1.0);}
+		if(i==33){glColor4f(0.5, 0.5, 0, 1.0);}
+		glBegin(GL_TRIANGLES);
+			glVertex3f(vertex_buffer[i*3],vertex_buffer[i*3+1],vertex_buffer[i*3+2]);
+			glVertex3f(vertex_buffer[i*3+3],vertex_buffer[i*3+4],vertex_buffer[i*3+5]);
+			glVertex3f(vertex_buffer[i*3+6],vertex_buffer[i*3+7],vertex_buffer[i*3+8]);
+		glEnd();
+	}
+	glPopMatrix();
+}
+
+void Scene::initObject(){
+	positionObject = Eigen::Vector3d(1.5,-3.0,0.0);
+    scaleObject = 1/3.5;
+	velocityObject = Eigen::Vector3d(0.0,0.0,0.1);
+}
+
+////////////////////////////////////////END OBJECT///////////////////////////////////////////////////
+
+static int res = 10;
 bool inline withinBoundary(int x, int y, int res){
 	if(x<0 || y<0 || x>res || y> res) 
 		return false;
@@ -144,8 +229,8 @@ void Scene::initSquaredCloth(){
 
 void Scene::drawSquaredCloth(){
 	glPushMatrix();
-	glTranslatef(-2.0,3.0,0.0);
-    glScalef(3.5,3.5,3.5);
+	//glTranslatef(-2.0,3.0,0.0);
+    //glScalef(3.5,3.5,3.5);
 	glLineWidth(2.0f);
 	glColor4f(0.2, 0.2, 0.2, 1.0);
 	for(int y=0;y<res;y++){
@@ -160,51 +245,33 @@ void Scene::drawSquaredCloth(){
 		glVertex3f (points[res+(y+1)*(res+1)].getX(), points[res+(y+1)*(res+1)].getY(), points[res+(y+1)*(res+1)].getZ());
 		glEnd();
 	}
-
-	//draw model3DObject
-	
-
-	
 	glPopMatrix();	
 }
 
 void Scene::initialize() {
-	/*
-	glEnableClientState(GL_VERTEX_ARRAY);
-//	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, model3dPositions);
-//	glColorPointer(3, GL_FLOAT, 0, model3dColor);
-	glTexCoordPointer(2, GL_FLOAT, 0, model3dTexels);
-	glNormalPointer(GL_FLOAT, 0, model3dNormals);
-
-	GLfloat mShininess[] = {128};
-	GLfloat whiteSpecularMaterial[] = {1.0, 1.0, 1.0};
-	GLfloat whiteDiffuseMaterial[] = {0.4f, 0.4f, 0.4f};
-	GLfloat blankMaterial[] = {0.0, 0.0, 0.0};
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, whiteSpecularMaterial);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, whiteDiffuseMaterial);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mShininess);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, blankMaterial);
-//	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, blankMaterial);
-*/
 	this->Scene::initSquaredCloth();
+	this->Scene::initObject();
 }
 
 void Scene::update() {
 	Simulation::step(step, Simulation::SYMPLECTIC, points, springs);
-	//collisionDetectionAndResponse(points, model3dPositions, 0, model3dVertices*3);
+	collisionDetectionAndResponse(points, vertex_buffer, numVerticesObject, positionObject, scaleObject);
 }
 
 void Scene::render() {
 	glLoadIdentity();
-	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	//glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);
+	gluLookAt(2.5, 1.0, -3, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+	glPushMatrix();
+	glTranslatef(0.0,0.5,0.0);
 	//draw square Cloth
 	this->Scene::drawSquaredCloth();
+
+	//draw object
+	this->Scene::drawObject();
 	glFlush();
+	glPopMatrix();
+	
 }
 
 double Scene::getStep() const {

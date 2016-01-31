@@ -7,38 +7,19 @@
 #include "Collision.h"
 #include "Mass.h"
 
-using namespace std;
+namespace std{
 
 bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, const float epsilon, float &dist, Eigen::Vector3d &N);
 bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C);
-
-//for testing
-//int main(int argc, char **argv)
-//{
-//
-//	float dist;
-//	Eigen::Vector3d P = Eigen::Vector3d(0.25,0.25,-0.25);
-//	Eigen::Vector3d N;
-//
-//	Eigen::Vector3d A = Eigen::Vector3d(0.0,0.0,0.0);
-//	Eigen::Vector3d B = Eigen::Vector3d(1.0,0.0,0.0);
-//	Eigen::Vector3d C = Eigen::Vector3d(0.0,1.0,-1.0);
-//
-//	bool in = vertexInTriangle(P,A,B,C,0.01,dist,N);
-//	cout << "in Triangle (" << P.x() << ","<< P.y() <<"," << P.z() << ") :" << in;
-//	cout << "\ndist: " << dist;
-//	cout << "\nnormal: " << "(" << N.x() << ","<< N.y() <<"," << N.z() << ")\n";
-//	return 0;
-//}
 
 /*
 	Checks if there is a collision with mass spring points and object mesh.
 	Adds penalty forces for collisions.
 */
 
-void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], size_t offs, size_t len){
-	const float repulsiveSpringConst=10.0;
-	const float epsilon=0.1;
+void collisionDetectionAndResponse(vector<Mass> &points, const GLfloat object_mesh[], int numVertices, Eigen::Vector3d positionObject, float scale){
+	const float repulsiveSpringConst=300.0;
+	const float epsilon=0.05;
 
 	float dist;
 	Eigen::Vector3d normal;
@@ -46,18 +27,23 @@ void collisionDetectionAndResponse(vector<Mass> &points, GLfloat object_mesh[], 
 	for (int i=0; i<(int)points.size(); i++){
 		points[i].setUserForce(Eigen::Vector3d(0.0, 0.0, 0.0));
 		//for each triangle of object mesh
-		for(size_t j=offs/3; j<(offs+len)/3;j++){
-			//TO DO: generate triangles
-			Eigen::Vector3d A = Eigen::Vector3d(object_mesh[j*9], object_mesh[j*9+1], object_mesh[j*9+2]);
-			Eigen::Vector3d B = Eigen::Vector3d(object_mesh[j*9+3], object_mesh[j*9+4], object_mesh[j*9+5]);
-			Eigen::Vector3d C = Eigen::Vector3d(object_mesh[j*9+6], object_mesh[j*9+7], object_mesh[j*9+8]);
+		for(int j=0; j<numVertices;j+=3){
+			Eigen::Vector3d A = Eigen::Vector3d(object_mesh[j*3], object_mesh[j*3+1], object_mesh[j*3+2]);
+			Eigen::Vector3d B = Eigen::Vector3d(object_mesh[j*3+3], object_mesh[j*3+4], object_mesh[j*3+5]);
+			Eigen::Vector3d C = Eigen::Vector3d(object_mesh[j*3+6], object_mesh[j*3+7], object_mesh[j*3+8]);
+
+			//Compute world coordinates
+			A=scale*(A+positionObject);
+			B=scale*(B+positionObject);
+			C=scale*(C+positionObject);
+
 			//detect collision
 			if(vertexInTriangle(points[i].getPos(),A,B,C,epsilon,dist,normal)){
-			//responde with penalty force
+				//responde with penalty force
+				//cout << "Collision detected at" << points[i].getPos() << A << B << C;
 				Eigen::Vector3d penaltyF = repulsiveSpringConst * (-1) * (dist - epsilon) * normal;
 				points[i].setUserForce(penaltyF);
 				break; //collision with one triangle found (possible other collisions not considered)
-				//points[i].setForce(penaltyF);
 			}
 		}
 	}
@@ -171,3 +157,5 @@ void inline compute_intervals(double p0, double p1, double p2, double d1, double
 	t2 = p0 + (p2-p0)*d0/(d0-d2);	
 }
 */
+
+}//end namespace std

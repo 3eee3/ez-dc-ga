@@ -15,7 +15,7 @@ class Simulation {
 public:
 //XXX remove this
 	enum Method {
-		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT, ANALYTICAL
+		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT
 	};
 // XXX end
 

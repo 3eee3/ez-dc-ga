@@ -27,7 +27,10 @@ public:
 	double getStep() const;
 	void updateNormals();
 	void initSquaredCloth();
+	void initObject();
 	void drawSquaredCloth();
+	void drawObject();
+	void updateObject();
 
 private:
 	double step;

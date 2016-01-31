@@ -28,9 +28,6 @@
 /* Local includes */
 #include "Mass.h"
 #include "Scene.h"
-#ifndef _WIN32
-#include "Accelerometer.h"
-#endif
 #include "Simulation.h"
 
 namespace std {
@@ -42,9 +39,6 @@ Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs);
 Eigen::Vector3d gravity();       // gravity acceleration downwards
 
 /* function declarations (zischg, including body) */
-#ifdef _WRITE_FILE
-void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points, vector<Spring>& springs);
-#endif
 void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction);
 void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
@@ -98,33 +92,28 @@ void printData(vector<Mass>& points, vector<Spring>& springs) {
  *******************************************************************/
 void Simulation::step(double dt, Method method, std::vector<Mass> &points,
 		std::vector<Spring> &springs) {
-	bool interaction = true; //XXX remove this
 
 	switch (method) {
 	case EULER: {
-		fwd_euler(dt, points, springs, interaction);
+		fwd_euler(dt, points, springs, true);
 		break;
 	}
 
 	case SYMPLECTIC: {
-		symplectic(dt, points, springs, interaction);
+		symplectic(dt, points, springs, true);
 		break;
 	}
 
 	case LEAPFROG: {
-		leapfrog(dt, points, springs, interaction);
+		leapfrog(dt, points, springs, true);
 		break;
 	}
 
 	case MIDPOINT: {
-		midpoint(dt, points, springs, interaction);
+		midpoint(dt, points, springs, true);
 		break;
 	}
 	}
-
-#ifdef _WRITE_FILE
-	writeToFile(points[1].getY(),points[1].getVelY(),method,dt,points,springs);
-#endif
 
 #ifdef _DEBUG
 	printData(points, springs);
@@ -373,86 +362,9 @@ void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 	}
 }
 
-///**
-// * absolute value
-// * @param x
-// * @return |x|
-// */
-//double abs(double x) {
-//	return x>=0. ? x : -x;
-//}
-
 Eigen::Vector3d gravity() {
-#ifndef _WIN32
-	static Accelerometer acc = Accelerometer();
-	return Eigen::Vector3d(-acc.getY(), -acc.getZ(), acc.getX());
-#else
-	return Eigen::Vector3d(0.0, 0.0, 9.81);
-#endif
+	return Eigen::Vector3d(0.0, -9.81, 0.0);
 }
-
-#ifdef _WRITE_FILE
-void writeToFile(double xt_,double vt_,Scene::Method method,double dt,vector<Mass> &points,vector<Spring>& springs) {
-	static int compstep=0;
-	static bool compfinished=false;
-	static const int numberofsteps=10000; //10 second when dt=0.001
-	static double xt[numberofsteps], vt[numberofsteps];
-	static int compi=0;
-	if(compi<=0) {
-		fprintf (stdout, "collecting data ...\n");
-	}
-	compstep+=1;
-	if(compfinished) {
-		return;
-	} else if(compstep>numberofsteps) {
-		compfinished=true;
-		//write to csv file
-		int i;
-		FILE * pFile;
-		pFile = fopen (_WRITE_FILE, "wb");
-		switch (method) {
-			case Scene::ANALYTICAL:
-			{
-				fprintf(pFile,"scene,analytical\n");
-				break;
-			}
-			case Scene::EULER:
-			{
-				fprintf(pFile,"scene,euler\n");
-				break;
-			}
-			case Scene::SYMPLECTIC:
-			{
-				fprintf(pFile,"scene,symplectic\n");
-				break;
-			}
-			case Scene::LEAPFROG:
-			{
-				fprintf(pFile,"scene,leapfrog\n");
-				break;
-			}
-			case Scene::MIDPOINT:
-			{
-				fprintf(pFile,"scene,midpoint\n");
-				break;
-			}
-		}
-		fprintf(pFile,"step,%f\ndamping,%f\nmass,%f\nk spring,%f\n",dt,points[1].damping,points[1].mass,springs[0].stiffness);
-		fprintf(pFile,"y(t),v_y(t)\n");
-		for(i=0;i<compi;i++) {
-			fprintf(pFile,"%f,",xt[i]);
-			fprintf(pFile,"%f,",vt[i]);
-			fprintf(pFile,"\n");
-		}
-		fclose (pFile);
-		fprintf(stdout,"Results written to file %s.\n", _WRITE_FILE);
-	} else {
-		xt[compi]=xt_;
-		vt[compi]=vt_;
-		compi++;
-	}
-}
-#endif
 
 }
  // namespace std
