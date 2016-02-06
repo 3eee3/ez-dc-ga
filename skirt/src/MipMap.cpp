@@ -21,7 +21,7 @@ namespace std {
  * Default constructor.
  */
 MipMap::MipMap() {
-	// TODO Auto-generated constructor stub
+	// nothing to do here
 }
 
 /**

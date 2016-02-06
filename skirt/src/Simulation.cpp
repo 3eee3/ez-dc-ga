@@ -401,7 +401,6 @@ Eigen::Vector3d gravity() {
 #else
 	return Eigen::Vector3d(0.0, 9.81, 0.0);
 #endif
-//	return Eigen::Vector3d(0.0, -0.5, 0.0);//XXX disabled gravity
 }
 
 } // namespace std

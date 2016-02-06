@@ -48,7 +48,6 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
  */
 void collisionDetectionAndResponse(vector<Mass> &points, size_t offsP, size_t lenP,
 		GLfloat object_mesh[], size_t offsO, size_t lenO){
-//	cerr << "collision: range (" << offsP << "," << offsP+lenP-1 << ") ";//XXX
 	const float repulsiveSpringConst=50.0;
 	const float epsilon=0.1f;
 
@@ -56,7 +55,6 @@ void collisionDetectionAndResponse(vector<Mass> &points, size_t offsP, size_t le
 	Eigen::Vector3d normal;
 	//for each point of mass spring system
 	for (size_t i=offsP; i<points.size() && i<lenP; i++){
-//		cerr << "i=" << i;//XXX
 		points[i].setUserForce(Eigen::Vector3d(0.0, 0.0, 0.0));
 		//for each triangle of object mesh
 		for(size_t j=offsO/3; j<(offsO+lenO)/3;j++){
@@ -69,19 +67,11 @@ void collisionDetectionAndResponse(vector<Mass> &points, size_t offsP, size_t le
 			//respond with penalty force
 				Eigen::Vector3d penaltyF = repulsiveSpringConst * (-1) * (dist - epsilon) * normal;
 				points[i].setUserForce(penaltyF);
-//				cerr << ", detected: pt " << i+offsP << "(" << offsP << "," << offsP+lenP-1 << ")"
-//						<< ", vert " << 3*j << "(" << offsO << "," << offsO+lenO-1 << "), j=" << j
-//						<< ", normal = "<< normal[0] << ", " << normal[1] << ", " << normal[2];//XXX
 				break; //collision with one triangle found (possible other collisions not considered)
 				//points[i].setForce(penaltyF);
 			}
-			//XXX start
-//			Eigen::Vector3d N = (B-A).cross(C-A);
-//			cerr << "j=" << j << "N=(" << N[0] << "," << N[1] << "," << N[2] << ") ";
-			//XXX end
 		}
 	}
-//	cerr << endl;//XXX
 }
 
 /*
@@ -117,7 +107,6 @@ bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const 
 		//signed distance of point from plane
 		N = (B-A).cross(C-A); //N not normalized
 		dist = N.dot(P) - N.dot(A); //distance not normalized (length of N constant for triangles with same area)
-//		cerr << "(dist=" << dist << ")";//XXX
 		//check if point is near plane
 		if(dist > epsilon || dist < -epsilon){
 			return false;

@@ -24,45 +24,45 @@ namespace std {
 /**
  * Default constructor
  */
-Scene::Scene() : step(0.003), mass(0.15), stiffness(60.0), weak_stiff(5.0), damping(0.08) {}
+Scene::Scene() : step(0.01), mass(0.1), stiffness(400.0), weak_stiff(50.0), damping(0.1) {}
 
 /**
  * Constructor which initializes the objectives with values given by command line parameters.
  * @param argc arguments counter supplied by the main function
  * @param argv arguments vector of length @c argc
  */
-Scene::Scene(int argc, char* argv[]) : step(0.003), mass(0.15), stiffness(60.0), weak_stiff(5.0), damping(0.08) {
+Scene::Scene(int argc, char* argv[]) : step(0.01), mass(0.1), stiffness(400.0), weak_stiff(50.0), damping(0.1) {
 	int arg = 1;
 	while (arg < argc) {
 		if(arg < argc +1) {
 			if (!strcmp(argv[arg], "-step")) {
 				double par = atof(argv[++arg]);
-				step = par > 0.0 ? par : 0.003;
+				step = par > 0.0 ? par : 0.01;
 			}
 			if (!strcmp(argv[arg], "-mass")) {
 				double par = atof(argv[++arg]);
-				mass = par > 0.0 ? par : 0.15;
+				mass = par > 0.0 ? par : 0.1;
 			}
 			if (!strcmp(argv[arg], "-stiff")) {
 				double par = atof(argv[++arg]);
-				stiffness = par > 0.0 ? par : 60.0;
+				stiffness = par > 0.0 ? par : 400.0;
 			}
 			if (!strcmp(argv[arg], "-wstiff")) {
 				double par = atof(argv[++arg]);
-				weak_stiff = par > 0.0 ? par : 5.0;
+				weak_stiff = par > 0.0 ? par : 50.0;
 			}
 			if (!strcmp(argv[arg], "-damp")) {
 				double par = atof(argv[++arg]);
-				damping = par > 0.0 ? par : 0.08;
+				damping = par > 0.0 ? par : 0.1;
 			}
 		}
 		if (!strcmp(argv[arg], "-h")) {
 			cout << "Arguments:\n";
-			cout << "\t-step <val>     time step in seconds (default 0.003)\n";
-			cout << "\t-mass <val>     mass for each mass point (0.15)\n";
-			cout << "\t-stiff <val>    stiffness factor for stron springs (60.0)\n";
-			cout << "\t-wstiff <val>   stiffness for weak springs (5.0)\n";
-			cout << "\t-damp <val>     damping factor of masses (friction) (0.08)\n";
+			cout << "\t-step <val>     time step in seconds (default 0.01)\n";
+			cout << "\t-mass <val>     mass for each mass point (0.1)\n";
+			cout << "\t-stiff <val>    stiffness factor for stron springs (400.0)\n";
+			cout << "\t-wstiff <val>   stiffness for weak springs (50.0)\n";
+			cout << "\t-damp <val>     damping factor of masses (friction) (0.1)\n";
 			cout << "\t-h              print this help message and exit\n";
 			exit(EXIT_SUCCESS);
 		}
@@ -102,8 +102,6 @@ void Scene::initSpringsVector(size_t i) {
 				springs.back().init(&points[first], &points[second]);
 				done[first - model3dMassFwdOffs[i]][second
 						- model3dMassFwdOffs[i]] = true;
-//				cerr << "adding structural spring to (" << first << "," << second << "), j = " << j << ", k = " << k
-//						<< ", done[" << first-model3dMassFwdOffs[i] << "][" << second-model3dMassFwdOffs[i] << "]" << endl;//XXX
 			} else if (first < second
 					&& !done[second - model3dMassFwdOffs[i]][first
 							- model3dMassFwdOffs[i]]) {
@@ -111,31 +109,23 @@ void Scene::initSpringsVector(size_t i) {
 				springs.back().init(&points[second], &points[first]);
 				done[second - model3dMassFwdOffs[i]][first
 						- model3dMassFwdOffs[i]] = true;
-//				cerr << "adding structural spring to (" << second << "," << first << "), j = " << j << ", k = " << k
-//						<< ", done[" << second-model3dMassFwdOffs[i] << "][" << first-model3dMassFwdOffs[i] << "]" << endl;//XXX
-//			} else {//XXX
-//				cerr << "wrong structural spring at " << first << endl;//XXX
 			}
 		}
-//			cerr << "j=" << j << endl;//XXX
 
 		// initialize bending springs - process all triangles after the j-th, they may share an edge with the j-th triangle
 		// connect the mass-points which aren't part of the shared edge
 		for (size_t k = j + 1; k < model3dMassVertices[i] / 3; ++k) {
-//			cerr << "k=" << k << endl;//XXX
 			size_t found[4], first, second; // points: of shared edge if found, end-points of weak spring
 			int n = 0; // number of found shared points
 
 			for (size_t l = 0; l < 3; ++l) {
 				// check all combinations of vertices of the two compared triangles
 				for (size_t m = 0; m < 3 && n < 4; ++m) {
-//					cerr << "i=" << i << ", j=" << j << ", k=" << k << ", l=" << l << ", m=" << m << ", n=" << n << endl;//XXX
 					if (model3dRevIndex[3 * j + model3dMassRevOffs[i] + l]
 							== model3dRevIndex[3 * k + model3dMassRevOffs[i] + m]) {
 						// store the index of the vertex if found equal
 						found[n++] = l;
 						found[n++] = m;
-//						cerr << "found " << model3dRevIndex[3*j+model3dMassRevOffs[i]+l] << "@" << l << "," << m << endl;//XXX
 						break;
 					}
 				}
@@ -153,8 +143,6 @@ void Scene::initSpringsVector(size_t i) {
 						springs.back().init(&points[first], &points[second]);
 						done[first - model3dMassFwdOffs[i]][second
 								- model3dMassFwdOffs[i]] = true;
-//						cerr << "adding bending spring to (" << first << "," << second << "), j = " << j << ", k = " << k
-//								<< ", done[" << first-model3dMassFwdOffs[i] << "][" << second-model3dMassFwdOffs[i] << "]" << endl;//XXX
 					} else if (first > second
 							&& !done[second - model3dMassFwdOffs[i]][first
 									- model3dMassFwdOffs[i]]) {
@@ -162,10 +150,6 @@ void Scene::initSpringsVector(size_t i) {
 						springs.back().init(&points[second], &points[first]);
 						done[second - model3dMassFwdOffs[i]][first
 								- model3dMassFwdOffs[i]] = true;
-//						cerr << "adding bending spring to (" << second << "," << first << "), j = " << j << ", k = " << k
-//								<< ", done[" << second-model3dMassFwdOffs[i] << "][" << first-model3dMassFwdOffs[i] << "]" << endl;//XXX
-//					} else {//XXX
-//						cerr << "wrong bending spring at " << first << endl;//XXX
 					}
 
 					break;
@@ -173,12 +157,6 @@ void Scene::initSpringsVector(size_t i) {
 			}
 		}
 	}
-//	for(size_t ii = 0; ii < done.size(); ++ii) {//XXX begin: done[] array to console
-//		for (size_t jj = 0; jj < done[ii].size(); ++jj) {
-//			cerr << done[ii][jj] << " ";
-//		}
-//		cerr << endl;
-//	}//XXX end
 }
 
 /**
@@ -203,8 +181,6 @@ void Scene::initPointsVector(size_t i, size_t *n) {
 			points[*n].registerVertex(
 					&model3dPositions[model3dFwdIndex[j + model3dMassFwdOffs[i]][k]
 							* 3]);
-			//				cerr << "register vtx " << model3dFwdIndex[j+model3dMassFwdOffs[i]][k]*3
-			//						<< ", j=" << j << ", k=" << k << endl;//XXX
 		}
 	}
 }
@@ -213,18 +189,11 @@ void Scene::initPointsVector(size_t i, size_t *n) {
  * Initialize the scene for rendering and physical simulation.
  */
 void Scene::initialize() {
-//	GLfloat model3dColor[model3dVertices*3];/XXX
-//	for(int i = 0; i < model3dVertices*3;++i) model3dColor[i]=1/(float)(rand()%254+1);
-//	int model3dIndices[model3dVertices*3];
-//	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
-
 	glEnableClientState(GL_VERTEX_ARRAY);
-//	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
 	glVertexPointer(3, GL_FLOAT, 0, model3dPositions);
-//	glColorPointer(3, GL_FLOAT, 0, model3dColor);
 	glTexCoordPointer(2, GL_FLOAT, 0, model3dTexels);
 	glNormalPointer(GL_FLOAT, 0, model3dNormals);
 
@@ -248,7 +217,6 @@ void Scene::initialize() {
 		initPointsVector(i, &n);
 
 		initSpringsVector(i);
-//		points[328].fixed = true;//XXX fixation of cloth
 	}
 }
 
@@ -266,12 +234,8 @@ void Scene::detectCollisions() {
 			++j; // j-th object is the actually processed object in the points array
 		}
 		size_t next = j < model3dObjects ? j + 1 : model3dObjects;
-		//		cout << "entered coll loop i=" << i << ", j=" << j << ", model3dObjects=" << model3dObjects
-		//				<< ", model3dObjectOffset[j]" << model3dObjectOffset[j]
-		//				<< ", model3dMassRevOffsOrig[i]" << model3dMassRevOffsOrig[i] << endl;//XXX
 		// collisions with all preceding objects
 		if (model3dMassRevOffsOrig[i] > 0) {
-			//			cerr << "prev collision " << i << " - " << "[0 len " << model3dObjectOffset[j] << "]" << endl;//XXX
 			std::collisionDetectionAndResponse(points, model3dMassFwdOffs[i],
 					model3dMasses[i], model3dPositions, 0,
 					model3dObjectOffset[j]);
@@ -279,14 +243,12 @@ void Scene::detectCollisions() {
 		// collisions with all succeeding objects
 		if (model3dMassRevOffsOrig[i]
 				< model3dObjectOffset[model3dObjects - 1]) {
-			//			cerr << "post collision " << i << " - " << "[" << model3dObjectOffset[next] << " len: " << model3dVertices - model3dObjectOffset[next] << "]" << endl;//XXX
 			std::collisionDetectionAndResponse(points, model3dMassFwdOffs[i],
 					model3dMasses[i], model3dPositions,
 					model3dObjectOffset[next],
 					model3dVertices - model3dObjectOffset[next]);
 		}
-	} //FIXME collision detection doesn't work properly
-//	cerr << endl;//XXX
+	} //FIXME collision detection unreliable in some cases
 }
 
 /**
@@ -296,40 +258,17 @@ void Scene::update() {
 	Simulation::step(step, Simulation::SYMPLECTIC, points, springs);
 
 	detectCollisions();
-
-	// for dice.h
-//	std::collisionDetectionAndResponse(points, 0, 8, model3dPositions, 0, 6);
-//	std::collisionDetectionAndResponse(points, 0, 8, model3dPositions, 42, 36);
-//	std::collisionDetectionAndResponse(points, 8, 8, model3dPositions, 0, 6);
-//	std::collisionDetectionAndResponse(points, 8, 8, model3dPositions, 6, 36);
-	// for dice1.h
-//	std::collisionDetectionAndResponse(points, 0, 8, model3dPositions, 0, 384);
-//	std::collisionDetectionAndResponse(points, 0, 8, model3dPositions, 420, 36);
-//	std::collisionDetectionAndResponse(points, 8, 8, model3dPositions, 0, 384);
-//	std::collisionDetectionAndResponse(points, 8, 8, model3dPositions, 384, 36);
-
 }
 
 /**
  * Render the scene.
  */
 void Scene::render() {
-	// TODO Auto-generated destructor stub
 	glLoadIdentity();
 	gluLookAt(-4.5, 4.0, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	updateNormals();
-
-//	for (size_t i = 0; i < model3dVertices * 3; ++i) {//XXX
-//		if (model3dPositions[i] > 10.0f || model3dPositions[i] < -10 ) {
-//			std::cerr << "model3dPositions[" << i << "] out of bounds: " << model3dPositions[i] << std::endl;//XXX
-//		}
-//	}
-	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);//FIXME re-enable
-//	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dObjectOffset[2]);
-//	int model3dIndices[model3dVertices*3];
-//	for(int i = 0; i < model3dVertices;++i) model3dIndices[i]=i;
-//	glDrawElements(GL_TRIANGLES, (GLsizei)model3dVertices, GL_UNSIGNED_BYTE, model3dIndices);
+	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model3dVertices);
 	glFlush();
 }
 

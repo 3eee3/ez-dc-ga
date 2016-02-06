@@ -66,9 +66,8 @@ ulong getTime() {
  * Initialize the OpenGL system and the scene.
  */
 void initialize() {
-	//TODO implementation incomplete
-
-	glClearColor(0.95f, 0.95f, 0.95f, 0.0f); // Background color
+	// Background color
+	glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
 
 	// size of 3D space and camera
 	glMatrixMode(GL_PROJECTION);
@@ -81,18 +80,11 @@ void initialize() {
 
 	// set up shader and blender
 	glFrontFace(GL_CCW);
-//	glShadeModel(GL_FLAT); //TODO. use GL_SMOOTH ?
 	glShadeModel(GL_SMOOTH);
-//	glEnable(GL_BLEND);
-//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 //	glEnable(GL_CULL_FACE);//TODO. switch ON/OFF backside with these two lines
 //	glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
-
-
-//	glEnable(GL_AUTO_NORMAL);
-//	glEnable(GL_NORMALIZE);
 
 	GLfloat spotdir[] = {1.0, 1.0, 0.0};
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotdir);
@@ -218,7 +210,7 @@ void mouseCallback(int button, int state, int x, int y) {
  */
 void idleCallback() {
 	//TODO implement
-	glutPostRedisplay();
+//	glutPostRedisplay();
 }
 
 /**

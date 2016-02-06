@@ -69,7 +69,6 @@ Accelerometer::~Accelerometer() {
 void Accelerometer::accelerometerInitDevice(int argc, char* argv[]) {
 	if (devicePath.empty() && argv != nullptr) {
 		deviceConfigFromFile(getResourcePath(CFG_FILENAME, "", argc, argv));
-//		cout << "Accelerometer: device path = " << devicePath << ", sensitivity = " << sensitivity << endl;//XXX
 	}
 }
 
@@ -118,7 +117,6 @@ void Accelerometer::updateValues() {
 		Accelerometer::x = x * sensitivity;
 		Accelerometer::y = y * sensitivity;
 		Accelerometer::z = z * sensitivity;
-//		std::cout << "Accelerometer read: (" << x << ", " << y << ", " << z << ")" << std::endl;//XXX
 	}
 }
 
@@ -149,14 +147,12 @@ void Accelerometer::initUpdateThread() {
  * This method is called by the destructor of the Accelerometer class.
  */
 void Accelerometer::closeUpdateThread() {
-//	std::cout << "closeUpdateThread() called." << std::endl; //XXX
 	mtx.lock();
 	if(objectCounter(-1) < 1 && present) {
 		done = true;
 		updaterThread.join();
 		device.close();
 		present = false;
-//		std::cout << "Updater destroyed" << std::endl; //XXX
 	}
 	mtx.unlock();
 }

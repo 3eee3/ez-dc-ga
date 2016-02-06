@@ -18,11 +18,9 @@ namespace std {
  */
 class Simulation {
 public:
-//XXX remove this
 	enum Method {
 		EULER, SYMPLECTIC, LEAPFROG, MIDPOINT
 	};
-// XXX end
 
 	static void step(double dt, Method method, vector<Mass> &points,
 			vector<Spring> &springs);
