@@ -1,0 +1,8 @@
+\section{Introduction}
+This project is about the simulation of a piece of cloth interacting with rigid bodies.\par
+
+During the simulation, the cloth interacts with its environment i.e. self-collision and cloth-object collision must be regarded. We use collision detection between the cloth object represented as mass spring system and rigid body objects represented as triangle mesh. Self-collision of the cloth object is not considered.\par
+
+The collision response method uses spring penalty forces for the mass points of the cloth object. The rigid objects do not respond to collisions. The equation of motion for the mass spring system is solved by a symplectic euler method.\par
+
+The appearance of the cloth is primarily the response to these conditions. The simulation shows the cloth falling down and covering a sphere object. We use OpenGL to render the scene.

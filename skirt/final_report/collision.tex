@@ -1,0 +1,28 @@
+\section{Collision}
+For the project we used collision detection between the cloth object represented as mass spring system and rigid body objects represented as triangle mesh. 
+
+\subsection{Collision detection}
+During collision detection every mass point of the cloth is compared with every triangle of the rigid object. If the point lies within an $\varepsilon$-area of the triangle the collision functions returns true, otherwise false. The comparison between a single Point $P$ and a triangle with points $A$, $B$ and $C$ is explained below.\par
+
+At first the triangle normal $n$ and the distance d of the Point P to the triangle plane is computed:
+\begin{align}
+	n &= (B-A) \times (C-A)\\
+	d &= n \cdot P - n \cdot A
+\end{align}
+If the absolute value of the distance $d$ is greater than  $\varepsilon$ the point does not collide with the triangle.
+Otherwise, further checks are necessary. The point $P$ is projected on the plane of the triangle with points $A$, $B$ and $C$ and normal $n$.
+\begin{equation}
+	P' = P - (n \cdot (P - A)/(n \cdot n))n
+\end{equation}
+The projected point $P'$ can then be expressed in barycentric coordinates u,v:
+\begin{equation}
+	P' = A + u(B - A) + v(C - A) = (1 - u - v)A + uB + vC
+\end{equation}
+The point $P'$ lies in the triangle area if $u\geq 0$ and $v\geq 0$ and $u+v \leq 1$.
+
+\subsection{Collision response}
+The implemented collision response method uses spring penalty forces  for the mass points of the cloth object. The collision detection function returns the distance $d$ of the point $P$ to the colliding triangle $T$. The normal $n$ of the colliding triangle is returned as well. The distance  $d$ can be negative or positive depending on which side of the triangle plane the point is located.  In both cases the penalty force $F_P$ is computed as
+\begin{equation}
+	F_P = k_{rep} \cdot (-1) \cdot (d - \varepsilon) \cdot n
+\end{equation}
+where $ k_{rep}$ is the repulsive spring constant used for the penalty force and  $\varepsilon$ is the distance from the triangle in which a collision can occur.
