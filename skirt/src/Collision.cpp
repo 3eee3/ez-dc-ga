@@ -84,11 +84,11 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
 	Eigen::Vector3d v2 = P - A;
 
 	// Compute dot products
-	float dot00 = v0.dot(v0);
-	float dot01 = v0.dot(v1);
-	float dot02 = v0.dot(v2);
-	float dot11 = v1.dot(v1);
-	float dot12 = v1.dot(v2);
+	float dot00 = static_cast<float>(v0.dot(v0));
+	float dot01 = static_cast<float>(v0.dot(v1));
+	float dot02 = static_cast<float>(v0.dot(v2));
+	float dot11 = static_cast<float>(v1.dot(v1));
+	float dot12 = static_cast<float>(v1.dot(v2));
 
 	// Compute barycentric coordinates
 	float invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
@@ -106,7 +106,7 @@ bool baryVertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, co
 bool vertexInTriangle(const Eigen::Vector3d &P, const Eigen::Vector3d &A, const Eigen::Vector3d &B, const Eigen::Vector3d &C, const float epsilon, float &dist, Eigen::Vector3d &N){
 		//signed distance of point from plane
 		N = (B-A).cross(C-A); //N not normalized
-		dist = N.dot(P) - N.dot(A); //distance not normalized (length of N constant for triangles with same area)
+		dist = static_cast<float>(N.dot(P) - N.dot(A)); //distance not normalized (length of N constant for triangles with same area)
 		//check if point is near plane
 		if(dist > epsilon || dist < -epsilon){
 			return false;

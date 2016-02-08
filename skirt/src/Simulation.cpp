@@ -218,7 +218,7 @@ Eigen::Vector3d f_int(Mass &pt, vector<Spring> &springs) {
 void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
 	/* Reuses new position for velocity computation */
-	for (int i = 0; i < (int) points.size(); i++) {
+	for (size_t i = 0; i < points.size(); i++) {
 		if (!points[i].fixed) {
 			/*Update position*/
 			points[i].setPos(points[i].getPos() + points[i].getVel() * dt);
@@ -234,7 +234,7 @@ void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 										* points[i].getUserForce()));
 	}
 
-	for (int j = 0; j < (int) springs.size(); j++) {
+	for (size_t j = 0; j < springs.size(); j++) {
 		/*Add internal forces to point force*/
 		Mass* p1 = springs[j].getMass(0);
 		Mass* p2 = springs[j].getMass(1);
@@ -247,7 +247,7 @@ void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
 		p2->setForce(p2->getForce() - internalF);
 	}
 
-	for (int i = 0; i < (int) points.size(); i++) {
+	for (size_t i = 0; i < points.size(); i++) {
 		if (!points[i].fixed) {
 			/*Compute acceleration*/
 			Eigen::Vector3d acceleration = (points[i].getForce()
@@ -268,7 +268,7 @@ void symplectic(double dt, vector<Mass>& points, vector<Spring>& springs,
  */
 void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 		bool interaction) {
-	for (int i = 0; i < (int) (points.size()); i++) {
+	for (size_t i = 0; i < points.size(); i++) {
 		/*Compute force due to gravity (initialize force with (0,0) if no gravity)*/
 		points[i].setForce(gravity() * points[i].mass);
 		/*Add penalty force and user force*/
@@ -278,7 +278,7 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 								+ (interaction ? 1.0 : 0.0)
 										* points[i].getUserForce()));
 	}
-	for (int j = 0; j < (int) (springs.size()); j++) {
+	for (size_t j = 0; j < springs.size(); j++) {
 		/*Add internal forces*/
 		Mass* p1 = springs[j].getMass(0);
 		Mass* p2 = springs[j].getMass(1);
@@ -290,7 +290,7 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
 		p1->setForce(p1->getForce() + internalF);
 		p2->setForce(p2->getForce() - internalF);
 	}
-	for (int i = 0; i < (int) (points.size()); i++) {
+	for (size_t i = 0; i < points.size(); i++) {
 		if (!points[i].fixed) {
 			/*Compute acceleration*/
 			Eigen::Vector3d acceleration = (points[i].getForce()
@@ -319,7 +319,7 @@ void leapfrog(double dt, vector<Mass>& points, vector<Spring>& springs,
  * @param interaction true = apply external forces other than gravity
  */
 void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
-	for (int i = 0; i < (int) ((points.size())); i++) {
+	for (size_t i = 0; i < (points.size()); i++) {
 		points[i].setForce(gravity() * points[i].mass);
 		// Add penalty force and user force
 		points[i].setForce(
@@ -328,7 +328,7 @@ void force(vector<Mass>& points, vector<Spring>& springs, bool interaction) {
 								+ (interaction ? 1.0 : 0.0)
 										* points[i].getUserForce()));
 	}
-	for (int i = 0; i < (int) ((springs.size())); i++) {
+	for (size_t i = 0; i < springs.size(); i++) {
 		Eigen::Vector3d direction = springs[i].getMass(0)->getPos()
 				- springs[i].getMass(1)->getPos();
 		// internal force
@@ -368,7 +368,7 @@ void midpoint(double dt, vector<Mass>& points, vector<Spring>& springs,
 		// update f(t), f(t+h/2)
 		force(points, springs, interaction);
 
-		for (int i = 0; i < (int) (points.size()); i++) {
+		for (size_t i = 0; i < points.size(); i++) {
 			if (!points[i].fixed) {
 				Eigen::Vector3d acc = (points[i].getForce()
 						- points[i].damping * points[i].getVel())

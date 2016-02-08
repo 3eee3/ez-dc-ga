@@ -144,7 +144,7 @@ void updateSimulation() {
 	ulong curTime = getTime();
 	static ulong prevTime = curTime;
 	double remTime = 0;
-	double tPassed = (double) ((curTime - prevTime)) / 1000.0;
+	double tPassed = static_cast<double>((curTime - prevTime)) / 1000.0;
 	if (tPassed > MAX_UPDATE_TIME) {
 		tPassed = MAX_UPDATE_TIME;
 	}

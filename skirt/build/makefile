@@ -47,13 +47,14 @@ all: skirt
 skirt: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o "skirt" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "../skirt" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
+	@echo 'Go to parent folder to run the application.'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C++_DEPS)$(CL_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) skirt
+	-$(RM) $(OBJS)$(C++_DEPS)$(CL_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) ../skirt
 	-@echo ' '
 
 .PHONY: all clean dependents

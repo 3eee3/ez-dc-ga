@@ -119,9 +119,9 @@ void Mass::registerVertex(GLfloat* ptr) {
  */
 void Mass::setPos(Eigen::Vector3d pos) {
 	for (GLfloat* p : posPtr) {
-		p[0] = (GLfloat)pos[0];
-		p[1] = (GLfloat)pos[1];
-		p[2] = (GLfloat)pos[2];
+		p[0] = static_cast<GLfloat>(pos[0]);
+		p[1] = static_cast<GLfloat>(pos[1]);
+		p[2] = static_cast<GLfloat>(pos[2]);
 	}
 }
 
@@ -135,7 +135,7 @@ void Mass::setPos(Eigen::Vector3d pos) {
  */
 void Mass::setX(double x) {
 	for (GLfloat* p : posPtr) {
-		p[0] = (GLfloat)x;
+		p[0] = static_cast<GLfloat>(x);
 	}
 }
 
@@ -149,7 +149,7 @@ void Mass::setX(double x) {
  */
 void Mass::setY(double y) {
 	for (GLfloat* p : posPtr) {
-		p[0] = (GLfloat)y;
+		p[0] = static_cast<GLfloat>(y);
 	}
 }
 
@@ -163,7 +163,7 @@ void Mass::setY(double y) {
  */
 void Mass::setZ(double z) {
 	for (GLfloat* p : posPtr) {
-		p[0] = (GLfloat)z;
+		p[0] = static_cast<GLfloat>(z);
 	}
 }
 
@@ -178,11 +178,9 @@ void Mass::setZ(double z) {
 Eigen::Vector3d Mass::getPos() {
 	if (!posPtr.empty() && posPtr.size() < posPtr.max_size()) {
 		_DEBUG_MSG("getPos: posPtr.size=" << posPtr.size() << ", x = " << *posPtr[0] << ", y = " << *(posPtr[0]+1) << ", z = " << *(posPtr[0]+2))
-		GLfloat x = *posPtr[0];
-		GLfloat y = *(posPtr[0]+1);
-		GLfloat z = *(posPtr[0]+2);
-
-		return Eigen::Vector3d((double)x, (double)y, (double)z);
+		return Eigen::Vector3d(static_cast<double>(*posPtr[0]),
+				static_cast<double>(*(posPtr[0]+1)),
+				static_cast<double>(*(posPtr[0]+2)));
 	} else {
 		return Eigen::Vector3d(0.0, 0.0, 0.0);
 	}
