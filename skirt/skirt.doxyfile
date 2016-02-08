@@ -228,7 +228,7 @@ TAB_SIZE = 4
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES = ignore{1}= 
+ALIASES = ignore{1}=
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
@@ -758,7 +758,7 @@ WARN_LOGFILE =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT = src textures 
+INPUT = src textures
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1738,7 +1738,7 @@ LATEX_BIB_STYLE = plain
 # readers/editors.
 # The default value is: NO.
 
-GENERATE_RTF = YES
+GENERATE_RTF = NO
 
 # The RTF_OUTPUT tag is used to specify where the RTF docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
